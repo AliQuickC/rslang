@@ -1,1 +1,3 @@
-console.log("working!");
+import './sass/main.sass';
+
+console.log('working!');
