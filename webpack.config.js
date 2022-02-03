@@ -46,6 +46,20 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /\.(ico|cur|gif|png|jpg|jpeg|webp|svg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[hash][ext][query]'
+        }
+      },    
+      {
+        test: /\.(woff(2)?|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[hash][ext][query]'
+        }
+      },        
+      {
         test: /\.html$/i,
         loader: "html-loader",
       },
