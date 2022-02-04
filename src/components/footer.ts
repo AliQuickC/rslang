@@ -1,54 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="./favicon.png" type="image/png">
-  <title>RS Lang</title>
-</head>
-
-<body>
-  
-  <header class="header">
-    <div class="container header-container">
-      <nav class="nav">
-        <ul class="menu">
-          <li class="menu__item" data-link="general">General</li>
-          <li class="menu__item" data-link="advantages">Textbook</li>
-          <li class="menu__item" data-link="audio-call-game">Audio call Game</li>
-          <li class="menu__item" data-link="sprint-game">Sprint Game</li>
-          <li class="menu__item" data-link="statistics">Statistics</li>
-        </ul>
-      </nav>
-      <div class="login">
-        <span>Login Status</span>
-        <button>Login</button>
-      </div>
-    </div>
-  </header>
-  <!-- /.header -->
-
-  <main class="main">
-    <div class="general" id="general">
-      <div class="container general-container">
-        <h1>General</h1>      
-        <button data-link="advantages">advantages of our application</button>
-
-        <button data-link="textbook">Textbook</button>
-        <button data-link="audio-call-game">Audio call Game</button>
-        <button data-link="sprint-game">Sprint Game</button>
-        <button data-link="statistics">Statistics</button>
-
-        <button data-link="development-team">About development team</button>
-
-        <button data-link="login">Login</button>
-      </div>
-    </div>    
-  </main>
-  <!-- /.main -->
-
+const toHTML = (): string => {
+  return `
   <footer class="footer">
     <div class="container footer-container">
       <div class="footer-date">
@@ -76,7 +27,12 @@
     </div>
   </footer>
   <!-- /.footer -->
-  
-</body>
+  `;
+};
 
-</html>
+export default function renderFooter(root: HTMLElement): void {
+  const elem = document.createElement('footer');
+  elem.classList.add('footer');
+  elem.innerHTML = toHTML();
+  root.append(elem);
+}
