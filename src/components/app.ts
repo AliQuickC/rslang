@@ -1,5 +1,5 @@
 import state from '../modules/state';
-import { linkType } from '../modules/types';
+import { CurrentPage, linkType, RenderPage } from '../modules/types';
 import renderAudioCall from './audio-call';
 import renderFooter from './footer';
 import renderGeneralPage from './general-page';
@@ -31,29 +31,37 @@ function addEventsForApp(): void {
 
       switch (linkName) {
         case linkType.general:
-          renderGeneralPage(main);
+          state.currentPage = CurrentPage.general;
+          RenderPage[state.currentPage](main);
           break;
-        case linkType.advantages:
-          renderAboutApp(main);
+        case linkType.aboutApp:
+          state.currentPage = CurrentPage.aboutApp;
+          RenderPage[state.currentPage](main);
           break;
         case linkType.textbook:
-          renderTextbook(main);
+          state.currentPage = CurrentPage.textbook;
+          RenderPage[state.currentPage](main);
           break;
         case linkType.audioCallGame:
-          renderAudioCall(main);
+          state.currentPage = CurrentPage.audioCallGame;
+          RenderPage[state.currentPage](main);
           break;
         case linkType.sprintGame:
-          renderSprint(main);
+          state.currentPage = CurrentPage.sprintGame;
+          RenderPage[state.currentPage](main);
           break;
         case linkType.statistics:
-          renderStatistics(main);
+          state.currentPage = CurrentPage.statistics;
+          RenderPage[state.currentPage](main);
           break;
         case linkType.developmentTeam:
-          renderTeam(main);
+          state.currentPage = CurrentPage.developmentTeam;
+          RenderPage[state.currentPage](main);
           break;
         case linkType.login:
           state.authorized = !state.authorized;
           renderHeader(app.querySelector('#header') as HTMLElement);
+          RenderPage[state.currentPage](main);
           break;
         default:
           break;
@@ -67,10 +75,8 @@ export default function renderApp(root: HTMLElement): void {
   rootElem.innerHTML = toHTML();
 
   renderHeader(rootElem.querySelector('#header') as HTMLElement);
-  renderGeneralPage(rootElem.querySelector('#main') as HTMLElement);
+  RenderPage[state.currentPage](rootElem.querySelector('#main') as HTMLElement);
   renderFooter(rootElem.querySelector('#footer') as HTMLElement);
 
   addEventsForApp();
-
-  // renderTextbook(rootElem.querySelector('#main') as HTMLElement);
 }

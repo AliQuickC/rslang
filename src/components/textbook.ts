@@ -1,7 +1,9 @@
 const toHTML = (): string => {
   return `  
     <section class="section textbook" id="textbook">
-      <h2>Textbook</h2>
+      <div class="container">
+        <h2>Textbook</h2>
+      </div>
     </section>
   `;
 };
