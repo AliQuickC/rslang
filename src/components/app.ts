@@ -1,9 +1,14 @@
 import state from '../modules/state';
 import { linkType } from '../modules/types';
+import renderAudioCall from './audio-call';
 import renderFooter from './footer';
 import renderGeneralPage from './general-page';
 import renderHeader from './header';
+import renderSprint from './sprint';
 import renderTextbook from './textbook';
+import renderStatistics from './statistics';
+import renderTeam from './team';
+import renderAboutApp from './about-app';
 
 const toHTML = (): string => {
   return `
@@ -27,31 +32,28 @@ function addEventsForApp(): void {
       switch (linkName) {
         case linkType.general:
           renderGeneralPage(main);
-          console.log('linkName: ', linkName);
           break;
         case linkType.advantages:
-          console.log('linkName: ', linkName);
+          renderAboutApp(main);
           break;
         case linkType.textbook:
           renderTextbook(main);
-          console.log('linkName: ', linkName);
           break;
         case linkType.audioCallGame:
-          console.log('linkName: ', linkName);
+          renderAudioCall(main);
           break;
         case linkType.sprintGame:
-          console.log('linkName: ', linkName);
+          renderSprint(main);
           break;
         case linkType.statistics:
-          console.log('linkName: ', linkName);
+          renderStatistics(main);
           break;
         case linkType.developmentTeam:
-          console.log('linkName: ', linkName);
+          renderTeam(main);
           break;
         case linkType.login:
           state.authorized = !state.authorized;
           renderHeader(app.querySelector('#header') as HTMLElement);
-          console.log('linkName: ', linkName);
           break;
         default:
           break;
@@ -70,5 +72,5 @@ export default function renderApp(root: HTMLElement): void {
 
   addEventsForApp();
 
-  renderTextbook(rootElem.querySelector('#main') as HTMLElement);
+  // renderTextbook(rootElem.querySelector('#main') as HTMLElement);
 }

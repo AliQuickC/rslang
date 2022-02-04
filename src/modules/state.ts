@@ -1,4 +1,3 @@
 export default {
-  // authorized: false,
-  authorized: true,
+  authorized: false,
 };

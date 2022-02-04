@@ -2,7 +2,7 @@ const toHTML = (): string => {
   return `  
     <section class="section general" id="general">
       <div class="container general-container">
-        <h1>General</h1>      
+        <h1>General</h1>
         <button data-link="advantages">advantages of our application</button>
 
         <button data-link="textbook">Textbook</button>
