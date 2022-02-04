@@ -18,15 +18,13 @@ const toHTML = (): string => {
     </nav>
     <div class="login">
     <span>${state.authorized ? 'Vasya' : 'Unauthorized user'}</span>
-    <button data-link="login">Login</button>
+    <button data-link="login">${state.authorized ? 'LogOff' : 'LogIn'}</button>
   </div>
 </div>
 `;
 };
 
 export default function renderHeader(root: HTMLElement): void {
-  const elem = document.createElement('header');
-  elem.classList.add('header');
+  const elem = root;
   elem.innerHTML = toHTML();
-  root.append(elem);
 }

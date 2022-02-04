@@ -1,8 +1,6 @@
-import { linkType } from '../modules/types';
-
 const toHTML = (): string => {
   return `  
-    <div class="general" id="general">
+    <section class="section general" id="general">
       <div class="container general-container">
         <h1>General</h1>      
         <button data-link="advantages">advantages of our application</button>
@@ -16,7 +14,7 @@ const toHTML = (): string => {
 
         <button data-link="login">Login</button>
       </div>
-    </div>
+    </section>
   `;
 };
 

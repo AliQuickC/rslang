@@ -3,5 +3,5 @@ import state from './modules/state';
 import renderApp from './components/app';
 
 (async function () {
-  renderApp(document.body);
+  renderApp(document.getElementById('app') as HTMLElement);
 })();

@@ -31,8 +31,6 @@ const toHTML = (): string => {
 };
 
 export default function renderFooter(root: HTMLElement): void {
-  const elem = document.createElement('footer');
-  elem.classList.add('footer');
+  const elem = root;
   elem.innerHTML = toHTML();
-  root.append(elem);
 }
