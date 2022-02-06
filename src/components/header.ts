@@ -5,13 +5,13 @@ const toHTML = (): string => {
   <div class="container header-container">
   <nav class="nav">
   <ul class="menu">
-      <li class="menu__item" data-link="general">General</li>
-      <li class="menu__item" data-link="textbook">Textbook</li>
+      <li class="menu__item active" data-link="general">Главная</li>
+      <li class="menu__item" data-link="schoolbook">Учебник</li>
       <li class="menu__item" data-link="audio-call-game">Audio call Game</li>
       <li class="menu__item" data-link="sprint-game">Sprint Game</li>
       ${
         state.authorized
-          ? '<li class="menu__item" data-link="statistics">Statistics</li>'
+          ? '<li class="menu__item" data-link="statistics">Статистика</li>'
           : ''
       }
     </ul>

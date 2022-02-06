@@ -4,13 +4,13 @@ import renderGeneralPage from '../components/general-page';
 import renderSprint from '../components/sprint';
 import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
-import renderTextbook from '../components/textbook';
+import renderSchoolbook from '../components/schoolbook';
 
 // eslint-disable-next-line no-shadow
 export enum linkType {
   general = 'general',
   aboutApp = 'aboutApp',
-  textbook = 'textbook',
+  schoolbook = 'schoolbook',
   audioCallGame = 'audio-call-game',
   sprintGame = 'sprint-game',
   statistics = 'statistics',
@@ -22,7 +22,7 @@ export enum linkType {
 export enum CurrentPage {
   general = 'general',
   aboutApp = 'aboutApp',
-  textbook = 'textbook',
+  schoolbook = 'schoolbook',
   audioCallGame = 'audioCallGame',
   sprintGame = 'sprintGame',
   statistics = 'statistics',
@@ -32,7 +32,7 @@ export enum CurrentPage {
 export const RenderPage = {
   general: renderGeneralPage,
   aboutApp: renderAboutApp,
-  textbook: renderTextbook,
+  schoolbook: renderSchoolbook,
   audioCallGame: renderAudioCall,
   sprintGame: renderSprint,
   statistics: renderStatistics,

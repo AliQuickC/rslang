@@ -1,6 +1,6 @@
 const toHTML = (): string => {
   return `  
-    <section class="section textbook" id="textbook">
+    <section class="section statistics" id="statistics">
       <div class="container">
         <h2>Statistics</h2>
       </div>

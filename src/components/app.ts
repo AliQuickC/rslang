@@ -5,7 +5,7 @@ import renderFooter from './footer';
 import renderGeneralPage from './general-page';
 import renderHeader from './header';
 import renderSprint from './sprint';
-import renderTextbook from './textbook';
+import renderSchoolbook from './schoolbook';
 import renderStatistics from './statistics';
 import renderTeam from './team';
 import renderAboutApp from './about-app';
@@ -21,6 +21,23 @@ const toHTML = (): string => {
   `;
 };
 
+function activeMenuItem(): void {
+  const header = document.querySelector('#header') as HTMLElement;
+  const menuItems = header.querySelectorAll('.menu__item');
+
+  menuItems.forEach((item) => {
+    if ((<HTMLElement>item).dataset.link === linkType[state.currentPage]) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+}
+
+function setPage() {
+  activeMenuItem();
+}
+
 function addEventsForApp(): void {
   const app = document.getElementById('app') as HTMLElement;
   const main = document.getElementById('main') as HTMLElement;
@@ -29,42 +46,38 @@ function addEventsForApp(): void {
     if (e.target) {
       const linkName = (<HTMLElement>e.target).dataset.link;
 
-      switch (linkName) {
-        case linkType.general:
-          state.currentPage = CurrentPage.general;
-          RenderPage[state.currentPage](main);
-          break;
-        case linkType.aboutApp:
-          state.currentPage = CurrentPage.aboutApp;
-          RenderPage[state.currentPage](main);
-          break;
-        case linkType.textbook:
-          state.currentPage = CurrentPage.textbook;
-          RenderPage[state.currentPage](main);
-          break;
-        case linkType.audioCallGame:
-          state.currentPage = CurrentPage.audioCallGame;
-          RenderPage[state.currentPage](main);
-          break;
-        case linkType.sprintGame:
-          state.currentPage = CurrentPage.sprintGame;
-          RenderPage[state.currentPage](main);
-          break;
-        case linkType.statistics:
-          state.currentPage = CurrentPage.statistics;
-          RenderPage[state.currentPage](main);
-          break;
-        case linkType.developmentTeam:
-          state.currentPage = CurrentPage.developmentTeam;
-          RenderPage[state.currentPage](main);
-          break;
-        case linkType.login:
-          state.authorized = !state.authorized;
-          renderHeader(app.querySelector('#header') as HTMLElement);
-          RenderPage[state.currentPage](main);
-          break;
-        default:
-          break;
+      if (linkName) {
+        switch (linkName) {
+          case linkType.general:
+            state.currentPage = CurrentPage.general;
+            break;
+          case linkType.aboutApp:
+            state.currentPage = CurrentPage.aboutApp;
+            break;
+          case linkType.schoolbook:
+            state.currentPage = CurrentPage.schoolbook;
+            break;
+          case linkType.audioCallGame:
+            state.currentPage = CurrentPage.audioCallGame;
+            break;
+          case linkType.sprintGame:
+            state.currentPage = CurrentPage.sprintGame;
+            break;
+          case linkType.statistics:
+            state.currentPage = CurrentPage.statistics;
+            break;
+          case linkType.developmentTeam:
+            state.currentPage = CurrentPage.developmentTeam;
+            break;
+          case linkType.login:
+            state.authorized = !state.authorized;
+            renderHeader(app.querySelector('#header') as HTMLElement);
+            break;
+          default:
+            break;
+        }
+        RenderPage[state.currentPage](main);
+        activeMenuItem();
       }
     }
   });
@@ -78,5 +91,6 @@ export default function renderApp(root: HTMLElement): void {
   RenderPage[state.currentPage](rootElem.querySelector('#main') as HTMLElement);
   renderFooter(rootElem.querySelector('#footer') as HTMLElement);
 
+  setPage();
   addEventsForApp();
 }
