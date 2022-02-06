@@ -1,0 +1,61 @@
+.authorization-window {
+  //height: 400px;
+  width: 550px;
+  position: absolute;
+  left: calc(50vw - 275px);
+  top: calc(50vh - 275px);
+  border: solid 1px grey;
+
+  .log-buttons-shell {
+    height: 110px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+
+  }
+
+}
+
+.log-buttons-shell__button {
+  height: 100%;
+  width: 50%;
+  padding: 0;
+  border: none;
+  background: white;
+  border-bottom: solid 1px grey;
+
+  &:hover {
+    font-size: 2rem;
+    //transform: translateY(-0.25em);
+  }
+  &:active {
+    border-bottom: red solid 4px;
+  }
+}
+
+.activeSignButton {
+  border-bottom: red solid 4px;
+}
+
+.login-shell {
+  height: 550px - 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10%;
+
+
+  .login-labels-shell {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+}
+
+.login-input {
+  height: 65px;
+  width: 470px;
+}
