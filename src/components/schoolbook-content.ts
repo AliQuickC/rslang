@@ -1,19 +1,20 @@
-import state from '../modules/state';
+import { UserSettings } from '../modules/types';
 
-const toHTML = (): string => {
+const toHTML = (param: UserSettings): string => {
+  const props = param;
   const totalPagesInChapter = 30;
   const unselectedChapter = 0;
   const unselectedPage = 0;
   const difficultWordChapter = 7;
   if (
-    state.schoolbookCurrentPosition.chapter === unselectedChapter ||
-    (state.schoolbookCurrentPosition.chapter === difficultWordChapter &&
-      !state.authorized)
+    props.schoolbookCurrentPosition.chapter === unselectedChapter ||
+    (props.schoolbookCurrentPosition.chapter === difficultWordChapter &&
+      !props.authorized)
   ) {
     return `<h2 class="schoolbook-content__title">Раздел не выбран</h2>`;
   }
 
-  if (state.schoolbookCurrentPosition.chapter === difficultWordChapter) {
+  if (props.schoolbookCurrentPosition.chapter === difficultWordChapter) {
     return `
     <h2 class="schoolbook-content__title">Раздел: Сложные слова</h2>
     <div class="schoolbook-content__word-wrap">
@@ -23,7 +24,7 @@ const toHTML = (): string => {
     `;
   }
 
-  if (state.schoolbookCurrentPosition.page === unselectedPage) {
+  if (props.schoolbookCurrentPosition.page === unselectedPage) {
     let pages = '';
     for (let i = 0; i < totalPagesInChapter; i += 1) {
       pages += `<div class="schoolbook-content__page" data-page-number="${
@@ -32,14 +33,14 @@ const toHTML = (): string => {
     }
 
     return `      
-      <h2 class="schoolbook-content__title">Раздел: ${state.schoolbookCurrentPosition.chapter}</h2>
+      <h2 class="schoolbook-content__title">Раздел: ${props.schoolbookCurrentPosition.chapter}</h2>
       <div class="schoolbook-content__page-wrap">${pages}</div> 
     `;
   }
 
   return `  
   <div class="schoolbook-content__title-wrap">
-    <h2 class="schoolbook-content__title">Раздел: ${state.schoolbookCurrentPosition.chapter}, Страница: ${state.schoolbookCurrentPosition.page}</h2>
+    <h2 class="schoolbook-content__title">Раздел: ${props.schoolbookCurrentPosition.chapter}, Страница: ${props.schoolbookCurrentPosition.page}</h2>
     <button data-page-number="0">↵ К списку страниц</button>
   </div>
   <div class="schoolbook-content__word-wrap">
@@ -49,8 +50,11 @@ const toHTML = (): string => {
 `;
 };
 
-export default function renderSchoolbookContent(root: HTMLElement): void {
+export default function renderSchoolbookContent(
+  root: HTMLElement,
+  props: UserSettings
+): void {
   const elem = root;
 
-  elem.innerHTML = toHTML();
+  elem.innerHTML = toHTML(props);
 }

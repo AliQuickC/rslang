@@ -1,11 +1,15 @@
-import { CurrentPage } from './types';
+import { CurrentPage, UserSettings } from './types';
 
-export default {
+export const defaultUserSettings: UserSettings = {
   authorized: false,
-  currentPage: CurrentPage.schoolbook as CurrentPage,
+  currentPage: CurrentPage.general as CurrentPage,
   schoolbookCurrentPosition: {
     chapter: 1,
     page: 1,
   },
-  userSettings: {},
 };
+
+const state = {
+  userSettings: {} as UserSettings,
+};
+export default state;

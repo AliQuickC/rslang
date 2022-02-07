@@ -1,7 +1,7 @@
-import state from '../modules/state';
+import { State, UserSettings } from '../modules/types';
 import renderSchoolbookContent from './schoolbook-content';
 
-const toHTML = (): string => {
+const toHTML = (props: UserSettings): string => {
   return `  
     <section class="section schoolbook" id="schoolbook">
       <div class="container">
@@ -13,7 +13,7 @@ const toHTML = (): string => {
           <button class="chapter-tab chapter5-tab" data-chapter-number="5">Раздел 5</button>
           <button class="chapter-tab chapter6-tab" data-chapter-number="6">Раздел 6</button>
           ${
-            state.authorized
+            props.authorized
               ? '<button class="chapter-tab chapter7-tab" data-chapter-number="7">Сложные слова</button>'
               : ''
           }
@@ -25,7 +25,8 @@ const toHTML = (): string => {
   `;
 };
 
-function addEventsForSchoolbook() {
+function addEventsForSchoolbook(param: UserSettings) {
+  const props = param;
   const unselectedPage = 0;
   const schoolbook = document.getElementById('schoolbook');
 
@@ -35,35 +36,41 @@ function addEventsForSchoolbook() {
       const pageLink = (<HTMLElement>e.target).dataset.pageNumber;
 
       if (chapterLink) {
-        state.schoolbookCurrentPosition.chapter = Number(chapterLink);
-        state.schoolbookCurrentPosition.page = unselectedPage;
+        props.schoolbookCurrentPosition.chapter = Number(chapterLink);
+        props.schoolbookCurrentPosition.page = unselectedPage;
         renderSchoolbookContent(
           (<HTMLElement>schoolbook).querySelector(
             '#schoolbook-content'
-          ) as HTMLElement
+          ) as HTMLElement,
+          props
         );
       }
 
       if (pageLink) {
-        state.schoolbookCurrentPosition.page = Number(pageLink);
+        props.schoolbookCurrentPosition.page = Number(pageLink);
         renderSchoolbookContent(
           (<HTMLElement>schoolbook).querySelector(
             '#schoolbook-content'
-          ) as HTMLElement
+          ) as HTMLElement,
+          props
         );
       }
     }
   });
 }
 
-export default function renderSchoolbook(root: HTMLElement): void {
+export default function renderSchoolbook(
+  root: HTMLElement,
+  props: State
+): void {
   const elem = root;
 
-  elem.innerHTML = toHTML();
+  elem.innerHTML = toHTML(props.userSettings);
 
   renderSchoolbookContent(
-    elem.querySelector('#schoolbook-content') as HTMLElement
+    elem.querySelector('#schoolbook-content') as HTMLElement,
+    props.userSettings
   );
 
-  addEventsForSchoolbook();
+  addEventsForSchoolbook(props.userSettings);
 }

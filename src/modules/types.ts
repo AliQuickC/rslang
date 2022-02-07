@@ -95,3 +95,16 @@ export interface Auth {
   userId: string;
   name: string;
 }
+
+export interface UserSettings {
+  authorized: boolean;
+  currentPage: CurrentPage;
+  schoolbookCurrentPosition: {
+    chapter: number;
+    page: number;
+  };
+}
+
+export interface State {
+  userSettings: UserSettings;
+}

@@ -1,6 +1,6 @@
-import state from '../modules/state';
+import { State, UserSettings } from '../modules/types';
 
-const toHTML = (): string => {
+const toHTML = (props: UserSettings): string => {
   return `  
     <section class="section general" id="general">
       <div class="container general-container">
@@ -11,22 +11,25 @@ const toHTML = (): string => {
         <button data-link="audio-call-game">Audio call Game</button>
         <button data-link="sprint-game">Sprint Game</button>        
         ${
-          state.authorized
+          props.authorized
             ? '<button data-link="statistics">Статистика</button>'
             : ''
         }
         <button data-link="development-team">О команде</button>
 
         <button data-link="login">${
-          state.authorized ? 'LogOff' : 'LogIn'
+          props.authorized ? 'LogOff' : 'LogIn'
         }</button>
       </div>
     </section>
   `;
 };
 
-export default function renderGeneralPage(root: HTMLElement): void {
+export default function renderGeneralPage(
+  root: HTMLElement,
+  props: State
+): void {
   const elem = root;
 
-  elem.innerHTML = toHTML();
+  elem.innerHTML = toHTML(props.userSettings);
 }

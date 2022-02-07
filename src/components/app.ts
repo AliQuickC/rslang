@@ -1,7 +1,19 @@
-import state from '../modules/state';
-import { CurrentPage, linkType, RenderPage } from '../modules/types';
+import {
+  CurrentPage,
+  linkType,
+  RenderPage,
+  State,
+  UserSettings,
+} from '../modules/types';
+import renderAudioCall from './audio-call';
 import renderFooter from './footer';
+import renderGeneralPage from './general-page';
 import renderHeader from './header';
+import renderSprint from './sprint';
+import renderSchoolbook from './schoolbook';
+import renderStatistics from './statistics';
+import renderTeam from './team';
+import renderAboutApp from './about-app';
 
 const toHTML = (): string => {
   return `
@@ -10,16 +22,16 @@ const toHTML = (): string => {
   <main class="main" id="main">
   </main>
   <footer class="footer" id="footer">
-  </footer>
+  </footer>  
   `;
 };
 
-function activeMenuItem(): void {
+function activeMenuItem(props: UserSettings): void {
   const header = document.querySelector('#header') as HTMLElement;
   const menuItems = header.querySelectorAll('.menu__item');
 
   menuItems.forEach((item) => {
-    if ((<HTMLElement>item).dataset.link === linkType[state.currentPage]) {
+    if ((<HTMLElement>item).dataset.link === linkType[props.currentPage]) {
       item.classList.add('active');
     } else {
       item.classList.remove('active');
@@ -27,11 +39,12 @@ function activeMenuItem(): void {
   });
 }
 
-function setPageState() {
-  activeMenuItem();
+function setPageState(props: UserSettings) {
+  activeMenuItem(props);
 }
 
-function addEventsForApp(): void {
+function addEventsForApp(param: State): void {
+  const props = param.userSettings;
   const app = document.getElementById('app') as HTMLElement;
   const main = document.getElementById('main') as HTMLElement;
 
@@ -42,48 +55,54 @@ function addEventsForApp(): void {
       if (linkName) {
         switch (linkName) {
           case linkType.general:
-            state.currentPage = CurrentPage.general;
+            props.currentPage = CurrentPage.general;
             break;
           case linkType.aboutApp:
-            state.currentPage = CurrentPage.aboutApp;
+            props.currentPage = CurrentPage.aboutApp;
             break;
           case linkType.schoolbook:
-            state.currentPage = CurrentPage.schoolbook;
+            props.currentPage = CurrentPage.schoolbook;
             break;
           case linkType.audioCallGame:
-            state.currentPage = CurrentPage.audioCallGame;
+            props.currentPage = CurrentPage.audioCallGame;
             break;
           case linkType.sprintGame:
-            state.currentPage = CurrentPage.sprintGame;
+            props.currentPage = CurrentPage.sprintGame;
             break;
           case linkType.statistics:
-            state.currentPage = CurrentPage.statistics;
+            props.currentPage = CurrentPage.statistics;
             break;
           case linkType.developmentTeam:
-            state.currentPage = CurrentPage.developmentTeam;
+            props.currentPage = CurrentPage.developmentTeam;
             break;
           case linkType.login:
-            state.authorized = !state.authorized;
-            renderHeader(app.querySelector('#header') as HTMLElement);
+            props.authorized = !props.authorized;
+            renderHeader(app.querySelector('#header') as HTMLElement, props);
             break;
           default:
             break;
         }
-        RenderPage[state.currentPage](main);
-        activeMenuItem();
+        RenderPage[props.currentPage](main, param);
+        activeMenuItem(props);
       }
     }
   });
 }
 
-export default function renderApp(root: HTMLElement): void {
+export default function renderApp(root: HTMLElement, props: State): void {
   const rootElem = root;
   rootElem.innerHTML = toHTML();
 
-  renderHeader(rootElem.querySelector('#header') as HTMLElement);
-  RenderPage[state.currentPage](rootElem.querySelector('#main') as HTMLElement);
+  renderHeader(
+    rootElem.querySelector('#header') as HTMLElement,
+    props.userSettings
+  );
+  RenderPage[(<UserSettings>props.userSettings).currentPage](
+    rootElem.querySelector('#main') as HTMLElement,
+    props
+  );
   renderFooter(rootElem.querySelector('#footer') as HTMLElement);
 
-  setPageState();
-  addEventsForApp();
+  setPageState(props.userSettings);
+  addEventsForApp(props);
 }
