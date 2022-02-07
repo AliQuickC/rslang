@@ -1,10 +1,9 @@
 .button{
   width: 275px;
   height: 70px;
-  border-radius: 4px ;
+  border-radius: $border-radius;
   &:hover{
-    color: white;
-    background: red;
-    //box-shadow: 0 0.5em 0.5em -0.4em #3fcc59;
+    color: $active-button-font-color;
+    background: $selections-color;
   }
 }
