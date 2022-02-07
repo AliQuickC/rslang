@@ -1,14 +1,7 @@
 import state from '../modules/state';
 import { CurrentPage, linkType, RenderPage } from '../modules/types';
-import renderAudioCall from './audio-call';
 import renderFooter from './footer';
-import renderGeneralPage from './general-page';
 import renderHeader from './header';
-import renderSprint from './sprint';
-import renderSchoolbook from './schoolbook';
-import renderStatistics from './statistics';
-import renderTeam from './team';
-import renderAboutApp from './about-app';
 
 const toHTML = (): string => {
   return `
@@ -17,7 +10,7 @@ const toHTML = (): string => {
   <main class="main" id="main">
   </main>
   <footer class="footer" id="footer">
-  </footer>  
+  </footer>
   `;
 };
 
@@ -34,7 +27,7 @@ function activeMenuItem(): void {
   });
 }
 
-function setPage() {
+function setPageState() {
   activeMenuItem();
 }
 
@@ -91,6 +84,6 @@ export default function renderApp(root: HTMLElement): void {
   RenderPage[state.currentPage](rootElem.querySelector('#main') as HTMLElement);
   renderFooter(rootElem.querySelector('#footer') as HTMLElement);
 
-  setPage();
+  setPageState();
   addEventsForApp();
 }

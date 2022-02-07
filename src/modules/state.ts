@@ -2,5 +2,10 @@ import { CurrentPage } from './types';
 
 export default {
   authorized: false,
-  currentPage: CurrentPage.general as CurrentPage,
+  currentPage: CurrentPage.schoolbook as CurrentPage,
+  schoolbookCurrentPosition: {
+    chapter: 1,
+    page: 1,
+  },
+  userSettings: {},
 };
