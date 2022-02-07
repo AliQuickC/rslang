@@ -1,6 +1,7 @@
 import {
   headersAddType,
   idNameEmailPasswordType,
+  localStorageCurrentUserObject,
   requestOptionsType,
   urlType,
 } from '../../utilites/types';
@@ -109,4 +110,19 @@ export default class User {
   //     localStorage.setItem('currentUser', <string>result);
   //   });
   // }
+  static deleteUser(requestObject: localStorageCurrentUserObject) {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${requestObject.token}`);
+
+    const requestOptions: RequestInit = {
+      method: 'DELETE',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+
+    fetch(`${usersUrl}/${requestObject.userId}`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+  }
 }

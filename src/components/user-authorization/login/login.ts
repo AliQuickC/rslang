@@ -9,6 +9,8 @@ const body = document.querySelector('body') as HTMLElement;
 export default class Login {
   parentElement = body;
 
+  buttonInnerText = 'Enter';
+
   onClickOnEnterButton = this.logIn;
 
   boxElement = getHtmlFromString(loginBoxElementAsString).querySelector(
@@ -64,8 +66,7 @@ export default class Login {
   }
 
   returnReadyBoxElement() {
-    const buttonInnerText = 'Enter';
-    const button = Button.createReadyButtonElement(buttonInnerText, () =>
+    const button = Button.createReadyButtonElement(this.buttonInnerText, () =>
       this.onClickOnEnterButton()
     );
     this.boxElement.append(button);

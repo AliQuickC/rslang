@@ -21,3 +21,11 @@ export type usersUrlType = 'https://learnwords-app.herokuapp.com/users';
 export type signinUrlType = 'https://learnwords-app.herokuapp.com/signin';
 
 export type urlType = usersUrlType | signinUrlType;
+
+export type localStorageCurrentUserObject = {
+  message: string;
+  name: string;
+  refreshToken: string;
+  token: string;
+  userId: string;
+};
