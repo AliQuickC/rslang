@@ -3,16 +3,18 @@ import getHtmlFromString from '../../utilites/geHtmlFromString';
 import Button from '../../universal-button/button';
 import { idNameEmailPasswordType } from '../../utilites/types';
 import User from '../userApi/userApi';
+import { State } from '../../../modules/types';
 
 const body = document.querySelector('body') as HTMLElement;
 
 export default class Login {
-  // private state: State;
+  static state: State;
+
   // readonly parentElement: HTMLElement;
-  // constructor (parentElement:HTMLElement, state: State){
-  //   this.parentElement = parentElement;
-  //   this.state = state;
-  // }
+  constructor(/* parentElement:HTMLElement, */ state: State) {
+    //   this.parentElement = parentElement;
+    Login.state = state;
+  }
 
   parentElement = body;
 
@@ -52,6 +54,7 @@ export default class Login {
   }
 
   logIn() {
+    console.log(Login.state);
     const objectFromInputs = this.returnObjectWithInfoFromInput();
     const loginWindow = document.querySelector(
       '.authorization-window'
@@ -66,7 +69,7 @@ export default class Login {
       })
       .then((text) => {
         if (text) {
-          localStorage.setItem('currentUser', <string>text);
+          Login.state.userSettings.authData = JSON.parse(text);
         }
       })
       .catch((Error) => console.log(Error));

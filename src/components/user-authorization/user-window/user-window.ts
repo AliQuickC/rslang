@@ -7,8 +7,13 @@ import {
 } from '../../utilites/consts';
 import { localStorageCurrentUserObject } from '../../utilites/types';
 import User from '../userApi/userApi';
+import { State } from '../../../modules/types';
 
 export default class UserWindow extends Login {
+  // constructor(state: State) {
+  //   super(state);
+  // }
+
   buttonInnerText = 'Exit';
 
   boxElement = getHtmlFromString(userWindowElementAsString).querySelector(
@@ -31,9 +36,9 @@ export default class UserWindow extends Login {
       : undefined;
   }
 
-
   onClickOnEnterButton = () => {
     const text = this.buttonInnerText;
+    delete UserWindow.state.userSettings.authData;
     localStorage.clear();
   };
 

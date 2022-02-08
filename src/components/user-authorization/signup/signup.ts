@@ -5,9 +5,6 @@ import getHtmlFromString from '../../utilites/geHtmlFromString';
 import User from '../userApi/userApi';
 
 export default class SignUp extends Login {
-  // constructor(parentElement:HTMLElement, state:State) {
-  //   super(parentElement, state);
-  // }
   onClickOnEnterButton = this.signUp;
 
   boxElement = getHtmlFromString(signupBoxElementAsString).querySelector(
@@ -44,12 +41,17 @@ export default class SignUp extends Login {
     ) {
       alert('wrong password repeat');
     } else {
-      User.createUser(this.returnObjectWithInfoFromInput()).then((response) => {
-        if (response.ok) {
-          this.parentElement.removeChild(loginWindow);
-          alert(`success ${response.text()}`);
-        }
-      });
+      User.createUser(this.returnObjectWithInfoFromInput())
+        .then((response) => {
+          if (response.ok) {
+            this.parentElement.removeChild(loginWindow);
+            alert(`success ${response.text()}`);
+            delete SignUp.state.userSettings.authData;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 }
