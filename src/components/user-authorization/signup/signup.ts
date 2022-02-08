@@ -5,6 +5,9 @@ import getHtmlFromString from '../../utilites/geHtmlFromString';
 import User from '../userApi/userApi';
 
 export default class SignUp extends Login {
+  // constructor(parentElement:HTMLElement, state:State) {
+  //   super(parentElement, state);
+  // }
   onClickOnEnterButton = this.signUp;
 
   boxElement = getHtmlFromString(signupBoxElementAsString).querySelector(

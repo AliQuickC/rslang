@@ -7,6 +7,13 @@ import User from '../userApi/userApi';
 const body = document.querySelector('body') as HTMLElement;
 
 export default class Login {
+  // private state: State;
+  // readonly parentElement: HTMLElement;
+  // constructor (parentElement:HTMLElement, state: State){
+  //   this.parentElement = parentElement;
+  //   this.state = state;
+  // }
+
   parentElement = body;
 
   buttonInnerText = 'Enter';
