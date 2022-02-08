@@ -10,7 +10,7 @@
   margin: 10px 0 5px 0
   // padding-left: 20px
 
-.schoolbook-content__page-wrap
+.schoolbook-content__page-wrap, .schoolbook-content__word-wrap
   display: flex
   flex-wrap: wrap
   gap: 10px
@@ -30,3 +30,30 @@
   justify-content: space-between
   align-items: center
   margin-bottom: 10px
+
+.word
+  width: 300px
+  background-color: #fff
+  border-radius: 6px
+  min-height: 400px
+  padding: 10px
+
+.word__name
+  display: block
+  font-size: 24px
+  font-weight: bold
+
+.word__translate-wrap  
+  display: flex
+  align-items: center
+
+.word__translate-wrap *
+  margin-right: 10px
+
+.word__soundbtn
+  width: 35px
+  height: 35px
+  margin: 0
+  border: none
+  background: url("../assets/svg/sound.svg") center center no-repeat
+  background-size: cover

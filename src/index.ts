@@ -6,7 +6,6 @@ state.userSettings = defaultUserSettings;
 const storeKEY = 'rslangSettings';
 
 (async function () {
-  // const props = state.userSettings;
   function getLocalStorage(): void {
     if (
       !localStorage.getItem(storeKEY) ||

@@ -44,8 +44,78 @@ const toHTML = (param: UserSettings): string => {
     <button data-page-number="0">↵ К списку страниц</button>
   </div>
   <div class="schoolbook-content__word-wrap">
-  Слово 1
-  Слово 2
+    <div class="word">
+      <img class="word__picture" src="../assets/images/01_0010.jpg" alt="word picture"> 
+      <span class="word__name">duck</span>
+      <div class="word__translate-wrap">
+        <span class="word__translate">утка</span>
+        <span class="word__transcription">[dʌk]</span>
+        <button class="word__soundbtn"></button>
+      </div>
+      <p class="word__sentence">A duck is a small water bird.People feed ducks at the lake.</p>
+      <p class="word__sentence-translate">Утка - маленькая водяная птица Люди кормят уток у озера</p>
+    </div>
+  
+  <div class="word">
+    <img class="word__picture" src="../assets/images/01_0010.jpg" alt="word picture"> 
+    <span class="word__name">duck</span>
+    <div class="word__translate-wrap">
+      <span class="word__translate">утка</span>
+      <span class="word__transcription">[dʌk]</span>
+      <button class="word__soundbtn"></button>
+    </div>
+    <p class="word__sentence">A duck is a small water bird.People feed ducks at the lake.</p>
+    <p class="word__sentence-translate">Утка - маленькая водяная птица Люди кормят уток у озера</p>
+  </div>
+
+<div class="word">
+  <img class="word__picture" src="../assets/images/01_0010.jpg" alt="word picture"> 
+  <span class="word__name">duck</span>
+  <div class="word__translate-wrap">
+    <span class="word__translate">утка</span>
+    <span class="word__transcription">[dʌk]</span>
+    <button class="word__soundbtn"></button>
+  </div>
+  <p class="word__sentence">A duck is a small water bird.People feed ducks at the lake.</p>
+  <p class="word__sentence-translate">Утка - маленькая водяная птица Люди кормят уток у озера</p>
+</div>
+
+<div class="word">
+<img class="word__picture" src="../assets/images/01_0010.jpg" alt="word picture"> 
+<span class="word__name">duck</span>
+<div class="word__translate-wrap">
+  <span class="word__translate">утка</span>
+  <span class="word__transcription">[dʌk]</span>
+  <button class="word__soundbtn"></button>
+</div>
+<p class="word__sentence">A duck is a small water bird.People feed ducks at the lake.</p>
+<p class="word__sentence-translate">Утка - маленькая водяная птица Люди кормят уток у озера</p>
+</div>
+
+<div class="word">
+<img class="word__picture" src="../assets/images/01_0010.jpg" alt="word picture"> 
+<span class="word__name">duck</span>
+<div class="word__translate-wrap">
+  <span class="word__translate">утка</span>
+  <span class="word__transcription">[dʌk]</span>
+  <button class="word__soundbtn"></button>
+</div>
+<p class="word__sentence">A duck is a small water bird.People feed ducks at the lake.</p>
+<p class="word__sentence-translate">Утка - маленькая водяная птица Люди кормят уток у озера</p>
+</div>
+
+<div class="word">
+<img class="word__picture" src="../assets/images/01_0010.jpg" alt="word picture"> 
+<span class="word__name">duck</span>
+<div class="word__translate-wrap">
+  <span class="word__translate">утка</span>
+  <span class="word__transcription">[dʌk]</span>
+  <button class="word__soundbtn"></button>
+</div>
+<p class="word__sentence">A duck is a small water bird.People feed ducks at the lake.</p>
+<p class="word__sentence-translate">Утка - маленькая водяная птица Люди кормят уток у озера</p>
+</div>
+  
   </div>
 `;
 };
