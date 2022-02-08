@@ -12,6 +12,7 @@
 
 .schoolbook-content__page-wrap, .schoolbook-content__word-wrap
   display: flex
+  justify-content: center
   flex-wrap: wrap
   gap: 10px
 
@@ -32,9 +33,9 @@
   margin-bottom: 10px
 
 .word
-  width: 300px
+  width: 400px
   background-color: #fff
-  border-radius: 6px
+  border-radius: 10px
   min-height: 400px
   padding: 10px
 
@@ -47,8 +48,10 @@
   display: flex
   align-items: center
 
-.word__translate-wrap *
+.word__translate
   margin-right: 10px
+.word__transcription  
+  margin-right: 20px
 
 .word__soundbtn
   width: 35px
@@ -57,3 +60,10 @@
   border: none
   background: url("../assets/svg/sound.svg") center center no-repeat
   background-size: cover
+
+.word__meaning, .word__example
+  font-size: 16px
+  font-weight: 600
+.word__meaning-translate, .word__example-translate
+  font-size: 14px
+  font-weight: 300

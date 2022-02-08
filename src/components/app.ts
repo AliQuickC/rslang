@@ -5,15 +5,8 @@ import {
   State,
   UserSettings,
 } from '../modules/types';
-import renderAudioCall from './audio-call';
 import renderFooter from './footer';
-import renderGeneralPage from './general-page';
 import renderHeader from './header';
-import renderSprint from './sprint';
-import renderSchoolbook from './schoolbook';
-import renderStatistics from './statistics';
-import renderTeam from './team';
-import renderAboutApp from './about-app';
 
 const toHTML = (): string => {
   return `
@@ -62,6 +55,7 @@ function addEventsForApp(param: State): void {
             break;
           case linkType.schoolbook:
             props.currentPage = CurrentPage.schoolbook;
+            props.schoolbookCurrentPosition.chapter = 0;
             break;
           case linkType.audioCallGame:
             props.currentPage = CurrentPage.audioCallGame;

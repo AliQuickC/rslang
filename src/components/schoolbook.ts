@@ -1,5 +1,9 @@
+import { getWordById } from '../modules/api';
 import { State, UserSettings } from '../modules/types';
 import renderSchoolbookContent from './schoolbook-content';
+
+const audio = new Audio();
+const fileServer = 'https://learnwords-app.herokuapp.com/';
 
 const toHTML = (props: UserSettings): string => {
   return `  
@@ -30,33 +34,61 @@ function addEventsForSchoolbook(param: UserSettings) {
   const unselectedPage = 0;
   const schoolbook = document.getElementById('schoolbook');
 
-  (<HTMLElement>schoolbook).addEventListener('click', async (e) => {
-    if (e.target) {
-      const chapterLink = (<HTMLElement>e.target).dataset.chapterNumber;
-      const pageLink = (<HTMLElement>e.target).dataset.pageNumber;
+  (<HTMLElement>schoolbook).addEventListener(
+    'click',
+    async (e): Promise<void> => {
+      if (e.target) {
+        const chapterLink = (<HTMLElement>e.target).dataset.chapterNumber;
+        const pageLink = (<HTMLElement>e.target).dataset.pageNumber;
 
-      if (chapterLink) {
-        props.schoolbookCurrentPosition.chapter = Number(chapterLink);
-        props.schoolbookCurrentPosition.page = unselectedPage;
-        renderSchoolbookContent(
-          (<HTMLElement>schoolbook).querySelector(
-            '#schoolbook-content'
-          ) as HTMLElement,
-          props
-        );
-      }
+        if (chapterLink) {
+          props.schoolbookCurrentPosition.chapter = Number(chapterLink);
+          props.schoolbookCurrentPosition.page = unselectedPage;
+          renderSchoolbookContent(
+            (<HTMLElement>schoolbook).querySelector(
+              '#schoolbook-content'
+            ) as HTMLElement,
+            props
+          );
+          return;
+        }
 
-      if (pageLink) {
-        props.schoolbookCurrentPosition.page = Number(pageLink);
-        renderSchoolbookContent(
-          (<HTMLElement>schoolbook).querySelector(
-            '#schoolbook-content'
-          ) as HTMLElement,
-          props
-        );
+        if (pageLink) {
+          props.schoolbookCurrentPosition.page = Number(pageLink);
+          renderSchoolbookContent(
+            (<HTMLElement>schoolbook).querySelector(
+              '#schoolbook-content'
+            ) as HTMLElement,
+            props
+          );
+          return;
+        }
+
+        const wordCard = (<HTMLElement>e.target).closest('.word');
+        if (wordCard) {
+          if ((<HTMLElement>e.target).classList.contains('word__soundbtn')) {
+            const { wordId } = (<HTMLElement>wordCard).dataset;
+            getWordById(wordId as string).then((wordObj) => {
+              if (audio.paused) {
+                audio.volume = 0.3;
+                audio.src = fileServer + wordObj.audio;
+                audio.play();
+                audio.onended = () => {
+                  audio.src = fileServer + wordObj.audioMeaning;
+                  audio.play();
+                  audio.onended = () => {
+                    audio.src = fileServer + wordObj.audioExample;
+                    audio.play();
+                    audio.onended = null;
+                  };
+                };
+              }
+            });
+          }
+        }
       }
     }
-  });
+  );
 }
 
 export default function renderSchoolbook(

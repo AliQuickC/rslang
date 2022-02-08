@@ -4,8 +4,8 @@ export const defaultUserSettings: UserSettings = {
   authorized: false,
   currentPage: CurrentPage.general as CurrentPage,
   schoolbookCurrentPosition: {
-    chapter: 1,
-    page: 1,
+    chapter: 0,
+    page: 0,
   },
 };
 
