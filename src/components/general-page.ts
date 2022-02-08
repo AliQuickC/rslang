@@ -1,32 +1,35 @@
-import state from '../modules/state';
+import { State, UserSettings } from '../modules/types';
 
-const toHTML = (): string => {
+const toHTML = (props: UserSettings): string => {
   return `  
     <section class="section general" id="general">
       <div class="container general-container">
         <h1>General</h1>
-        <button data-link="aboutApp">advantages of our application</button>
+        <button data-link="aboutApp">Возможности и Преимущества приложения</button>
 
-        <button data-link="textbook">Textbook</button>
+        <button data-link="schoolbook">Учебник</button>
         <button data-link="audio-call-game">Audio call Game</button>
         <button data-link="sprint-game">Sprint Game</button>        
         ${
-          state.authorized
-            ? '<button data-link="statistics">Statistics</button>'
+          props.authorized
+            ? '<button data-link="statistics">Статистика</button>'
             : ''
         }
-        <button data-link="development-team">About development team</button>
+        <button data-link="development-team">О команде</button>
 
         <button data-link="login">${
-          state.authorized ? 'LogOff' : 'LogIn'
+          props.authorized ? 'LogOff' : 'LogIn'
         }</button>
       </div>
     </section>
   `;
 };
 
-export default function renderGeneralPage(root: HTMLElement): void {
+export default function renderGeneralPage(
+  root: HTMLElement,
+  props: State
+): void {
   const elem = root;
 
-  elem.innerHTML = toHTML();
+  elem.innerHTML = toHTML(props.userSettings);
 }

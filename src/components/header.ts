@@ -1,30 +1,34 @@
-import state from '../modules/state';
+import { UserSettings } from '../modules/types';
 
-const toHTML = (): string => {
+const toHTML = (param: UserSettings): string => {
+  const props = param;
   return `
   <div class="container header-container">
   <nav class="nav">
   <ul class="menu">
-      <li class="menu__item" data-link="general">General</li>
-      <li class="menu__item" data-link="textbook">Textbook</li>
+      <li class="menu__item active" data-link="general">Главная</li>
+      <li class="menu__item" data-link="schoolbook">Учебник</li>
       <li class="menu__item" data-link="audio-call-game">Audio call Game</li>
       <li class="menu__item" data-link="sprint-game">Sprint Game</li>
       ${
-        state.authorized
-          ? '<li class="menu__item" data-link="statistics">Statistics</li>'
+        props.authorized
+          ? '<li class="menu__item" data-link="statistics">Статистика</li>'
           : ''
       }
     </ul>
     </nav>
     <div class="login">
-    <span>${state.authorized ? 'Vasya' : 'Unauthorized user'}</span>
-    <button data-link="login">${state.authorized ? 'LogOff' : 'LogIn'}</button>
+    <span>${props.authorized ? 'Vasya' : 'Unauthorized user'}</span>
+    <button data-link="login">${props.authorized ? 'LogOff' : 'LogIn'}</button>
   </div>
 </div>
 `;
 };
 
-export default function renderHeader(root: HTMLElement): void {
+export default function renderHeader(
+  root: HTMLElement,
+  props: UserSettings
+): void {
   const elem = root;
-  elem.innerHTML = toHTML();
+  elem.innerHTML = toHTML(props);
 }
