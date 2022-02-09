@@ -15,6 +15,8 @@ import renderStatistics from './statistics';
 import renderTeam from './team';
 import renderAboutApp from './about-app';
 
+import UserAuthorization from './user-authorization/user-authorization';
+
 const toHTML = (): string => {
   return `
   <header class="header" id="header">
@@ -44,6 +46,10 @@ function setPageState(props: UserSettings) {
 }
 
 function addEventsForApp(param: State): void {
+
+  const userAuthInstance = new UserAuthorization(param);
+  const userAuthorizationElement = userAuthInstance.readyElement;
+
   const props = param.userSettings;
   const app = document.getElementById('app') as HTMLElement;
   const main = document.getElementById('main') as HTMLElement;
@@ -51,6 +57,8 @@ function addEventsForApp(param: State): void {
   document.body.addEventListener('click', async (e) => {
     if (e.target) {
       const linkName = (<HTMLElement>e.target).dataset.link;
+      const currentTarget = e.currentTarget as HTMLElement;
+
 
       if (linkName) {
         switch (linkName) {
@@ -77,6 +85,7 @@ function addEventsForApp(param: State): void {
             break;
           case linkType.login:
             props.authorized = !props.authorized;
+            // currentTarget.append(userAuthorizationElement); //auth off to be able to set up the application
             renderHeader(app.querySelector('#header') as HTMLElement, props);
             break;
           default:

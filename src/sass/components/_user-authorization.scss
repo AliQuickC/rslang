@@ -1,0 +1,90 @@
+.authorization-window {
+  width: 550px;
+  position: absolute;
+  left: calc(50vw - 275px);
+  top: calc(50vh - 275px);
+  border: solid 1px grey;
+  background-color: $secondary-project-color;
+
+  .button-close {
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    color: $active-button-font-color;
+    cursor: pointer;
+
+    &:hover {
+      color: $selections-color;
+    }
+  }
+
+  .log-buttons-shell {
+    height: 110px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+
+  }
+
+}
+
+.log-buttons-shell__button {
+  height: 100%;
+  width: 50%;
+  padding: 0;
+  border: none;
+  background: $secondary-project-color;
+  border-bottom: $border-style;
+
+  &:hover {
+    font-size: 2rem;
+  }
+
+  &:active {
+    font-size: 1.5rem;
+  }
+}
+
+.activeSignButton {
+  border-bottom: $border-style-selected;
+}
+
+.login-shell {
+  height: 550px - 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10%;
+
+
+  .login-labels-shell {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+}
+
+.login-input {
+  @extend %login-input-size;
+}
+
+.user-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 200px;
+  width: 400px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: $border-style;
+  background-color: $secondary-project-color;
+}
+
+.user-window__user-name {
+  font-size: 2rem;
+}
