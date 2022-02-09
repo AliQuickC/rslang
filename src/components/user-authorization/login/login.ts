@@ -10,9 +10,7 @@ const body = document.querySelector('body') as HTMLElement;
 export default class Login {
   static state: State;
 
-  // readonly parentElement: HTMLElement;
-  constructor(/* parentElement:HTMLElement, */ state: State) {
-    //   this.parentElement = parentElement;
+  constructor(state: State) {
     Login.state = state;
   }
 
@@ -54,7 +52,6 @@ export default class Login {
   }
 
   logIn() {
-    console.log(Login.state);
     const objectFromInputs = this.returnObjectWithInfoFromInput();
     const loginWindow = document.querySelector(
       '.authorization-window'

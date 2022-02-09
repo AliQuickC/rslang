@@ -6,6 +6,18 @@
   border: solid 1px grey;
   background-color: $secondary-project-color;
 
+  .button-close {
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    color: $active-button-font-color;
+    cursor: pointer;
+
+    &:hover {
+      color: $selections-color;
+    }
+  }
+
   .log-buttons-shell {
     height: 110px;
     width: 100%;

@@ -5,12 +5,6 @@ import SignUp from './signup/signup';
 import { State } from '../../modules/types';
 
 export default class UserAuthorization {
-  // private static parentElement: HTMLElement;
-  // private static state: State;
-
-  // // private loginInstance: () => Login;
-  // private static loginInstance: Login;
-
   private loginInstance: Login;
 
   private loginBoxElement: HTMLDivElement;
@@ -38,15 +32,13 @@ export default class UserAuthorization {
     '.signup_button'
   ) as HTMLButtonElement;
 
-  buttonsLogAndSign = this.userAuthorizationElement.querySelectorAll(
+  readonly buttonsLogAndSign = this.userAuthorizationElement.querySelectorAll(
     '.log-buttons-shell__button'
   ) as NodeListOf<HTMLButtonElement>;
 
-  // loginInstance = () => new Login(/* UserAuthorization.parentElement, *//* UserAuthorization.state */this.d);
-  // signupInstance = () =>
-  //   new SignUp(/* UserAuthorization.parentElement, */ UserAuthorization.state);
-
-  // loginBoxElement = UserAuthorization.loginInstance.returnReadyBoxElement();
+  readonly buttonClose = this.userAuthorizationElement.querySelector(
+    '.button-close'
+  ) as HTMLElement;
 
   statusActiveButtonClass = 'activeSignButton';
 
@@ -80,53 +72,12 @@ export default class UserAuthorization {
     this.boxWithLogButtons.addEventListener('click', (event) =>
       this.switchLoginSetup(event)
     );
-    this.userAuthorizationElement.append(this.loginBoxElement);
-
-    return this.userAuthorizationElement;
-  }
-
-  getReadyElement(value: State) {
-    this.boxWithLogButtons.addEventListener('click', (event) =>
-      this.switchLoginSetup(event)
-    );
+    this.buttonClose.addEventListener('click', (event) => {
+      const parent = this.userAuthorizationElement.parentElement as HTMLElement;
+      parent.removeChild(this.userAuthorizationElement);
+    });
     this.userAuthorizationElement.append(this.loginBoxElement);
 
     return this.userAuthorizationElement;
   }
 }
-
-//
-// let obj = {test: 'str'};
-// function f(a) {
-//   a.test = 'another str'; a.dd = 'fgh';
-// };
-//
-// class S {
-//   constructor(aa){
-//     this.aa = aa;
-//     S.aa = aa
-//   }
-//   coty = () => new FF(S.aa)
-//   fu(){
-//     this.aa.ghj = 'rttttt'
-//   }
-//   fi(){
-//     this.coty().fuv()
-//   }
-// }
-// class FF {
-//   constructor(bb) {
-//     this.bb = bb;
-//   }
-//   fuv(){
-//     console.log(this.bb)
-//     // this.bb.ret = '123456'
-//   }
-// }
-// const r = new S(obj);
-//
-// r.fu()
-// r.fi()
-//
-// f(obj);
-// // console.log(obj, '111111', r.aa); // Выведет 'another str'
