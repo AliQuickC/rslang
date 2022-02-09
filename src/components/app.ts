@@ -46,8 +46,10 @@ function setPageState(props: UserSettings) {
 }
 
 function addEventsForApp(param: State): void {
+
   const userAuthInstance = new UserAuthorization(param);
   const userAuthorizationElement = userAuthInstance.readyElement;
+
   const props = param.userSettings;
   const app = document.getElementById('app') as HTMLElement;
   const main = document.getElementById('main') as HTMLElement;
@@ -56,6 +58,7 @@ function addEventsForApp(param: State): void {
     if (e.target) {
       const linkName = (<HTMLElement>e.target).dataset.link;
       const currentTarget = e.currentTarget as HTMLElement;
+
 
       if (linkName) {
         switch (linkName) {
