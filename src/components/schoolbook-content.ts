@@ -51,11 +51,19 @@ const toHTML = async (param: UserSettings): Promise<string> => {
     .map((item) => {
       return `<div class="word" data-word-id="${item.id}">
     <img class="word__picture" src="${fileServer}${item.image}" alt="word picture"> 
-    <span class="word__name">${item.word}</span>
-    <div class="word__translate-wrap">
-      <span class="word__translate">${item.wordTranslate}</span>
-      <span class="word__transcription">${item.transcription}</span>
-      <button class="word__soundbtn"></button>
+    <div class="word__wrap1">
+      <div class="word__wrap2">
+        <span class="word__name">${item.word}</span>
+        <div class="word__translate-wrap">
+          <span class="word__translate">${item.wordTranslate}</span>
+          <span class="word__transcription">${item.transcription}</span>
+          <button class="word__soundbtn word__btn" data-word-btn="sound"></button>
+        </div>
+      </div>
+        <div class="word__buttons">
+          <button class="word__easybtn word__btn" title="Пометить слово как Изучено" data-word-btn="easy"></button>
+          <button class="word__difficultbtn word__btn" title="Добавить в Сложные слова" data-word-btn="difficult"></button>
+        </div>
     </div>
     <p class="word__meaning-wrap">
       <span class="word__meaning">${item.textMeaning}</span><br>

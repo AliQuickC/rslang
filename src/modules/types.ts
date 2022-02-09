@@ -39,6 +39,13 @@ export const RenderPage = {
   developmentTeam: renderTeam,
 };
 
+// eslint-disable-next-line no-shadow
+export enum WordCardBtn {
+  sound = 'sound',
+  easy = 'easy',
+  difficult = 'difficult',
+}
+
 export interface Word {
   id: string;
   group: number;

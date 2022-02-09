@@ -1,5 +1,5 @@
 import { getWordById } from '../modules/api';
-import { State, UserSettings } from '../modules/types';
+import { State, UserSettings, WordCardBtn } from '../modules/types';
 import renderSchoolbookContent from './schoolbook-content';
 
 const audio = new Audio();
@@ -64,26 +64,38 @@ function addEventsForSchoolbook(param: UserSettings) {
           return;
         }
 
-        const wordCard = (<HTMLElement>e.target).closest('.word');
-        if (wordCard) {
-          if ((<HTMLElement>e.target).classList.contains('word__soundbtn')) {
-            const { wordId } = (<HTMLElement>wordCard).dataset;
-            getWordById(wordId as string).then((wordObj) => {
-              if (audio.paused) {
-                audio.volume = 0.3;
-                audio.src = fileServer + wordObj.audio;
-                audio.play();
-                audio.onended = () => {
-                  audio.src = fileServer + wordObj.audioMeaning;
+        if ((<HTMLElement>e.target).classList.contains('word__btn')) {
+          const wordCard = (<HTMLElement>e.target).closest('.word');
+          const { wordId } = (<HTMLElement>wordCard).dataset;
+          const wordBtnType = (<HTMLElement>e.target).dataset.wordBtn;
+
+          switch (wordBtnType) {
+            case WordCardBtn.sound:
+              getWordById(wordId as string).then((wordObj) => {
+                if (audio.paused) {
+                  audio.volume = 0.3;
+                  audio.src = fileServer + wordObj.audio;
                   audio.play();
                   audio.onended = () => {
-                    audio.src = fileServer + wordObj.audioExample;
+                    audio.src = fileServer + wordObj.audioMeaning;
                     audio.play();
-                    audio.onended = null;
+                    audio.onended = () => {
+                      audio.src = fileServer + wordObj.audioExample;
+                      audio.play();
+                      audio.onended = null;
+                    };
                   };
-                };
-              }
-            });
+                }
+              });
+              break;
+            case WordCardBtn.easy:
+              console.log('wordBtnType: ', wordBtnType);
+              break;
+            case WordCardBtn.difficult:
+              console.log('wordBtnType: ', wordBtnType);
+              break;
+            default:
+              break;
           }
         }
       }

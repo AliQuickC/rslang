@@ -1,19 +1,20 @@
 .chapters-wrap
-  border-bottom: 2px solid #fff
-  // padding-left: 20px
-  // padding-right: 20px
+  border-bottom: 2px solid #fff  
   display: flex
   justify-content: center
   flex-wrap: wrap
 
 .schoolbook-content__title  
   margin: 10px 0 5px 0
-  // padding-left: 20px
 
 .schoolbook-content__page-wrap, .schoolbook-content__word-wrap
   display: flex
   justify-content: center
   flex-wrap: wrap
+
+.schoolbook-content__page-wrap
+  gap: 20px
+.schoolbook-content__word-wrap
   gap: 10px
 
 .schoolbook-content__page
@@ -38,6 +39,40 @@
   border-radius: 10px
   min-height: 400px
   padding: 10px
+
+.word__wrap1  
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-right: 10px
+
+.word__buttons
+  display: flex
+  flex-direction: column
+
+.word__btn
+  border: none
+  width: 30px
+  height: 30px
+
+.word__easybtn
+  margin-bottom: 8px  
+  // background: url("../assets/svg/easy.svg") center center no-repeat
+  // background-size: cover  
+  background: rgba(green, 0.3)
+  -webkit-mask-image: url(../assets/svg/easy.svg)
+  mask-image: url(../assets/svg/easy.svg)
+  -webkit-mask-size: cover
+  mask-size: cover
+
+.word__difficultbtn  
+  // background: url("../assets/svg/think.svg") center center no-repeat
+  // background-size: cover
+  background: rgba(red, 0.3)
+  -webkit-mask-image: url(../assets/svg/think.svg)
+  mask-image: url(../assets/svg/think.svg)
+  -webkit-mask-size: cover
+  mask-size: cover
 
 .word__name
   display: block
