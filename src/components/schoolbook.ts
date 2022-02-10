@@ -29,8 +29,8 @@ const toHTML = (props: UserSettings): string => {
   `;
 };
 
-function addEventsForSchoolbook(param: UserSettings) {
-  const props = param;
+function addEventsForSchoolbook(props: State) {
+  const userSett = props.userSettings;
   const unselectedPage = 0;
   const schoolbook = document.getElementById('schoolbook');
 
@@ -42,8 +42,8 @@ function addEventsForSchoolbook(param: UserSettings) {
         const pageLink = (<HTMLElement>e.target).dataset.pageNumber;
 
         if (chapterLink) {
-          props.schoolbookCurrentPosition.chapter = Number(chapterLink);
-          props.schoolbookCurrentPosition.page = unselectedPage;
+          userSett.schoolbookCurrentPosition.chapter = Number(chapterLink);
+          userSett.schoolbookCurrentPosition.page = unselectedPage;
           renderSchoolbookContent(
             (<HTMLElement>schoolbook).querySelector(
               '#schoolbook-content'
@@ -54,7 +54,7 @@ function addEventsForSchoolbook(param: UserSettings) {
         }
 
         if (pageLink) {
-          props.schoolbookCurrentPosition.page = Number(pageLink);
+          userSett.schoolbookCurrentPosition.page = Number(pageLink);
           renderSchoolbookContent(
             (<HTMLElement>schoolbook).querySelector(
               '#schoolbook-content'
@@ -89,9 +89,17 @@ function addEventsForSchoolbook(param: UserSettings) {
               });
               break;
             case WordCardBtn.easy:
+              console.log('wordId: ', wordId);
+              console.log('props.currentPageWords: ', props.currentPageWords);
+              // getAggregatedUserWordById(
+              //   '61fa738ef3d34a0016954e89',
+              //   wordId as string,
+              //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmE3MzhlZjNkMzRhMDAxNjk1NGU4OSIsImlhdCI6MTY0NDQ5NTM2NCwiZXhwIjoxNjQ0NTA5NzY0fQ.43PmdJbfq3P0ETjvQHwAM7giZn59jh7p7Tj8vCPBXu8',
+              // ).then((x) => console.log(x.userWord?.difficulty));
               // console.log('wordBtnType: ', wordBtnType);
               break;
             case WordCardBtn.difficult:
+              console.log('wordId: ', wordId);
               // console.log('wordBtnType: ', wordBtnType);
               break;
             default:
@@ -113,8 +121,8 @@ export default function renderSchoolbook(
 
   renderSchoolbookContent(
     elem.querySelector('#schoolbook-content') as HTMLElement,
-    props.userSettings
+    props
   );
 
-  addEventsForSchoolbook(props.userSettings);
+  addEventsForSchoolbook(props);
 }

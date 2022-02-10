@@ -74,7 +74,28 @@ export interface UserWord {
   optional: object;
 }
 
-export interface aggregatedUserWord extends Word {
+export interface AggregatedWord {
+  _id: string;
+  group: number;
+  page: number;
+  word: string;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  textMeaning: string;
+  textExample: string;
+  transcription: string;
+  textExampleTranslate: string;
+  textMeaningTranslate: string;
+  wordTranslate: string;
+}
+
+export interface aggregatedUserWord extends AggregatedWord {
+  userWord: UserWord | undefined;
+}
+
+export interface CurrentPageWord extends Word {
   userWord: UserWord | undefined;
 }
 
@@ -120,4 +141,5 @@ export interface UserSettings {
 
 export interface State {
   userSettings: UserSettings;
+  currentPageWords: CurrentPageWord[];
 }

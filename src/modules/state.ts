@@ -11,5 +11,6 @@ export const defaultUserSettings: UserSettings = {
 
 const state = {
   userSettings: {} as UserSettings,
+  currentPageWords: [],
 };
 export default state;

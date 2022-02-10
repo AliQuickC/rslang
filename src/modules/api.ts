@@ -137,8 +137,8 @@ export const saveUserWord = async (
 export const getAggregatedUserWords = async (
   userId: string,
   token: string,
-  group = 0,
-  page = 0,
+  group: number | '' = '',
+  page: number | '' = '',
   wordsPerPage = 20,
   filter = ''
 ): Promise<aggregatedUserWords> =>
@@ -159,7 +159,7 @@ export const getAggregatedUserWordById = async (
   userId: string,
   wordId: string,
   token: string
-): Promise<aggregatedUserWord[]> =>
+): Promise<aggregatedUserWord> =>
   (
     await fetch(`${users}/${userId}/aggregatedWords/${wordId}`, {
       method: 'GET',
@@ -168,4 +168,6 @@ export const getAggregatedUserWordById = async (
         Authorization: `Bearer ${token}`,
       },
     })
-  ).json();
+  )
+    .json()
+    .then((x) => x[0]);
