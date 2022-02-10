@@ -28,11 +28,23 @@ const toHTML = async (param: State): Promise<string> => {
   }
 
   if (userSett.schoolbookCurrentPosition.chapter === difficultWordChapter) {
+    props.currentPageWords = await ((): Promise<CurrentPageWord[]> =>
+      getAggregatedUserWords(
+        '61fa738ef3d34a0016954e89',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmE3MzhlZjNkMzRhMDAxNjk1NGU4OSIsImlhdCI6MTY0NDUxMDk1NSwiZXhwIjoxNjQ0NTI1MzU1fQ.B66d3rce_G9HyrGJwaDRnBuY6jcntndW6bTWPzQLLxc',
+        '',
+        '',
+        totalWordsInPage,
+        `{"userWord.difficulty":"difficult"}`
+      ).then((x: aggregatedUserWords) =>
+        x[0].paginatedResults.map((item) => convertObject(item))
+      ))();
+
+    const wordsOnThePage = wordsListHTML(props);
     return `
     <h2 class="schoolbook-content__title">Раздел: Сложные слова</h2>
     <div class="schoolbook-content__word-wrap">
-    Слово 1
-    Слово 2
+    ${wordsOnThePage}
     </div>
     `;
   }
