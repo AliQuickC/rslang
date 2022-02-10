@@ -89,10 +89,10 @@ function addEventsForSchoolbook(param: UserSettings) {
               });
               break;
             case WordCardBtn.easy:
-              console.log('wordBtnType: ', wordBtnType);
+              // console.log('wordBtnType: ', wordBtnType);
               break;
             case WordCardBtn.difficult:
-              console.log('wordBtnType: ', wordBtnType);
+              // console.log('wordBtnType: ', wordBtnType);
               break;
             default:
               break;

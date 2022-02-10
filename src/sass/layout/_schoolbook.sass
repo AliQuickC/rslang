@@ -40,6 +40,11 @@
   min-height: 400px
   padding: 10px
 
+.word.easy
+  border: 3px solid green  
+.word.difficult
+  border: 2px solid red
+
 .word__wrap1  
   display: flex
   justify-content: space-between
@@ -65,7 +70,10 @@
   -webkit-mask-size: cover
   mask-size: cover
 
-.word__difficultbtn  
+.word.easy .word__easybtn
+  background: rgba(green, 1.0)
+
+.word__difficultbtn
   // background: url("../assets/svg/think.svg") center center no-repeat
   // background-size: cover
   background: rgba(red, 0.3)
@@ -73,6 +81,9 @@
   mask-image: url(../assets/svg/think.svg)
   -webkit-mask-size: cover
   mask-size: cover
+
+.word.difficult .word__difficultbtn
+  background: rgba(red, 1.0)
 
 .word__name
   display: block

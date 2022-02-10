@@ -139,7 +139,7 @@ export const getAggregatedUserWords = async (
   token: string,
   group = 0,
   page = 0,
-  wordsPerPage = 10,
+  wordsPerPage = 20,
   filter = ''
 ): Promise<aggregatedUserWords> =>
   (

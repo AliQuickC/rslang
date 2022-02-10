@@ -45,7 +45,6 @@ export enum WordCardBtn {
   easy = 'easy',
   difficult = 'difficult',
 }
-
 export interface Word {
   id: string;
   group: number;
@@ -63,8 +62,15 @@ export interface Word {
   wordTranslate: string;
 }
 
+// eslint-disable-next-line no-shadow
+export enum Difficulty {
+  easy = 'easy',
+  basic = 'basic',
+  difficult = 'difficult',
+}
+
 export interface UserWord {
-  difficulty: string;
+  difficulty: Difficulty;
   optional: object;
 }
 
