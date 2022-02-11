@@ -3,6 +3,9 @@ import Login from '../login/login';
 import { idNameEmailPasswordType } from '../../utilites/types';
 import getHtmlFromString from '../../utilites/geHtmlFromString';
 import User from '../userApi/userApi';
+import renderHeader from '../../header';
+import getErrorWindow from '../error-window/error-window';
+import { errorMessage } from '../../utilites/consts';
 
 export default class SignUp extends Login {
   onClickOnEnterButton = this.signUp;
@@ -31,26 +34,42 @@ export default class SignUp extends Login {
     const loginWindow = document.querySelector(
       '.authorization-window'
     ) as HTMLDivElement;
-    console.log(
-      this.passwordInputElement.value,
-      this.emailInputElement.value,
-      'ret'
-    );
     if (
       this.passwordInputElement.value !== this.passwordRepeatInputElement.value
     ) {
-      alert('wrong password repeat');
+      loginWindow.append(
+        getErrorWindow(errorMessage.wrongPasswordRepeat, loginWindow)
+      );
+    } else if (this.passwordInputElement.value.length < 8) {
+      loginWindow.append(
+        getErrorWindow(errorMessage.wrongPasswordLength, loginWindow)
+      );
+    } else if (
+      !this.emailInputElement.value.includes('@') ||
+      !this.emailInputElement.value.includes('.')
+    ) {
+      loginWindow.append(getErrorWindow(errorMessage.wrongEmail, loginWindow));
+    } else if (this.nameInputElement.value.length < 1) {
+      loginWindow.append(getErrorWindow(errorMessage.wrongName, loginWindow));
     } else {
       User.createUser(this.returnObjectWithInfoFromInput())
         .then((response) => {
           if (response.ok) {
             this.parentElement.removeChild(loginWindow);
-            alert(`success ${response.text()}`);
             delete SignUp.state.userSettings.authData;
+            SignUp.state.userSettings.authorized = false;
+            renderHeader(
+              document.querySelector('#header') as HTMLElement,
+              SignUp.state.userSettings
+            );
+          } else if (response.status === 417) {
+            loginWindow.append(
+              getErrorWindow(errorMessage.userExist, loginWindow)
+            );
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error, error.status);
         });
     }
   }

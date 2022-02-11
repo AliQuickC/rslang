@@ -72,7 +72,7 @@ export default class UserAuthorization {
     this.boxWithLogButtons.addEventListener('click', (event) =>
       this.switchLoginSetup(event)
     );
-    this.buttonClose.addEventListener('click', (event) => {
+    this.buttonClose.addEventListener('click', () => {
       const parent = this.userAuthorizationElement.parentElement as HTMLElement;
       parent.removeChild(this.userAuthorizationElement);
     });

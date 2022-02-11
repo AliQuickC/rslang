@@ -6,8 +6,6 @@ import {
   localStorageCurrentUserObjectName,
 } from '../../utilites/consts';
 import { localStorageCurrentUserObject } from '../../utilites/types';
-import User from '../userApi/userApi';
-import { State } from '../../../modules/types';
 
 export default class UserWindow extends Login {
   buttonInnerText = 'Exit';

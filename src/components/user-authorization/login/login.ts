@@ -4,6 +4,10 @@ import Button from '../../universal-button/button';
 import { idNameEmailPasswordType } from '../../utilites/types';
 import User from '../userApi/userApi';
 import { State } from '../../../modules/types';
+import renderHeader from '../../header';
+import renderGeneralPage from '../../general-page';
+import getErrorWindow from '../error-window/error-window';
+import { errorMessage } from '../../utilites/consts';
 
 const body = document.querySelector('body') as HTMLElement;
 
@@ -67,6 +71,19 @@ export default class Login {
       .then((text) => {
         if (text) {
           Login.state.userSettings.authData = JSON.parse(text);
+          Login.state.userSettings.authorized = true;
+          renderHeader(
+            document.querySelector('#header') as HTMLElement,
+            Login.state.userSettings
+          );
+          renderGeneralPage(
+            document.querySelector('#general') as HTMLElement,
+            Login.state
+          );
+        } else {
+          loginWindow.append(
+            getErrorWindow(errorMessage.wrongNameOrPassword, loginWindow)
+          );
         }
       })
       .catch((Error) => console.log(Error));
