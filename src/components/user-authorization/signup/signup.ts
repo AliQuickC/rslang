@@ -3,6 +3,7 @@ import Login from '../login/login';
 import { idNameEmailPasswordType } from '../../utilites/types';
 import getHtmlFromString from '../../utilites/geHtmlFromString';
 import User from '../userApi/userApi';
+import renderHeader from "../../header";
 
 export default class SignUp extends Login {
   onClickOnEnterButton = this.signUp;
@@ -47,6 +48,8 @@ export default class SignUp extends Login {
             this.parentElement.removeChild(loginWindow);
             alert(`success ${response.text()}`);
             delete SignUp.state.userSettings.authData;
+            SignUp.state.userSettings.authorized = false;
+            renderHeader(document.querySelector('#header') as HTMLElement, SignUp.state.userSettings);
           }
         })
         .catch((error) => {

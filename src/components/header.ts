@@ -18,7 +18,7 @@ const toHTML = (param: UserSettings): string => {
     </ul>
     </nav>
     <div class="login">
-    <span>${props.authorized ? 'Vasya' : 'Unauthorized user'}</span>
+    <span>${props.authorized ? props.authData?.name : 'Unauthorized user'}</span>
     <button data-link="login">${props.authorized ? 'LogOff' : 'LogIn'}</button>
   </div>
 </div>

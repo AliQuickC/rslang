@@ -81,9 +81,13 @@ function addEventsForApp(param: State): void {
             props.currentPage = CurrentPage.developmentTeam;
             break;
           case linkType.login:
-            props.authorized = !props.authorized;
-            // currentTarget.append(userAuthorizationElement); //auth off to be able to set up the application
-            renderHeader(app.querySelector('#header') as HTMLElement, props);
+            // props.authorized = !props.authorized;
+            if (!props.authorized){
+              currentTarget.append(userAuthorizationElement); //auth off to be able to set up the application
+            } else {
+              props.authorized = false;
+              renderHeader(app.querySelector('#header') as HTMLElement, props);
+            }
             break;
           default:
             break;
