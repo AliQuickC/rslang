@@ -162,19 +162,35 @@ export const getAggregatedUserWords = async (
   page: number | '' = '',
   wordsPerPage = 20,
   filter = ''
-): Promise<aggregatedUserWords> =>
-  (
-    await fetch(
-      `${users}/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}&filter=${filter}`,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+): Promise<aggregatedUserWords> => {
+  const response = await (async () =>
+    (
+      await fetch(
+        `${users}/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}&filter=${filter}`,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+    ).json())();
+
+  response[0].paginatedResults = response[0].paginatedResults.map(
+    (item: aggregatedUserWord) => {
+      const param = item;
+      if (item?.userWord) {
+        (<aggregatedUserWord>param).userWord = convertToUserWord(
+          (<aggregatedUserWord>param).userWord as UserWord
+        );
+        return param;
       }
-    )
-  ).json();
+      return param;
+    }
+  );
+
+  return response;
+};
 
 export const getAggregatedUserWordById = async (
   userId: string,

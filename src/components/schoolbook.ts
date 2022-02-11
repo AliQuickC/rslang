@@ -1,4 +1,4 @@
-import { getWordById, saveUserWord, updateUserWord } from '../modules/api';
+import { createUserWord, getWordById, updateUserWord } from '../modules/api';
 import {
   CurrentPageWord,
   Difficulty,
@@ -12,6 +12,8 @@ import { renewWoldListData } from './wold-service/wordlist-data';
 
 const audio = new Audio();
 const fileServer = 'https://learnwords-app.herokuapp.com/';
+const unselectedPage = 0;
+const difficultWordChapter = 7;
 
 const toHTML = (props: UserSettings): string => {
   return `  
@@ -39,7 +41,6 @@ const toHTML = (props: UserSettings): string => {
 
 async function addEventsForSchoolbook(props: State): Promise<void> {
   const userSett = props.userSettings;
-  const unselectedPage = 0;
   const schoolbook = document.getElementById('schoolbook');
 
   (<HTMLElement>schoolbook).addEventListener(
@@ -98,25 +99,29 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                 }
               });
               break;
-            case WordCardBtn.easy:
-              // console.log('wordId: ', wordId);
-              // console.log('props.currentPageWords: ', props.currentPageWords);
-              // eslint-disable-next-line no-case-declarations
-              const selectCard = props.currentPageWords.find(
+            case WordCardBtn.easy: {
+              const selectCardIndex = props.currentPageWords.findIndex(
                 (item) => item.id === wordId
               );
+              const selectCard = props.currentPageWords[selectCardIndex];
               if (selectCard?.userWord) {
                 if (selectCard.userWord.difficulty === Difficulty.easy) {
                   selectCard.userWord.difficulty = Difficulty.basic;
                 } else {
                   selectCard.userWord.difficulty = Difficulty.easy;
+                  if (
+                    props.userSettings.schoolbookCurrentPosition.chapter ===
+                    difficultWordChapter
+                  ) {
+                    props.currentPageWords.splice(selectCardIndex, 1);
+                  }
                 }
-                // updateUserWord(
-                //   userSett.authData.userId,
-                //   <string>wordId,
-                //   userSett.authData.token,
-                //   selectCard.userWord
-                // );
+                updateUserWord(
+                  userSett.authData.userId,
+                  <string>wordId,
+                  userSett.authData.token,
+                  selectCard.userWord
+                );
 
                 renderSchoolbookContent(
                   (<HTMLElement>schoolbook).querySelector(
@@ -131,12 +136,12 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                     answerResultArray: [],
                   },
                 };
-                // saveUserWord(
-                //   userSett.authData.userId,
-                //   <string>wordId,
-                //   userSett.authData.token,
-                //   <UserWord>(<CurrentPageWord>selectCard).userWord
-                // );
+                createUserWord(
+                  userSett.authData.userId,
+                  <string>wordId,
+                  userSett.authData.token,
+                  <UserWord>(<CurrentPageWord>selectCard).userWord
+                );
                 renderSchoolbookContent(
                   (<HTMLElement>schoolbook).querySelector(
                     '#schoolbook-content'
@@ -144,16 +149,57 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                   props
                 );
               }
-              // getAggregatedUserWordById(
-              //   '61fa738ef3d34a0016954e89',
-              //   wordId as string,
-              //   userSett.authData.token,
-              // ).then((x) => console.log(x.userWord?.difficulty));
-              // console.log('wordBtnType: ', wordBtnType);
               break;
+            }
             case WordCardBtn.difficult:
-              // console.log('wordId: ', wordId);
-              // console.log('wordBtnType: ', wordBtnType);
+              {
+                const selectCardIndex = props.currentPageWords.findIndex(
+                  (item) => item.id === wordId
+                );
+                const selectCard = props.currentPageWords[selectCardIndex];
+                if (selectCard?.userWord) {
+                  if (selectCard.userWord.difficulty !== Difficulty.difficult) {
+                    selectCard.userWord.difficulty = Difficulty.difficult;
+                  } else if (
+                    props.userSettings.schoolbookCurrentPosition.chapter ===
+                    difficultWordChapter
+                  ) {
+                    selectCard.userWord.difficulty = Difficulty.basic;
+                    props.currentPageWords.splice(selectCardIndex, 1);
+                  }
+                  updateUserWord(
+                    userSett.authData.userId,
+                    <string>wordId,
+                    userSett.authData.token,
+                    selectCard.userWord
+                  );
+                  renderSchoolbookContent(
+                    (<HTMLElement>schoolbook).querySelector(
+                      '#schoolbook-content'
+                    ) as HTMLElement,
+                    props
+                  );
+                } else {
+                  (<CurrentPageWord>selectCard).userWord = {
+                    difficulty: Difficulty.difficult,
+                    optional: {
+                      answerResultArray: [],
+                    },
+                  };
+                  createUserWord(
+                    userSett.authData.userId,
+                    <string>wordId,
+                    userSett.authData.token,
+                    <UserWord>(<CurrentPageWord>selectCard).userWord
+                  );
+                  renderSchoolbookContent(
+                    (<HTMLElement>schoolbook).querySelector(
+                      '#schoolbook-content'
+                    ) as HTMLElement,
+                    props
+                  );
+                }
+              }
               break;
             default:
               break;
