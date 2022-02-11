@@ -1,8 +1,6 @@
-import { aggregatedUserWord, CurrentPageWord, Word } from './types';
+import { aggregatedUserWord, CurrentPageWord, UserWord, Word } from './types';
 
-export default function convertObject(
-  obj: aggregatedUserWord | Word
-): CurrentPageWord {
+export function convertObject(obj: aggregatedUserWord | Word): CurrentPageWord {
   return {
     userWord: (<aggregatedUserWord>obj).userWord
       ? JSON.parse(JSON.stringify((<aggregatedUserWord>obj).userWord))
@@ -26,3 +24,16 @@ export default function convertObject(
     wordTranslate: obj.wordTranslate,
   };
 }
+
+export const convertUserWordToString = (obj: UserWord) =>
+  JSON.stringify(obj)
+    .split('')
+    .map((item) => {
+      if (item === '[') return '"[';
+      if (item === ']') return ']"';
+      return item;
+    })
+    .join('');
+
+export const convertToUserWord = (obj: UserWord): UserWord =>
+  JSON.parse(JSON.stringify(obj).replace(/"\[/g, '[').replace(/\]"/g, ']'));

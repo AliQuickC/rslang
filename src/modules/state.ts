@@ -1,4 +1,4 @@
-import { CurrentPage, UserSettings } from './types';
+import { Auth, CurrentPage, UserSettings } from './types';
 
 export const defaultUserSettings: UserSettings = {
   authorized: false,
@@ -7,6 +7,7 @@ export const defaultUserSettings: UserSettings = {
     chapter: 0,
     page: 0,
   },
+  authData: {} as Auth,
 };
 
 const state = {

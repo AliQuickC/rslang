@@ -4,6 +4,7 @@ import {
   UserWord,
   Word,
 } from './types';
+import { convertToUserWord, convertUserWordToString } from './utils';
 
 const base = 'https://learnwords-app.herokuapp.com';
 
@@ -21,49 +22,63 @@ export const getWordById = async (id: string): Promise<Word> =>
 export const getUserWords = async (
   userId: string,
   token: string
-): Promise<UserWord[]> =>
-  (
-    await fetch(`${users}/${userId}/words`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-  ).json();
+): Promise<UserWord[]> => {
+  const response = await (async () =>
+    (
+      await fetch(`${users}/${userId}/words`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    ).json())();
+
+  return response.map((item: UserWord) => convertToUserWord(item));
+};
 
 export const createUserWord = async (
   userId: string,
   wordId: string,
   token: string,
   body: UserWord
-): Promise<UserWord> =>
-  (
-    await fetch(`${users}/${userId}/words/${wordId}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    })
-  ).json();
+): Promise<UserWord> => {
+  const bodyStr = convertUserWordToString(body);
+
+  const response = await (async () =>
+    (
+      await fetch(`${users}/${userId}/words/${wordId}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: bodyStr,
+      })
+    ).json())();
+
+  return response;
+};
 
 export const getUserWordById = async (
   userId: string,
   wordId: string,
   token: string
-): Promise<UserWord> =>
-  (
-    await fetch(`${users}/${userId}/words/${wordId}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-  ).json();
+): Promise<UserWord> => {
+  const response = await (async () =>
+    (
+      await fetch(`${users}/${userId}/words/${wordId}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    ).json())();
+
+  return convertToUserWord(response);
+};
 
 export const getUserWordByIdStatus = async (
   userId: string,
@@ -85,18 +100,24 @@ export const updateUserWord = async (
   wordId: string,
   token: string,
   body: UserWord
-): Promise<UserWord> =>
-  (
-    await fetch(`${users}/${userId}/words/${wordId}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    })
-  ).json();
+): Promise<UserWord> => {
+  const bodyStr = convertUserWordToString(body);
+
+  const response = await (async () =>
+    (
+      await fetch(`${users}/${userId}/words/${wordId}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: bodyStr,
+      })
+    ).json())();
+
+  return response;
+};
 
 export const deleteUserWord = async (
   userId: string,
@@ -144,7 +165,7 @@ export const getAggregatedUserWords = async (
 ): Promise<aggregatedUserWords> =>
   (
     await fetch(
-      `${users}/${userId}/aggregatedWords/?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}&filter=${filter}`,
+      `${users}/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}&filter=${filter}`,
       {
         method: 'GET',
         headers: {

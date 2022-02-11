@@ -69,9 +69,12 @@ export enum Difficulty {
   difficult = 'difficult',
 }
 
+export interface UserWordOptionals {
+  answerResultArray: boolean[];
+}
 export interface UserWord {
   difficulty: Difficulty;
-  optional: object;
+  optional: UserWordOptionals;
 }
 
 export interface AggregatedWord {
@@ -137,6 +140,7 @@ export interface UserSettings {
     chapter: number;
     page: number;
   };
+  authData: Auth;
 }
 
 export interface State {

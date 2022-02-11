@@ -1,6 +1,14 @@
-import { getWordById } from '../modules/api';
-import { State, UserSettings, WordCardBtn } from '../modules/types';
+import { getWordById, saveUserWord, updateUserWord } from '../modules/api';
+import {
+  CurrentPageWord,
+  Difficulty,
+  State,
+  UserSettings,
+  UserWord,
+  WordCardBtn,
+} from '../modules/types';
 import renderSchoolbookContent from './schoolbook-content';
+import { renewWoldListData } from './wold-service/wordlist-data';
 
 const audio = new Audio();
 const fileServer = 'https://learnwords-app.herokuapp.com/';
@@ -29,7 +37,7 @@ const toHTML = (props: UserSettings): string => {
   `;
 };
 
-function addEventsForSchoolbook(props: State) {
+async function addEventsForSchoolbook(props: State): Promise<void> {
   const userSett = props.userSettings;
   const unselectedPage = 0;
   const schoolbook = document.getElementById('schoolbook');
@@ -44,6 +52,7 @@ function addEventsForSchoolbook(props: State) {
         if (chapterLink) {
           userSett.schoolbookCurrentPosition.chapter = Number(chapterLink);
           userSett.schoolbookCurrentPosition.page = unselectedPage;
+          await renewWoldListData(props);
           renderSchoolbookContent(
             (<HTMLElement>schoolbook).querySelector(
               '#schoolbook-content'
@@ -55,6 +64,7 @@ function addEventsForSchoolbook(props: State) {
 
         if (pageLink) {
           userSett.schoolbookCurrentPosition.page = Number(pageLink);
+          await renewWoldListData(props);
           renderSchoolbookContent(
             (<HTMLElement>schoolbook).querySelector(
               '#schoolbook-content'
@@ -89,17 +99,60 @@ function addEventsForSchoolbook(props: State) {
               });
               break;
             case WordCardBtn.easy:
-              console.log('wordId: ', wordId);
-              console.log('props.currentPageWords: ', props.currentPageWords);
+              // console.log('wordId: ', wordId);
+              // console.log('props.currentPageWords: ', props.currentPageWords);
+              // eslint-disable-next-line no-case-declarations
+              const selectCard = props.currentPageWords.find(
+                (item) => item.id === wordId
+              );
+              if (selectCard?.userWord) {
+                if (selectCard.userWord.difficulty === Difficulty.easy) {
+                  selectCard.userWord.difficulty = Difficulty.basic;
+                } else {
+                  selectCard.userWord.difficulty = Difficulty.easy;
+                }
+                // updateUserWord(
+                //   userSett.authData.userId,
+                //   <string>wordId,
+                //   userSett.authData.token,
+                //   selectCard.userWord
+                // );
+
+                renderSchoolbookContent(
+                  (<HTMLElement>schoolbook).querySelector(
+                    '#schoolbook-content'
+                  ) as HTMLElement,
+                  props
+                );
+              } else {
+                (<CurrentPageWord>selectCard).userWord = {
+                  difficulty: Difficulty.easy,
+                  optional: {
+                    answerResultArray: [],
+                  },
+                };
+                // saveUserWord(
+                //   userSett.authData.userId,
+                //   <string>wordId,
+                //   userSett.authData.token,
+                //   <UserWord>(<CurrentPageWord>selectCard).userWord
+                // );
+                renderSchoolbookContent(
+                  (<HTMLElement>schoolbook).querySelector(
+                    '#schoolbook-content'
+                  ) as HTMLElement,
+                  props
+                );
+              }
               // getAggregatedUserWordById(
               //   '61fa738ef3d34a0016954e89',
               //   wordId as string,
-              //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmE3MzhlZjNkMzRhMDAxNjk1NGU4OSIsImlhdCI6MTY0NDQ5NTM2NCwiZXhwIjoxNjQ0NTA5NzY0fQ.43PmdJbfq3P0ETjvQHwAM7giZn59jh7p7Tj8vCPBXu8',
+              //   userSett.authData.token,
               // ).then((x) => console.log(x.userWord?.difficulty));
               // console.log('wordBtnType: ', wordBtnType);
               break;
             case WordCardBtn.difficult:
-              console.log('wordId: ', wordId);
+              // console.log('wordId: ', wordId);
               // console.log('wordBtnType: ', wordBtnType);
               break;
             default:
@@ -111,14 +164,15 @@ function addEventsForSchoolbook(props: State) {
   );
 }
 
-export default function renderSchoolbook(
+export default async function renderSchoolbook(
   root: HTMLElement,
   props: State
-): void {
+): Promise<void> {
   const elem = root;
 
   elem.innerHTML = toHTML(props.userSettings);
 
+  await renewWoldListData(props);
   renderSchoolbookContent(
     elem.querySelector('#schoolbook-content') as HTMLElement,
     props

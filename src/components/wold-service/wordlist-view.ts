@@ -1,4 +1,9 @@
-import { CurrentPageWord, Difficulty, State, UserWord } from '../modules/types';
+import {
+  CurrentPageWord,
+  Difficulty,
+  State,
+  UserWord,
+} from '../../modules/types';
 
 const fileServer = 'https://learnwords-app.herokuapp.com/';
 
