@@ -46,7 +46,6 @@ function setPageState(props: UserSettings) {
 }
 
 function addEventsForApp(param: State): void {
-
   const userAuthInstance = new UserAuthorization(param);
   const userAuthorizationElement = userAuthInstance.readyElement;
 
@@ -58,7 +57,6 @@ function addEventsForApp(param: State): void {
     if (e.target) {
       const linkName = (<HTMLElement>e.target).dataset.link;
       const currentTarget = e.currentTarget as HTMLElement;
-
 
       if (linkName) {
         switch (linkName) {
@@ -84,10 +82,11 @@ function addEventsForApp(param: State): void {
             props.currentPage = CurrentPage.developmentTeam;
             break;
           case linkType.login:
-            if (!props.authorized){
+            if (!props.authorized) {
               currentTarget.append(userAuthorizationElement);
             } else {
               props.authorized = false;
+              delete props.authData;
               renderHeader(app.querySelector('#header') as HTMLElement, props);
             }
             break;
