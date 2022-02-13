@@ -1,0 +1,9 @@
+.button{
+  width: 275px;
+  height: 70px;
+  border-radius: $border-radius;
+  &:hover{
+    color: $active-button-font-color;
+    background: $selections-color;
+  }
+}

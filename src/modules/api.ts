@@ -173,7 +173,8 @@ export const getAggregatedUserWords = async (
             Accept: 'application/json',
             Authorization: `Bearer ${token}`,
           },
-        })
+        }
+      )
     ).json())();
 
   response[0].paginatedResults = response[0].paginatedResults.map(

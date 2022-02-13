@@ -1,13 +1,13 @@
 import { getAggregatedUserWords, getWords } from '../../modules/api';
 import {
   aggregatedUserWords,
+  Auth,
   CurrentPageWord,
   State,
   Word,
 } from '../../modules/types';
 import { convertObject } from '../../modules/utils';
 
-const totalPagesInChapter = 30;
 const totalWordsInPage = 20;
 const unselectedChapter = 0;
 const unselectedPage = 0;
@@ -19,12 +19,13 @@ export async function getWoldListData(
 ): Promise<CurrentPageWord[]> {
   const props = param;
   const userSett = props.userSettings;
+  const authData = <Auth>userSett.authData;
 
   if (userSett.authorized) {
     props.currentPageWords = await ((): Promise<CurrentPageWord[]> =>
       getAggregatedUserWords(
-        userSett.authData.userId,
-        userSett.authData.token,
+        authData.userId,
+        authData.token,
         '',
         '',
         totalWordsInPage,
@@ -50,10 +51,11 @@ export async function getDifficultWoldListData(
 ): Promise<CurrentPageWord[]> {
   const props = param;
   const userSett = props.userSettings;
+  const authData = <Auth>userSett.authData;
   props.currentPageWords = await ((): Promise<CurrentPageWord[]> =>
     getAggregatedUserWords(
-      userSett.authData.userId,
-      userSett.authData.token,
+      authData.userId,
+      authData.token,
       '',
       '',
       maxWords,

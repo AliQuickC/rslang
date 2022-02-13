@@ -24,10 +24,5 @@ const storeKEY = 'rslangSettings';
   window.addEventListener('beforeunload', setItemToLocalStorage);
 
   getLocalStorage();
-
-  // state.userSettings.authData.token =
-  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmE3MzhlZjNkMzRhMDAxNjk1NGU4OSIsImlhdCI6MTY0NDc1NjE1OCwiZXhwIjoxNjQ0NzcwNTU4fQ.A2KvjBUcM1VOeuUoo-oxhIFyZwiLcQwKFp1RzspF440';
-  // state.userSettings.authData.userId = '61fa738ef3d34a0016954e89';
-
   renderApp(document.getElementById('app') as HTMLElement, state);
 })();

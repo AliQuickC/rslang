@@ -140,7 +140,7 @@ export interface UserSettings {
     chapter: number;
     page: number;
   };
-  authData: Auth;
+  authData?: Auth;
 }
 
 export interface State {

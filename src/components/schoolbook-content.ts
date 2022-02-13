@@ -5,7 +5,6 @@ const toHTML = (param: State): string => {
   const props = param;
   const userSett = props.userSettings;
   const totalPagesInChapter = 30;
-  const totalWordsInPage = 20;
   const unselectedChapter = 0;
   const unselectedPage = 0;
   const difficultWordChapter = 7;

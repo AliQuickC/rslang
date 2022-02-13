@@ -1,5 +1,6 @@
 import { createUserWord, getWordById, updateUserWord } from '../modules/api';
 import {
+  Auth,
   CurrentPageWord,
   Difficulty,
   State,
@@ -100,6 +101,7 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
               });
               break;
             case WordCardBtn.easy: {
+              const authData = <Auth>userSett.authData;
               const selectCardIndex = props.currentPageWords.findIndex(
                 (item) => item.id === wordId
               );
@@ -117,9 +119,9 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                   }
                 }
                 updateUserWord(
-                  userSett.authData.userId,
+                  authData.userId,
                   <string>wordId,
-                  userSett.authData.token,
+                  authData.token,
                   selectCard.userWord
                 );
 
@@ -137,9 +139,9 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                   },
                 };
                 createUserWord(
-                  userSett.authData.userId,
+                  authData.userId,
                   <string>wordId,
-                  userSett.authData.token,
+                  authData.token,
                   <UserWord>(<CurrentPageWord>selectCard).userWord
                 );
                 renderSchoolbookContent(
@@ -153,6 +155,7 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
             }
             case WordCardBtn.difficult:
               {
+                const authData = <Auth>userSett.authData;
                 const selectCardIndex = props.currentPageWords.findIndex(
                   (item) => item.id === wordId
                 );
@@ -168,9 +171,9 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                     props.currentPageWords.splice(selectCardIndex, 1);
                   }
                   updateUserWord(
-                    userSett.authData.userId,
+                    authData.userId,
                     <string>wordId,
-                    userSett.authData.token,
+                    authData.token,
                     selectCard.userWord
                   );
                   renderSchoolbookContent(
@@ -187,9 +190,9 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                     },
                   };
                   createUserWord(
-                    userSett.authData.userId,
+                    authData.userId,
                     <string>wordId,
-                    userSett.authData.token,
+                    authData.token,
                     <UserWord>(<CurrentPageWord>selectCard).userWord
                   );
                   renderSchoolbookContent(

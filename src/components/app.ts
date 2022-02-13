@@ -8,6 +8,8 @@ import {
 import renderFooter from './footer';
 import renderHeader from './header';
 
+import UserAuthorization from './user-authorization/user-authorization';
+
 const toHTML = (): string => {
   return `
   <header class="header" id="header">
@@ -37,6 +39,9 @@ function setPageState(props: UserSettings) {
 }
 
 function addEventsForApp(param: State): void {
+  const userAuthInstance = new UserAuthorization(param);
+  const userAuthorizationElement = userAuthInstance.readyElement;
+
   const props = param.userSettings;
   const app = document.getElementById('app') as HTMLElement;
   const main = document.getElementById('main') as HTMLElement;
@@ -44,6 +49,7 @@ function addEventsForApp(param: State): void {
   document.body.addEventListener('click', async (e) => {
     if (e.target) {
       const linkName = (<HTMLElement>e.target).dataset.link;
+      const currentTarget = e.currentTarget as HTMLElement;
 
       if (linkName) {
         switch (linkName) {
@@ -70,8 +76,13 @@ function addEventsForApp(param: State): void {
             props.currentPage = CurrentPage.developmentTeam;
             break;
           case linkType.login:
-            props.authorized = !props.authorized;
-            renderHeader(app.querySelector('#header') as HTMLElement, props);
+            if (!props.authorized) {
+              currentTarget.append(userAuthorizationElement);
+            } else {
+              props.authorized = false;
+              delete props.authData;
+              renderHeader(app.querySelector('#header') as HTMLElement, props);
+            }
             break;
           default:
             break;
