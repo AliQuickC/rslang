@@ -6,7 +6,7 @@ import {
   UserSettings,
 } from '../modules/types';
 import renderFooter from './footer';
-import renderHeader from './header';
+import renderHeader, { activeMenuItem } from './header';
 
 import UserAuthorization from './user-authorization/user-authorization';
 
@@ -20,19 +20,6 @@ const toHTML = (): string => {
   </footer>  
   `;
 };
-
-function activeMenuItem(props: UserSettings): void {
-  const header = document.querySelector('#header') as HTMLElement;
-  const menuItems = header.querySelectorAll('.menu__item');
-
-  menuItems.forEach((item) => {
-    if ((<HTMLElement>item).dataset.link === linkType[props.currentPage]) {
-      item.classList.add('active');
-    } else {
-      item.classList.remove('active');
-    }
-  });
-}
 
 function setPageState(props: UserSettings) {
   activeMenuItem(props);

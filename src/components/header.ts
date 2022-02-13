@@ -1,7 +1,8 @@
-import { UserSettings } from '../modules/types';
+import { linkType, UserSettings } from '../modules/types';
 
 const toHTML = (param: UserSettings): string => {
   const props = param;
+
   return `
   <div class="container header-container">
   <nav class="nav">
@@ -26,6 +27,19 @@ const toHTML = (param: UserSettings): string => {
 </div>
 `;
 };
+
+export function activeMenuItem(props: UserSettings): void {
+  const header = document.querySelector('#header') as HTMLElement;
+  const menuItems = header.querySelectorAll('.menu__item');
+
+  menuItems.forEach((item) => {
+    if ((<HTMLElement>item).dataset.link === linkType[props.currentPage]) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+}
 
 export default function renderHeader(
   root: HTMLElement,

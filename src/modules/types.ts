@@ -140,6 +140,7 @@ export interface UserSettings {
     chapter: number;
     page: number;
   };
+
   authData?: Auth;
 }
 
