@@ -60,6 +60,7 @@ export default function wordsListHTML(props: State): string {
     <span class="word__example">${item.textExample}</span><br>
     <span class="word__example-translate">${item.textExampleTranslate}</span>
   </p>
+  
   </div>`;
     })
     .join('');

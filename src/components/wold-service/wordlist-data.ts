@@ -12,6 +12,7 @@ const totalWordsInPage = 20;
 const unselectedChapter = 0;
 const unselectedPage = 0;
 const difficultWordChapter = 7;
+const maxWords = 3600;
 
 export async function getWoldListData(
   param: State
@@ -55,7 +56,7 @@ export async function getDifficultWoldListData(
       userSett.authData.token,
       '',
       '',
-      totalWordsInPage,
+      maxWords,
       `{"userWord.difficulty":"difficult"}`
     ).then((x: aggregatedUserWords) =>
       x[0].paginatedResults.map((item) => convertObject(item))
