@@ -14,6 +14,7 @@ export default function wordsListHTML(props: State): string {
       let wordClass = '';
       let easyBtnTitle = '';
       let difficultyBtnTitle = '';
+      let progress = '';
       if (userSett.authorized) {
         if (item.userWord !== undefined) {
           const wordDifficulty = (<UserWord>item.userWord).difficulty;
@@ -26,6 +27,21 @@ export default function wordsListHTML(props: State): string {
             wordClass === Difficulty.difficult
               ? 'Сложное слово'
               : 'Добавить в Сложные слова';
+          if (item.userWord.optional.answerResultArray.length !== 0) {
+            const answerResult = item.userWord.optional.answerResultArray;
+            const numberOfStudies = answerResult.length;
+            const correctAnswers = answerResult.reduce(
+              (summ, elem) => (elem ? summ + 1 : summ),
+              0
+            );
+            const percentCorrect = Math.round(
+              correctAnswers / (numberOfStudies / 100)
+            );
+            progress = `<div class="word__progress progress">
+            <progress class="progress__line" max="100" value="${percentCorrect}"></progress>
+            <span class="progress__info">Progress: ${correctAnswers} correct out of ${numberOfStudies}</span>
+          </div>`;
+          }
         } else {
           easyBtnTitle = 'Пометить слово как Изучено';
           difficultyBtnTitle = 'Добавить в Сложные слова';
@@ -60,7 +76,7 @@ export default function wordsListHTML(props: State): string {
     <span class="word__example">${item.textExample}</span><br>
     <span class="word__example-translate">${item.textExampleTranslate}</span>
   </p>
-  
+    ${progress}
   </div>`;
     })
     .join('');
