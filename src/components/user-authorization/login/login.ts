@@ -4,7 +4,7 @@ import Button from '../../universal-button/button';
 import { idNameEmailPasswordType } from '../../utilites/types';
 import User from '../userApi/userApi';
 import { RenderPage, State } from '../../../modules/types';
-import renderHeader, { activeMenuItem } from '../../header';
+import renderHeader, { activateMenuItem } from '../../header';
 import getErrorWindow from '../error-window/error-window';
 import { errorMessage } from '../../utilites/consts';
 
@@ -75,7 +75,7 @@ export default class Login {
             document.querySelector('#header') as HTMLElement,
             Login.state.userSettings
           );
-          activeMenuItem(Login.state.userSettings);
+          activateMenuItem(Login.state.userSettings);
           RenderPage[Login.state.userSettings.currentPage](
             document.querySelector('#main') as HTMLElement,
             Login.state

@@ -174,7 +174,7 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
                   (item) => item.id === wordId
                 );
                 const selectCard = props.currentPageWords[selectCardIndex];
-                if (selectCard?.userWord) {
+                if (selectCard.userWord) {
                   if (selectCard.userWord.difficulty !== Difficulty.difficult) {
                     selectCard.userWord.difficulty = Difficulty.difficult;
                   } else if (

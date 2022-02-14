@@ -28,7 +28,7 @@ const toHTML = (param: UserSettings): string => {
 `;
 };
 
-export function activeMenuItem(props: UserSettings): void {
+export function activateMenuItem(props: UserSettings): void {
   const header = document.querySelector('#header') as HTMLElement;
   const menuItems = header.querySelectorAll('.menu__item');
 

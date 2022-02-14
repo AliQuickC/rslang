@@ -6,7 +6,7 @@ import {
   UserSettings,
 } from '../modules/types';
 import renderFooter from './footer';
-import renderHeader, { activeMenuItem } from './header';
+import renderHeader, { activateMenuItem } from './header';
 
 import UserAuthorization from './user-authorization/user-authorization';
 
@@ -22,7 +22,7 @@ const toHTML = (): string => {
 };
 
 function setPageState(props: UserSettings) {
-  activeMenuItem(props);
+  activateMenuItem(props);
 }
 
 function addEventsForApp(param: State): void {
@@ -75,7 +75,7 @@ function addEventsForApp(param: State): void {
             break;
         }
         RenderPage[props.currentPage](main, param);
-        activeMenuItem(props);
+        activateMenuItem(props);
       }
     }
   });

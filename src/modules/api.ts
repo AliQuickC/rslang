@@ -158,15 +158,17 @@ export const saveUserWord = async (
 export const getAggregatedUserWords = async (
   userId: string,
   token: string,
-  group: number | '' = '',
-  page: number | '' = '',
+  group: number | undefined = undefined,
+  page: number | undefined = undefined,
   wordsPerPage = 20,
   filter = ''
 ): Promise<aggregatedUserWords> => {
   const response = await (async () =>
     (
       await fetch(
-        `${users}/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}&filter=${filter}`,
+        `${users}/${userId}/aggregatedWords?group=${group || ''}&page=${
+          page || ''
+        }&wordsPerPage=${wordsPerPage}&filter=${filter}`,
         {
           method: 'GET',
           headers: {

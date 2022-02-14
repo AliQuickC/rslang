@@ -28,8 +28,8 @@ function getAggrWoldListData(
   return getAggregatedUserWords(
     authData.userId,
     authData.token,
-    '',
-    '',
+    undefined,
+    undefined,
     totalWordsInPage,
     `{"$and": [{"group": ${chapter - 1}}, {"page": ${page - 1}}]}`
   ).then((x: aggregatedUserWords) =>
@@ -83,8 +83,8 @@ export async function getDifficultWoldListData(
     getAggregatedUserWords(
       authData.userId,
       authData.token,
-      '',
-      '',
+      undefined,
+      undefined,
       maxWords,
       `{"userWord.difficulty":"difficult"}`
     ).then((x: aggregatedUserWords) =>

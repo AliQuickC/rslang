@@ -6,7 +6,6 @@ import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
 
-// eslint-disable-next-line no-shadow
 export enum linkType {
   general = 'general',
   aboutApp = 'aboutApp',
@@ -18,7 +17,6 @@ export enum linkType {
   login = 'login',
 }
 
-// eslint-disable-next-line no-shadow
 export enum CurrentPage {
   general = 'general',
   aboutApp = 'aboutApp',
@@ -39,7 +37,6 @@ export const RenderPage = {
   developmentTeam: renderTeam,
 };
 
-// eslint-disable-next-line no-shadow
 export enum WordCardBtn {
   sound = 'sound',
   easy = 'easy',
@@ -62,7 +59,6 @@ export interface Word {
   wordTranslate: string;
 }
 
-// eslint-disable-next-line no-shadow
 export enum Difficulty {
   easy = 'easy',
   basic = 'basic',
