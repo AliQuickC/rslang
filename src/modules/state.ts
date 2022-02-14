@@ -12,6 +12,7 @@ export const defaultUserSettings: UserSettings = {
 
 const state = {
   userSettings: {} as UserSettings,
+  currentChapterPage: [],
   currentPageWords: [],
 };
 export default state;

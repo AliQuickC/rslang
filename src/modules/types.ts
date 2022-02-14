@@ -146,5 +146,6 @@ export interface UserSettings {
 
 export interface State {
   userSettings: UserSettings;
+  currentChapterPage: boolean[];
   currentPageWords: CurrentPageWord[];
 }

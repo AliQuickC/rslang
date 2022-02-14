@@ -1,5 +1,5 @@
-import { State } from '../modules/types';
-import wordsListHTML from './wold-service/wordlist-view';
+import { State } from '../../modules/types';
+import wordsListHTML from './wordlist-view';
 
 const toHTML = (param: State): string => {
   const props = param;
@@ -52,6 +52,8 @@ const toHTML = (param: State): string => {
   for (let i = 0; i < totalPagesInChapter; i += 1) {
     pages += `<div class="schoolbook-content__page page-chapter${
       userSett.schoolbookCurrentPosition.chapter
+    } ${
+      userSett.authData && props.currentChapterPage[i] ? 'page-explored' : ''
     }" data-page-number="${i + 1}">Страница ${i + 1}</div>`;
   }
 

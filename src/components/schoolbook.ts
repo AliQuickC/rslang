@@ -8,8 +8,8 @@ import {
   UserWord,
   WordCardBtn,
 } from '../modules/types';
-import renderSchoolbookContent from './schoolbook-content';
-import { renewWoldListData } from './wold-service/wordlist-data';
+import renderSchoolbookContent from './wold-service/schoolbook-content';
+import { renewPageListData, renewWoldListData } from './wold-service/word-data';
 
 const audio = new Audio();
 const fileServer = 'https://learnwords-app.herokuapp.com/';
@@ -54,7 +54,17 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
         if (chapterLink) {
           userSett.schoolbookCurrentPosition.chapter = Number(chapterLink);
           userSett.schoolbookCurrentPosition.page = unselectedPage;
-          await renewWoldListData(props);
+
+          if (
+            userSett.schoolbookCurrentPosition.chapter === difficultWordChapter
+          ) {
+            await renewWoldListData(props);
+          }
+          await renewPageListData(
+            props,
+            userSett.schoolbookCurrentPosition.chapter
+          );
+
           renderSchoolbookContent(
             (<HTMLElement>schoolbook).querySelector(
               '#schoolbook-content'
@@ -67,6 +77,10 @@ async function addEventsForSchoolbook(props: State): Promise<void> {
         if (pageLink) {
           userSett.schoolbookCurrentPosition.page = Number(pageLink);
           await renewWoldListData(props);
+          await renewPageListData(
+            props,
+            userSett.schoolbookCurrentPosition.chapter
+          );
           renderSchoolbookContent(
             (<HTMLElement>schoolbook).querySelector(
               '#schoolbook-content'
@@ -222,6 +236,10 @@ export default async function renderSchoolbook(
   elem.innerHTML = toHTML(props.userSettings);
 
   await renewWoldListData(props);
+  await renewPageListData(
+    props,
+    props.userSettings.schoolbookCurrentPosition.chapter
+  );
   renderSchoolbookContent(
     elem.querySelector('#schoolbook-content') as HTMLElement,
     props

@@ -50,9 +50,22 @@
   align-items: center
   text-align: center
   cursor: pointer
+  border-radius: 3px
 
 .page-explored
   border: 3px solid var(--easy-color)
+  position: relative
+  &::after
+    position: absolute
+    bottom: 5px
+    content: ''
+    width: 20px
+    height: 20px
+    background: var(--easy-color)
+    -webkit-mask-image: url(../assets/svg/checkmark.svg)
+    mask-image: url(../assets/svg/checkmark.svg)
+    -webkit-mask-size: cover
+    mask-size: cover
 
 .page-chapter1
   background-color: var(--chapter1-color)  
