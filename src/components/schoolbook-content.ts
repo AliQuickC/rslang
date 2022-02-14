@@ -32,7 +32,7 @@ const toHTML = (param: State): string => {
     return `  
     <div class="schoolbook-content__title-wrap">
       <h2 class="schoolbook-content__title">Раздел: ${userSett.schoolbookCurrentPosition.chapter}, Страница: ${userSett.schoolbookCurrentPosition.page}</h2>
-      <button data-page-number="0">↵ К списку страниц</button>
+      <button class="schoolbook-content__backbtn" data-page-number="0">↵ К списку страниц</button>
     </div>
     <div class="schoolbook-content__word-wrap">
       ${wordsOnThePage}
@@ -50,9 +50,9 @@ const toHTML = (param: State): string => {
 
   let pages = '';
   for (let i = 0; i < totalPagesInChapter; i += 1) {
-    pages += `<div class="schoolbook-content__page" data-page-number="${
-      i + 1
-    }">Страница ${i + 1}</div>`;
+    pages += `<div class="schoolbook-content__page page-chapter${
+      userSett.schoolbookCurrentPosition.chapter
+    }" data-page-number="${i + 1}">Страница ${i + 1}</div>`;
   }
 
   return `      

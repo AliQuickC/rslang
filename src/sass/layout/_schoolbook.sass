@@ -1,11 +1,35 @@
-.chapters-wrap
-  border-bottom: 2px solid #fff  
+.chapters-wrap 
   display: flex
   justify-content: center
   flex-wrap: wrap
+  padding-bottom: 10px
+
+.chapter-tab  
+  border: none
+  border-radius: 0 0 5px 5px
+  height: 25px
+
+.chapter1-tab  
+  background-color: var(--chapter1-color)
+.chapter2-tab  
+  background-color: var(--chapter2-color)
+.chapter3-tab  
+  background-color: var(--chapter3-color)
+.chapter4-tab  
+  background-color: var(--chapter4-color)
+.chapter5-tab  
+  background-color: var(--chapter5-color)
+.chapter6-tab  
+  background-color: var(--chapter6-color)
+.chapter7-tab  
+  background-color: var(--chapter7-color)
 
 .schoolbook-content__title  
   margin: 10px 0 5px 0
+
+.schoolbook-content__backbtn  
+  border-radius: 5px
+  height: 25px
 
 .schoolbook-content__page-wrap, .schoolbook-content__word-wrap
   display: flex
@@ -27,6 +51,23 @@
   text-align: center
   cursor: pointer
 
+.page-explored
+  border: 3px solid var(--easy-color)
+
+.page-chapter1
+  background-color: var(--chapter1-color)  
+.page-chapter2
+  background-color: var(--chapter2-color)
+.page-chapter3
+  background-color: var(--chapter3-color)  
+.page-chapter4
+  background-color: var(--chapter4-color)
+.page-chapter5
+  background-color: var(--chapter5-color)  
+.page-chapter6
+  background-color: var(--chapter6-color)   
+
+
 .schoolbook-content__title-wrap  
   display: flex
   justify-content: space-between
@@ -35,12 +76,12 @@
 
 .word
   width: 400px
-  background-color: #fff
+  background-color: var(--wordcard-color)
   border-radius: 10px
   padding: 10px
 
 .word.easy
-  border: 3px solid green  
+  border: 3px solid var(--easy-color)
 .word.difficult
   border: 3px solid red
 
@@ -61,24 +102,24 @@
 
 .word__easybtn
   margin-bottom: 8px
-  background: rgba(green, 0.3)
+  background: var(--easy-color-unselect)
   -webkit-mask-image: url(../assets/svg/easy.svg)
   mask-image: url(../assets/svg/easy.svg)
   -webkit-mask-size: cover
   mask-size: cover
 
 .word.easy .word__easybtn
-  background: rgba(green, 1.0)
+  background: var(--easy-color)
 
 .word__difficultbtn
-  background: rgba(red, 0.3)
+  background: rgba(255,0,0, 0.3)
   -webkit-mask-image: url(../assets/svg/think.svg)
   mask-image: url(../assets/svg/think.svg)
   -webkit-mask-size: cover
   mask-size: cover
 
 .word.difficult .word__difficultbtn
-  background: rgba(red, 1.0)
+  background: rgba(255,0,0, 1.0)
 
 .word__name
   display: block
