@@ -31,8 +31,12 @@ const toHTML = (param: State): string => {
 
     return `  
     <div class="schoolbook-content__title-wrap">
-      <h2 class="schoolbook-content__title">Раздел: ${userSett.schoolbookCurrentPosition.chapter}, Страница: ${userSett.schoolbookCurrentPosition.page}</h2>
-      <button class="schoolbook-content__backbtn" data-page-number="0">↵ К списку страниц</button>
+      <h2 class="schoolbook-content__title"><span>Раздел: ${userSett.schoolbookCurrentPosition.chapter},&nbsp</span><span>Страница: ${userSett.schoolbookCurrentPosition.page}</span></h2>
+      <div class="schoolbook-content__buttons-wrap">
+        <button class="schoolbook-content__btn button-audiocall" data-link="audio-call-page">Изучать с игрой - Audio call</button>
+        <button class="schoolbook-content__btn button-sprint" data-link="sprint-page">Изучать с игрой - Sprint</button>
+      </div>      
+      <button class="schoolbook-content__btn button-back" data-page-number="0">↵ К списку страниц</button>
     </div>
     <div class="schoolbook-content__word-wrap">
       ${wordsOnThePage}
@@ -57,8 +61,7 @@ const toHTML = (param: State): string => {
     }" data-page-number="${i + 1}">Страница ${i + 1}</div>`;
   }
 
-  return `      
-    <h2 class="schoolbook-content__title">Раздел: ${userSett.schoolbookCurrentPosition.chapter}</h2>
+  return `<h2 class="schoolbook-content__title">Раздел: ${userSett.schoolbookCurrentPosition.chapter}</h2>
     <div class="schoolbook-content__page-wrap">${pages}</div> 
   `;
 };
