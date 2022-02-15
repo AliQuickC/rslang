@@ -1,7 +1,8 @@
-import { UserSettings } from '../modules/types';
+import { linkType, UserSettings } from '../modules/types';
 
 const toHTML = (param: UserSettings): string => {
   const props = param;
+
   return `
   <div class="container header-container">
   <nav class="nav">
@@ -18,14 +19,29 @@ const toHTML = (param: UserSettings): string => {
     </ul>
     </nav>
     <div class="login">
-    <span>${
+    <span class="login__name">${
       props.authorized ? props.authData?.name : 'Unauthorized user'
     }</span>
-    <button data-link="login">${props.authorized ? 'LogOff' : 'LogIn'}</button>
+    <button class="login__btn" data-link="login">${
+      props.authorized ? 'LogOff' : 'LogIn'
+    }</button>
   </div>
 </div>
 `;
 };
+
+export function activateMenuItem(props: UserSettings): void {
+  const header = document.querySelector('#header') as HTMLElement;
+  const menuItems = header.querySelectorAll('.menu__item');
+
+  menuItems.forEach((item) => {
+    if ((<HTMLElement>item).dataset.link === linkType[props.currentPage]) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+}
 
 export default function renderHeader(
   root: HTMLElement,
