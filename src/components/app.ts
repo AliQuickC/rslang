@@ -16,6 +16,7 @@ import renderTeam from './team';
 import renderAboutApp from './about-app';
 
 import UserAuthorization from './user-authorization/user-authorization';
+import Game from "./audio-challenge-game/game-class";
 
 const toHTML = (): string => {
   return `
@@ -48,6 +49,7 @@ function setPageState(props: UserSettings) {
 function addEventsForApp(param: State): void {
   const userAuthInstance = new UserAuthorization(param);
   const userAuthorizationElement = userAuthInstance.readyElement;
+  const gameInstance = new Game(param);
 
   const props = param.userSettings;
   const app = document.getElementById('app') as HTMLElement;
@@ -71,6 +73,7 @@ function addEventsForApp(param: State): void {
             break;
           case linkType.audioCallGame:
             props.currentPage = CurrentPage.audioCallGame;
+            gameInstance.getDataForGame();
             break;
           case linkType.sprintGame:
             props.currentPage = CurrentPage.sprintGame;

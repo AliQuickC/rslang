@@ -5,7 +5,7 @@ import {
   requestOptionsType,
   urlType,
 } from '../../utilites/types';
-import { usersUrl } from '../../utilites/consts';
+import { urlSignIn, urlUsers } from "../../utilites/consts";
 
 export default class User {
   static getRequest(
@@ -35,7 +35,7 @@ export default class User {
       redirect: 'follow',
     };
 
-    fetch(`${usersUrl}/${id}`, requestOptions)
+    fetch(`${urlUsers}/${id}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
@@ -54,17 +54,7 @@ export default class User {
       redirect: 'follow',
     };
 
-    return fetch('https://learnwords-app.herokuapp.com/users', requestOptions);
-    // .then((response) => {
-    //   if (response.ok) {
-    //     // this.clearInputs();
-    //   }
-    //   return response.text();
-    // })
-    // .then((result) => {
-    //   console.log(result);
-    // })
-    // .catch((error) => console.log('error', error, 'help'));
+    return fetch(urlUsers, requestOptions);
   }
 
   static signIn(value: idNameEmailPasswordType) {
@@ -83,19 +73,7 @@ export default class User {
       redirect: 'follow',
     };
 
-    return fetch('https://learnwords-app.herokuapp.com/signin', requestOptions);
-    // .then((response) => {
-    //   if (response.ok) {
-    //     // this.clearInputs();
-    //   }
-    //   return response;
-    // })
-    // .then((result) => {
-    //   // this.clearInputs();
-    //   console.log(result);
-    //   return result;
-    // })
-    // .catch((error) => console.log('error', error));
+    return fetch(urlSignIn, requestOptions);
   }
 
   // signUp() {
@@ -120,7 +98,7 @@ export default class User {
       redirect: 'follow',
     };
 
-    fetch(`${usersUrl}/${requestObject.userId}`, requestOptions)
+    fetch(`${urlUsers}/${requestObject.userId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));

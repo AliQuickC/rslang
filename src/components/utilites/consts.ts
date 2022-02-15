@@ -1,7 +1,10 @@
-export const usersUrl = 'https://learnwords-app.herokuapp.com/users/';
-export const signinUrl = 'https://learnwords-app.herokuapp.com/signin/';
+export const urlUsers = 'https://learnwords-app.herokuapp.com/users';
+export const urlSignIn = 'https://learnwords-app.herokuapp.com/signin';
+export const urlWords = 'https://learnwords-app.herokuapp.com/words';
 export const localStorageCurrentUserObjectName = 'currentUser';
 export const brokenAuthorizationMessage = 'You are not authorized';
+export const wordsPerPage = 10;
+export const pagesCount = 30;
 export const errorMessage = {
   wrongPasswordRepeat: 'wrong password repeat',
   wrongPasswordLength: 'password length must be longer than 8 character',

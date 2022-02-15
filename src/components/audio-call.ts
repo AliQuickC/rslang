@@ -9,7 +9,5 @@ const toHTML = (): string => {
 };
 
 export default function renderAudioCall(root: HTMLElement): void {
-  const elem = root;
-
-  elem.innerHTML = toHTML();
+  root.innerHTML = toHTML();
 }
