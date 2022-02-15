@@ -3,9 +3,8 @@ import getHtmlFromString from '../../utilites/geHtmlFromString';
 import Button from '../../universal-button/button';
 import { idNameEmailPasswordType } from '../../utilites/types';
 import User from '../userApi/userApi';
-import { State } from '../../../modules/types';
-import renderHeader from '../../header';
-import renderGeneralPage from '../../general-page';
+import { RenderPage, State } from '../../../modules/types';
+import renderHeader, { activateMenuItem } from '../../header';
 import getErrorWindow from '../error-window/error-window';
 import { errorMessage } from '../../utilites/consts';
 
@@ -76,8 +75,9 @@ export default class Login {
             document.querySelector('#header') as HTMLElement,
             Login.state.userSettings
           );
-          renderGeneralPage(
-            document.querySelector('#general') as HTMLElement,
+          activateMenuItem(Login.state.userSettings);
+          RenderPage[Login.state.userSettings.currentPage](
+            document.querySelector('#main') as HTMLElement,
             Login.state
           );
         } else {

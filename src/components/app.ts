@@ -5,15 +5,8 @@ import {
   State,
   UserSettings,
 } from '../modules/types';
-import renderAudioCall from './audio-call';
 import renderFooter from './footer';
-import renderGeneralPage from './general-page';
-import renderHeader from './header';
-import renderSprint from './sprint';
-import renderSchoolbook from './schoolbook';
-import renderStatistics from './statistics';
-import renderTeam from './team';
-import renderAboutApp from './about-app';
+import renderHeader, { activateMenuItem } from './header';
 
 import UserAuthorization from './user-authorization/user-authorization';
 
@@ -28,21 +21,8 @@ const toHTML = (): string => {
   `;
 };
 
-function activeMenuItem(props: UserSettings): void {
-  const header = document.querySelector('#header') as HTMLElement;
-  const menuItems = header.querySelectorAll('.menu__item');
-
-  menuItems.forEach((item) => {
-    if ((<HTMLElement>item).dataset.link === linkType[props.currentPage]) {
-      item.classList.add('active');
-    } else {
-      item.classList.remove('active');
-    }
-  });
-}
-
 function setPageState(props: UserSettings) {
-  activeMenuItem(props);
+  activateMenuItem(props);
 }
 
 function addEventsForApp(param: State): void {
@@ -68,6 +48,7 @@ function addEventsForApp(param: State): void {
             break;
           case linkType.schoolbook:
             props.currentPage = CurrentPage.schoolbook;
+            props.schoolbookCurrentPosition.chapter = 0;
             break;
           case linkType.audioCallGame:
             props.currentPage = CurrentPage.audioCallGame;
@@ -94,7 +75,7 @@ function addEventsForApp(param: State): void {
             break;
         }
         RenderPage[props.currentPage](main, param);
-        activeMenuItem(props);
+        activateMenuItem(props);
       }
     }
   });

@@ -6,7 +6,6 @@ import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
 
-// eslint-disable-next-line no-shadow
 export enum linkType {
   general = 'general',
   aboutApp = 'aboutApp',
@@ -18,7 +17,6 @@ export enum linkType {
   login = 'login',
 }
 
-// eslint-disable-next-line no-shadow
 export enum CurrentPage {
   general = 'general',
   aboutApp = 'aboutApp',
@@ -39,6 +37,11 @@ export const RenderPage = {
   developmentTeam: renderTeam,
 };
 
+export enum WordCardBtn {
+  sound = 'sound',
+  easy = 'easy',
+  difficult = 'difficult',
+}
 export interface Word {
   id: string;
   group: number;
@@ -56,12 +59,42 @@ export interface Word {
   wordTranslate: string;
 }
 
-export interface UserWord {
-  difficulty: string;
-  optional: object;
+export enum Difficulty {
+  easy = 'easy',
+  basic = 'basic',
+  difficult = 'difficult',
 }
 
-export interface aggregatedUserWord extends Word {
+export interface UserWordOptionals {
+  answerResultArray: boolean[];
+}
+export interface UserWord {
+  difficulty: Difficulty;
+  optional: UserWordOptionals;
+}
+
+export interface AggregatedWord {
+  _id: string;
+  group: number;
+  page: number;
+  word: string;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  textMeaning: string;
+  textExample: string;
+  transcription: string;
+  textExampleTranslate: string;
+  textMeaningTranslate: string;
+  wordTranslate: string;
+}
+
+export interface aggregatedUserWord extends AggregatedWord {
+  userWord: UserWord | undefined;
+}
+
+export interface CurrentPageWord extends Word {
   userWord: UserWord | undefined;
 }
 
@@ -103,9 +136,12 @@ export interface UserSettings {
     chapter: number;
     page: number;
   };
+
   authData?: Auth;
 }
 
 export interface State {
   userSettings: UserSettings;
+  currentChapterPage: boolean[];
+  currentPageWords: CurrentPageWord[];
 }
