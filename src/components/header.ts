@@ -1,7 +1,8 @@
-import { linkType, UserSettings } from '../modules/types';
+import { linkType, State, UserSettings } from '../modules/types';
 
-const toHTML = (param: UserSettings): string => {
+const toHTML = (param: State): string => {
   const props = param;
+  const userSett = param.userSettings;
 
   return `
   <div class="container header-container">
@@ -9,10 +10,10 @@ const toHTML = (param: UserSettings): string => {
   <ul class="menu">
       <li class="menu__item active" data-link="general">Главная</li>
       <li class="menu__item" data-link="schoolbook">Учебник</li>
-      <li class="menu__item" data-link="audio-call-game">Audio call Game</li>
-      <li class="menu__item" data-link="sprint-game">Sprint Game</li>
+      <li class="menu__item" data-link="audio-call-game-level">Audio call Game</li>
+      <li class="menu__item" data-link="sprint-game-level">Sprint Game</li>
       ${
-        props.authorized
+        userSett.authorized
           ? '<li class="menu__item" data-link="statistics">Статистика</li>'
           : ''
       }
@@ -20,22 +21,22 @@ const toHTML = (param: UserSettings): string => {
     </nav>
     <div class="login">
     <span class="login__name">${
-      props.authorized ? props.authData?.name : 'Unauthorized user'
+      userSett.authorized ? userSett.authData?.name : 'Unauthorized user'
     }</span>
     <button class="login__btn" data-link="login">${
-      props.authorized ? 'LogOff' : 'LogIn'
+      userSett.authorized ? 'LogOff' : 'LogIn'
     }</button>
   </div>
 </div>
 `;
 };
 
-export function activateMenuItem(props: UserSettings): void {
+export function activateMenuItem(props: State): void {
   const header = document.querySelector('#header') as HTMLElement;
   const menuItems = header.querySelectorAll('.menu__item');
 
   menuItems.forEach((item) => {
-    if ((<HTMLElement>item).dataset.link === linkType[props.currentPage]) {
+    if ((<HTMLElement>item).dataset.link === linkType[props.currentMenuItem]) {
       item.classList.add('active');
     } else {
       item.classList.remove('active');
@@ -43,10 +44,7 @@ export function activateMenuItem(props: UserSettings): void {
   });
 }
 
-export default function renderHeader(
-  root: HTMLElement,
-  props: UserSettings
-): void {
+export default function renderHeader(root: HTMLElement, props: State): void {
   const elem = root;
   elem.innerHTML = toHTML(props);
 }

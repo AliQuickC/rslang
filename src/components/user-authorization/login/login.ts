@@ -73,9 +73,9 @@ export default class Login {
           Login.state.userSettings.authorized = true;
           renderHeader(
             document.querySelector('#header') as HTMLElement,
-            Login.state.userSettings
+            Login.state
           );
-          activateMenuItem(Login.state.userSettings);
+          activateMenuItem(Login.state);
           RenderPage[Login.state.userSettings.currentPage](
             document.querySelector('#main') as HTMLElement,
             Login.state

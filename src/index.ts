@@ -16,6 +16,7 @@ const storeKEY = 'rslangSettings';
     }
 
     state.userSettings = JSON.parse(localStorage.getItem(storeKEY) as string);
+    state.currentMenuItem = state.userSettings.currentPage;
   }
 
   function setItemToLocalStorage(): void {

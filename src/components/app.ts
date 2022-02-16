@@ -5,8 +5,11 @@ import {
   State,
   UserSettings,
 } from '../modules/types';
+import renderAudioCall from './audio-call';
 import renderFooter from './footer';
+import renderSelectGameLevel from './games/select-level';
 import renderHeader, { activateMenuItem } from './header';
+import renderSprint from './sprint';
 
 import UserAuthorization from './user-authorization/user-authorization';
 
@@ -21,7 +24,7 @@ const toHTML = (): string => {
   `;
 };
 
-function setPageState(props: UserSettings) {
+function setPageState(props: State) {
   activateMenuItem(props);
 }
 
@@ -29,7 +32,8 @@ function addEventsForApp(param: State): void {
   const userAuthInstance = new UserAuthorization(param);
   const userAuthorizationElement = userAuthInstance.readyElement;
 
-  const props = param.userSettings;
+  const userSett = param.userSettings;
+  const props = param;
   const app = document.getElementById('app') as HTMLElement;
   const main = document.getElementById('main') as HTMLElement;
 
@@ -41,40 +45,59 @@ function addEventsForApp(param: State): void {
       if (linkName) {
         switch (linkName) {
           case linkType.general:
-            props.currentPage = CurrentPage.general;
+            userSett.currentPage = CurrentPage.general;
+            props.currentMenuItem = CurrentPage.general;
             break;
           case linkType.aboutApp:
-            props.currentPage = CurrentPage.aboutApp;
+            userSett.currentPage = CurrentPage.aboutApp;
+            props.currentMenuItem = CurrentPage.aboutApp;
             break;
           case linkType.schoolbook:
-            props.currentPage = CurrentPage.schoolbook;
-            props.schoolbookCurrentPosition.chapter = 0;
+            userSett.currentPage = CurrentPage.schoolbook;
+            props.currentMenuItem = CurrentPage.schoolbook;
+            userSett.schoolbookCurrentPosition.chapter = 0;
             break;
+          case linkType.audioCallGameLevel:
+            props.currentMenuItem = CurrentPage.audioCallGameLevel;
+            renderSelectGameLevel(main, param);
+            activateMenuItem(props);
+            return;
+          case linkType.sprintGameLevel:
+            props.currentMenuItem = CurrentPage.sprintGameLevel;
+            renderSelectGameLevel(main, param);
+            activateMenuItem(props);
+            return;
           case linkType.audioCallGame:
-            props.currentPage = CurrentPage.audioCallGame;
-            break;
+            props.currentMenuItem = CurrentPage.audioCallGameLevel;
+            renderAudioCall(main);
+            activateMenuItem(props);
+            return;
           case linkType.sprintGame:
-            props.currentPage = CurrentPage.sprintGame;
-            break;
+            props.currentMenuItem = CurrentPage.sprintGameLevel;
+            renderSprint(main);
+            activateMenuItem(props);
+            return;
           case linkType.statistics:
-            props.currentPage = CurrentPage.statistics;
+            userSett.currentPage = CurrentPage.statistics;
+            props.currentMenuItem = CurrentPage.statistics;
             break;
           case linkType.developmentTeam:
-            props.currentPage = CurrentPage.developmentTeam;
+            userSett.currentPage = CurrentPage.developmentTeam;
+            props.currentMenuItem = CurrentPage.developmentTeam;
             break;
           case linkType.login:
-            if (!props.authorized) {
+            if (!userSett.authorized) {
               currentTarget.append(userAuthorizationElement);
             } else {
-              props.authorized = false;
-              delete props.authData;
-              renderHeader(app.querySelector('#header') as HTMLElement, props);
+              userSett.authorized = false;
+              delete userSett.authData;
+              renderHeader(app.querySelector('#header') as HTMLElement, param);
             }
             break;
           default:
             break;
         }
-        RenderPage[props.currentPage](main, param);
+        RenderPage[userSett.currentPage](main, param);
         activateMenuItem(props);
       }
     }
@@ -85,16 +108,13 @@ export default function renderApp(root: HTMLElement, props: State): void {
   const rootElem = root;
   rootElem.innerHTML = toHTML();
 
-  renderHeader(
-    rootElem.querySelector('#header') as HTMLElement,
-    props.userSettings
-  );
+  renderHeader(rootElem.querySelector('#header') as HTMLElement, props);
   RenderPage[(<UserSettings>props.userSettings).currentPage](
     rootElem.querySelector('#main') as HTMLElement,
     props
   );
   renderFooter(rootElem.querySelector('#footer') as HTMLElement);
 
-  setPageState(props.userSettings);
+  setPageState(props);
   addEventsForApp(props);
 }

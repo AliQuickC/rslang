@@ -60,7 +60,7 @@ export default class SignUp extends Login {
             SignUp.state.userSettings.authorized = false;
             renderHeader(
               document.querySelector('#header') as HTMLElement,
-              SignUp.state.userSettings
+              SignUp.state
             );
           } else if (response.status === 417) {
             loginWindow.append(
