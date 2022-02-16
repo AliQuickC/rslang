@@ -1,7 +1,7 @@
 import renderAboutApp from '../components/about-app';
-import renderAudioCall from '../components/audio-call';
+import renderAudioCall from '../components/games/audio-call';
 import renderGeneralPage from '../components/general-page';
-import renderSprint from '../components/sprint';
+import renderSprint from '../components/games/sprint';
 import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
@@ -70,6 +70,16 @@ export enum Difficulty {
   easy = 'easy',
   basic = 'basic',
   difficult = 'difficult',
+}
+
+export enum GameName {
+  AudioCall = 'AudioCall',
+  Sprint = 'Sprint',
+}
+
+export enum wayToGetWords {
+  byLevel = 'byLevel',
+  byPage = 'byPage',
 }
 
 export interface UserWordOptionals {
@@ -152,4 +162,9 @@ export interface State {
   currentChapterPage: boolean[];
   currentPageWords: CurrentPageWord[];
   currentMenuItem: CurrentPage;
+  gameOptions: {
+    selectGame: GameName;
+    wayToGetWords: wayToGetWords;
+    gameLevel: number;
+  };
 }

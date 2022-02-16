@@ -1,17 +1,23 @@
 import {
   CurrentPage,
+  GameName,
   linkType,
   RenderPage,
   State,
   UserSettings,
+  wayToGetWords,
 } from '../modules/types';
-import renderAudioCall from './audio-call';
+import renderAudioCall, { gameAudioCall } from './games/audio-call';
 import renderFooter from './footer';
+import {
+  generateGameWordsForSelectLevel,
+  generateGameWordsForSelectPage,
+} from './games/game-words';
 import renderSelectGameLevel from './games/select-level';
 import renderHeader, { activateMenuItem } from './header';
-import renderSprint from './sprint';
 
 import UserAuthorization from './user-authorization/user-authorization';
+import { gameSprint } from './games/sprint';
 
 const toHTML = (): string => {
   return `
@@ -40,7 +46,23 @@ function addEventsForApp(param: State): void {
   document.body.addEventListener('click', async (e) => {
     if (e.target) {
       const linkName = (<HTMLElement>e.target).dataset.link;
+      const gameLevel = (<HTMLElement>e.target).dataset.level;
       const currentTarget = e.currentTarget as HTMLElement;
+
+      // generateGameWordsForSelectLevel(props: State, level: number);
+      // generateGameWordsForSelectPage(chapter: number, page: number);
+
+      if (gameLevel) {
+        props.gameOptions.selectGame = (<HTMLElement>e.target).dataset
+          .gameName as GameName;
+        props.gameOptions.wayToGetWords = wayToGetWords.byLevel;
+        props.gameOptions.gameLevel = Number(gameLevel);
+        if (props.gameOptions.selectGame === GameName.Sprint) {
+          gameSprint(props, main);
+        } else {
+          gameAudioCall(props, main);
+        }
+      }
 
       if (linkName) {
         switch (linkName) {
@@ -59,22 +81,30 @@ function addEventsForApp(param: State): void {
             break;
           case linkType.audioCallGameLevel:
             props.currentMenuItem = CurrentPage.audioCallGameLevel;
+            props.gameOptions.selectGame = GameName.AudioCall;
             renderSelectGameLevel(main, param);
             activateMenuItem(props);
             return;
           case linkType.sprintGameLevel:
             props.currentMenuItem = CurrentPage.sprintGameLevel;
+            props.gameOptions.selectGame = GameName.Sprint;
             renderSelectGameLevel(main, param);
             activateMenuItem(props);
             return;
           case linkType.audioCallGame:
             props.currentMenuItem = CurrentPage.audioCallGameLevel;
-            renderAudioCall(main);
+
+            props.gameOptions.wayToGetWords = wayToGetWords.byPage;
+            gameAudioCall(props, main);
+
             activateMenuItem(props);
             return;
           case linkType.sprintGame:
             props.currentMenuItem = CurrentPage.sprintGameLevel;
-            renderSprint(main);
+
+            props.gameOptions.wayToGetWords = wayToGetWords.byPage;
+            gameSprint(props, main);
+
             activateMenuItem(props);
             return;
           case linkType.statistics:

@@ -1,4 +1,10 @@
-import { Auth, CurrentPage, UserSettings } from './types';
+import {
+  Auth,
+  CurrentPage,
+  GameName,
+  UserSettings,
+  wayToGetWords,
+} from './types';
 
 export const defaultUserSettings: UserSettings = {
   authorized: false,
@@ -15,5 +21,10 @@ const state = {
   currentChapterPage: [],
   currentPageWords: [],
   currentMenuItem: CurrentPage.general,
+  gameOptions: {
+    selectGame: GameName.AudioCall,
+    wayToGetWords: wayToGetWords.byLevel,
+    gameLevel: 1,
+  },
 };
 export default state;
