@@ -5,13 +5,16 @@ import renderSprint from '../components/sprint';
 import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
+import renderSelectGameLevel from '../components/games/select-level';
 
 export enum linkType {
   general = 'general',
   aboutApp = 'aboutApp',
   schoolbook = 'schoolbook',
-  audioCallGame = 'audio-call-game',
-  sprintGame = 'sprint-game',
+  audioCallGameLevel = 'audio-call-game-level',
+  sprintGameLevel = 'sprint-game-level',
+  audioCallGame = 'audio-call-game-page',
+  sprintGame = 'sprint-game-page',
   statistics = 'statistics',
   developmentTeam = 'development-team',
   login = 'login',
@@ -21,6 +24,8 @@ export enum CurrentPage {
   general = 'general',
   aboutApp = 'aboutApp',
   schoolbook = 'schoolbook',
+  audioCallGameLevel = 'audioCallGameLevel',
+  sprintGameLevel = 'sprintGameLevel',
   audioCallGame = 'audioCallGame',
   sprintGame = 'sprintGame',
   statistics = 'statistics',
@@ -31,6 +36,8 @@ export const RenderPage = {
   general: renderGeneralPage,
   aboutApp: renderAboutApp,
   schoolbook: renderSchoolbook,
+  audioCallGameLevel: renderSelectGameLevel,
+  sprintGameLevel: renderSelectGameLevel,
   audioCallGame: renderAudioCall,
   sprintGame: renderSprint,
   statistics: renderStatistics,
@@ -144,4 +151,5 @@ export interface State {
   userSettings: UserSettings;
   currentChapterPage: boolean[];
   currentPageWords: CurrentPageWord[];
+  currentMenuItem: CurrentPage;
 }
