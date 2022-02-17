@@ -14,13 +14,13 @@ const toHTML = (): string => {
   `;
 };
 
-export default function renderSprint(root: HTMLElement): void {
+function renderSprint(root: HTMLElement): void {
   const elem = root;
 
   elem.innerHTML = toHTML();
 }
 
-export async function gameSprint(props: State, root: HTMLElement) {
+export default async function gameSprint(root: HTMLElement, props: State) {
   if (props.gameOptions.wayToGetWords === wayToGetWords.byPage) {
     await generateGameWordsForSelectPage(
       props.userSettings,

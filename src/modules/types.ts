@@ -1,7 +1,7 @@
 import renderAboutApp from '../components/about-app';
-import renderAudioCall from '../components/games/audio-call';
+import gameAudioCall from '../components/games/audio-call';
 import renderGeneralPage from '../components/general-page';
-import renderSprint from '../components/games/sprint';
+import gameSprint from '../components/games/sprint';
 import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
@@ -38,8 +38,8 @@ export const RenderPage = {
   schoolbook: renderSchoolbook,
   audioCallGameLevel: renderSelectGameLevel,
   sprintGameLevel: renderSelectGameLevel,
-  audioCallGame: renderAudioCall,
-  sprintGame: renderSprint,
+  audioCallGame: gameAudioCall,
+  sprintGame: gameSprint,
   statistics: renderStatistics,
   developmentTeam: renderTeam,
 };

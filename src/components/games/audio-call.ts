@@ -14,13 +14,13 @@ const toHTML = (): string => {
   `;
 };
 
-export default function renderAudioCall(root: HTMLElement): void {
+function renderAudioCall(root: HTMLElement): void {
   const elem = root;
 
   elem.innerHTML = toHTML();
 }
 
-export async function gameAudioCall(props: State, root: HTMLElement) {
+export default async function gameAudioCall(root: HTMLElement, props: State) {
   if (props.gameOptions.wayToGetWords === wayToGetWords.byPage) {
     await generateGameWordsForSelectPage(
       props.userSettings,

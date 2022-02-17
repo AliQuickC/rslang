@@ -7,17 +7,12 @@ import {
   UserSettings,
   wayToGetWords,
 } from '../modules/types';
-import renderAudioCall, { gameAudioCall } from './games/audio-call';
-import renderFooter from './footer';
-import {
-  generateGameWordsForSelectLevel,
-  generateGameWordsForSelectPage,
-} from './games/game-words';
-import renderSelectGameLevel from './games/select-level';
 import renderHeader, { activateMenuItem } from './header';
-
+import renderFooter from './footer';
 import UserAuthorization from './user-authorization/user-authorization';
-import { gameSprint } from './games/sprint';
+import renderSelectGameLevel from './games/select-level';
+import gameAudioCall from './games/audio-call';
+import gameSprint from './games/sprint';
 
 const toHTML = (): string => {
   return `
@@ -58,9 +53,9 @@ function addEventsForApp(param: State): void {
         props.gameOptions.wayToGetWords = wayToGetWords.byLevel;
         props.gameOptions.gameLevel = Number(gameLevel);
         if (props.gameOptions.selectGame === GameName.Sprint) {
-          gameSprint(props, main);
+          gameSprint(main, props);
         } else {
-          gameAudioCall(props, main);
+          gameAudioCall(main, props);
         }
       }
 
@@ -95,7 +90,7 @@ function addEventsForApp(param: State): void {
             props.currentMenuItem = CurrentPage.audioCallGameLevel;
 
             props.gameOptions.wayToGetWords = wayToGetWords.byPage;
-            gameAudioCall(props, main);
+            gameAudioCall(main, props);
 
             activateMenuItem(props);
             return;
@@ -103,7 +98,7 @@ function addEventsForApp(param: State): void {
             props.currentMenuItem = CurrentPage.sprintGameLevel;
 
             props.gameOptions.wayToGetWords = wayToGetWords.byPage;
-            gameSprint(props, main);
+            gameSprint(main, props);
 
             activateMenuItem(props);
             return;
