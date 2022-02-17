@@ -31,9 +31,10 @@ export default async function gameAudioCall(root: HTMLElement, props: State) {
       props.userSettings.schoolbookCurrentPosition.page
     ).then(console.log);
   } else {
-    gameInstance.getDataForGame(props.gameOptions.gameLevel).then((element)=>{
+    gameInstance.getDataForGame(props.gameOptions.gameLevel - 1).then((element)=>{
       root.append(element)
     })
+    // console.log(props.gameOptions.gameLevel)
     // generateGameWordsForSelectLevel(
     //   props.userSettings,
     //   props.gameOptions.gameLevel

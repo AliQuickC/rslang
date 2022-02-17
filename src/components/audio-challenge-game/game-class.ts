@@ -75,6 +75,8 @@ export default class Game {
   }
 
   getDataForGame(groupNumber:number) {
+    this.currentQuestionNumber = 0;
+    (<boolean[]>this.answersResultArray).length = 0;
     return GameApi.getWordsByGroup(groupNumber)
       .then((response) => {
         return response.ok ? response.json() : undefined;
@@ -88,45 +90,63 @@ export default class Game {
         return gameRoundElement;
       });
   }
-  //
-  // onClickFunction(){
-  //   const target = event.target as HTMLLIElement;
-  //   let isRightClick = false;
-  //   if (target === audioButton) {
-  //     this.rightAnswersAudio?.play();
-  //     event.stopPropagation()
-  //   }
-  //   if (
-  //     target.innerText ===
-  //     (<Word[]>this.rightAnswersArray)[this.currentQuestionNumber]
-  //       .wordTranslate
-  //   ) {
-  //     console.log('true');
-  //     isRightClick=true;
-  //     (<boolean[]>this.answersResultArray).push(true);
-  //   } else if (target.tagName === 'LI' || target.tagName === 'BUTTON') {
-  //     console.log('false');
-  //     isRightClick=true;
-  //     (<boolean[]>this.answersResultArray).push(false);
-  //   }
-  //
-  //   !isRightClick || this.createAnswerElement().then((answerElement) => {
-  //     setTimeout(() => {
-  //       this.currentQuestionNumber++;
-  //       gameWindowElement.removeEventListener('click', <()=>void>this.listener);
-  //       const nextRoundElement = this.getDataForGameRound(this.currentQuestionNumber);
-  //       button.addEventListener('click', (event)=>{
-  //         event.stopPropagation();
-  //         gameWindowElement.replaceWith(nextRoundElement);
-  //         this.rightAnswersAudio?.play();
-  //
-  //       })
-  //       button.innerText ='→'
-  //       audioButton.replaceWith(answerElement)}, 400);
-  //   });
-  //
-  //   console.log(this.answersResultArray);
-  // }
+
+  onClickFunction(event: Event){
+    const currentAudio = this.rightAnswersAudio as HTMLAudioElement;
+    const target = event.target as HTMLLIElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    const audioButton = currentTarget.querySelector(
+      '.current-word-audio-button'
+    ) as HTMLElement;
+    const button = currentTarget.querySelector('.button') as HTMLButtonElement;
+    let isRightClick = false;
+    if (target.dataset.link === audioButtonLink) {
+      this.rightAnswersAudio?.play();
+      event.stopPropagation()
+    }
+    if (
+      target.innerText ===
+      (<Word[]>this.rightAnswersArray)[this.currentQuestionNumber]
+        .wordTranslate
+    ) {
+      console.log('true');
+      isRightClick=true;
+      (<boolean[]>this.answersResultArray).push(true);
+    } else if (target.tagName === 'LI' || target.tagName === 'BUTTON') {
+      console.log('false');
+      isRightClick=true;
+      (<boolean[]>this.answersResultArray).push(false);
+    }
+
+    !isRightClick || this.createAnswerElement().then((answerElement) => {
+      answerElement.addEventListener('click', (event) => {
+        if ((<HTMLElement>event.target).dataset.link === audioButtonLink) {
+          currentAudio?.play();
+          event.stopPropagation();
+        }
+      });
+      setTimeout(() => {
+        this.currentQuestionNumber++;
+        currentTarget.removeEventListener('click', <()=>void>this.listener);
+        // const nextRoundElement = this.getDataForGameRound(this.currentQuestionNumber);
+        button.addEventListener('click', (event)=>{
+          event.stopPropagation();
+          let element: HTMLElement;
+          console.log(this.currentQuestionNumber, (<Word[]>this.rightAnswersArray).length);
+          if(this.currentQuestionNumber < (<Word[]>this.rightAnswersArray).length){
+            this.rightAnswersAudio?.play();
+            element = this.getDataForGameRound(this.currentQuestionNumber);
+          } else {
+            element = button;
+          }
+          currentTarget.replaceWith(element);
+        })
+        button.innerText ='→'
+        audioButton.replaceWith(answerElement)}, 400);
+    });
+
+    console.log(this.answersResultArray);
+  }
 
   getDataForGameRound(gameRoundNumber: number) {
     const gameWindowElement = geHtmlFromString(
@@ -144,45 +164,8 @@ export default class Game {
     this.createSoundForRound();
 
 
-    gameWindowElement.addEventListener('click', this.listener = (event) => {
-      const target = event.target as HTMLLIElement;
-      let isRightClick = false;
-      // if (target === audioButton) {
-      if (target.dataset.link === audioButtonLink) {
-        this.rightAnswersAudio?.play();
-        event.stopPropagation()
-      }
-      if (
-        target.innerText ===
-        (<Word[]>this.rightAnswersArray)[this.currentQuestionNumber]
-          .wordTranslate
-      ) {
-        console.log('true');
-        isRightClick=true;
-        (<boolean[]>this.answersResultArray).push(true);
-      } else if (target.tagName === 'LI' || target.tagName === 'BUTTON') {
-        console.log('false');
-        isRightClick=true;
-        (<boolean[]>this.answersResultArray).push(false);
-      }
-
-      !isRightClick || this.createAnswerElement().then((answerElement) => {
-        setTimeout(() => {
-          this.currentQuestionNumber++;
-          gameWindowElement.removeEventListener('click', <()=>void>this.listener);
-          const nextRoundElement = this.getDataForGameRound(this.currentQuestionNumber);
-          button.addEventListener('click', (event)=>{
-            event.stopPropagation();
-            gameWindowElement.replaceWith(nextRoundElement);
-            this.rightAnswersAudio?.play();
-
-          })
-          button.innerText ='→'
-          audioButton.replaceWith(answerElement)}, 400);
-      });
-
-      console.log(this.answersResultArray);
-    });
+    gameWindowElement.addEventListener('click', this.listener = (event) => this.onClickFunction(event)
+    );
     answersElements.forEach(
       (element, i) =>
         (element.innerText = (<Word[]>this.answersArrayForRound)[
