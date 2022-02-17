@@ -8,8 +8,8 @@ const toHTML = (props: UserSettings): string => {
         <button data-link="aboutApp">Возможности и Преимущества приложения</button>
 
         <button data-link="schoolbook">Учебник</button>
-        <button data-link="audio-call-game">Audio call Game</button>
-        <button data-link="sprint-game">Sprint Game</button>        
+        <button data-link="audio-call-game-level">Audio call Game</button>
+        <button data-link="sprint-game-level">Sprint Game</button>        
         ${
           props.authorized
             ? '<button data-link="statistics">Статистика</button>'
