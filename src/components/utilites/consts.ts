@@ -1,3 +1,4 @@
+export const urlServer = 'https://learnwords-app.herokuapp.com';
 export const urlUsers = 'https://learnwords-app.herokuapp.com/users';
 export const urlSignIn = 'https://learnwords-app.herokuapp.com/signin';
 export const urlWords = 'https://learnwords-app.herokuapp.com/words';
@@ -5,6 +6,8 @@ export const localStorageCurrentUserObjectName = 'currentUser';
 export const brokenAuthorizationMessage = 'You are not authorized';
 export const wordsPerPage = 10;
 export const pagesCount = 30;
+export const defaultAudioVolume = 0.3;
+export const gameButtonInnerText = 'не знаю';
 export const errorMessage = {
   wrongPasswordRepeat: 'wrong password repeat',
   wrongPasswordLength: 'password length must be longer than 8 character',
