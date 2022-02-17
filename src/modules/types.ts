@@ -1,17 +1,20 @@
 import renderAboutApp from '../components/about-app';
-import renderAudioCall from '../components/audio-call';
+import gameAudioCall from '../components/games/audio-call';
 import renderGeneralPage from '../components/general-page';
-import renderSprint from '../components/sprint';
+import gameSprint from '../components/games/sprint';
 import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
+import renderSelectGameLevel from '../components/games/select-level';
 
 export enum linkType {
   general = 'general',
   aboutApp = 'aboutApp',
   schoolbook = 'schoolbook',
-  audioCallGame = 'audio-call-game',
-  sprintGame = 'sprint-game',
+  audioCallGameLevel = 'audio-call-game-level',
+  sprintGameLevel = 'sprint-game-level',
+  audioCallGame = 'audio-call-game-page',
+  sprintGame = 'sprint-game-page',
   statistics = 'statistics',
   developmentTeam = 'development-team',
   login = 'login',
@@ -21,6 +24,8 @@ export enum CurrentPage {
   general = 'general',
   aboutApp = 'aboutApp',
   schoolbook = 'schoolbook',
+  audioCallGameLevel = 'audioCallGameLevel',
+  sprintGameLevel = 'sprintGameLevel',
   audioCallGame = 'audioCallGame',
   sprintGame = 'sprintGame',
   statistics = 'statistics',
@@ -31,8 +36,10 @@ export const RenderPage = {
   general: renderGeneralPage,
   aboutApp: renderAboutApp,
   schoolbook: renderSchoolbook,
-  audioCallGame: renderAudioCall,
-  sprintGame: renderSprint,
+  audioCallGameLevel: renderSelectGameLevel,
+  sprintGameLevel: renderSelectGameLevel,
+  audioCallGame: gameAudioCall,
+  sprintGame: gameSprint,
   statistics: renderStatistics,
   developmentTeam: renderTeam,
 };
@@ -63,6 +70,16 @@ export enum Difficulty {
   easy = 'easy',
   basic = 'basic',
   difficult = 'difficult',
+}
+
+export enum GameName {
+  AudioCall = 'AudioCall',
+  Sprint = 'Sprint',
+}
+
+export enum wayToGetWords {
+  byLevel = 'byLevel',
+  byPage = 'byPage',
 }
 
 export interface UserWordOptionals {
@@ -144,4 +161,10 @@ export interface State {
   userSettings: UserSettings;
   currentChapterPage: boolean[];
   currentPageWords: CurrentPageWord[];
+  currentMenuItem: CurrentPage;
+  gameOptions: {
+    selectGame: GameName;
+    wayToGetWords: wayToGetWords;
+    gameLevel: number;
+  };
 }

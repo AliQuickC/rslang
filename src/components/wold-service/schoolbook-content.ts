@@ -31,11 +31,16 @@ const toHTML = (param: State): string => {
 
     return `  
     <div class="schoolbook-content__title-wrap">
-      <h2 class="schoolbook-content__title"><span>Раздел: ${userSett.schoolbookCurrentPosition.chapter},&nbsp</span><span>Страница: ${userSett.schoolbookCurrentPosition.page}</span></h2>
-      <div class="schoolbook-content__buttons-wrap">
-        <button class="schoolbook-content__btn button-audiocall" data-link="audio-call-page">Изучать с игрой - Audio call</button>
-        <button class="schoolbook-content__btn button-sprint" data-link="sprint-page">Изучать с игрой - Sprint</button>
-      </div>      
+      <h2 class="schoolbook-content__title"><span>Раздел: ${
+        userSett.schoolbookCurrentPosition.chapter
+      },&nbsp</span><span>Страница: ${
+      userSett.schoolbookCurrentPosition.page
+    }</span></h2>
+      ${
+        userSett.authorized
+          ? '<div class="schoolbook-content__buttons-wrap"><button class="schoolbook-content__btn button-audiocall" data-link="audio-call-game-page">Изучать с игрой - Audio call</button><button class="schoolbook-content__btn button-sprint" data-link="sprint-game-page">Изучать с игрой - Sprint</button></div>'
+          : ''
+      }
       <button class="schoolbook-content__btn button-back" data-page-number="0">↵ К списку страниц</button>
     </div>
     <div class="schoolbook-content__word-wrap">
