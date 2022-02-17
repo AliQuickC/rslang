@@ -14,11 +14,17 @@ export default class ResultPage {
     const rightAnswersList = resultPageElement.querySelector(
       '.right-answers-list'
     ) as HTMLUListElement;
+    const errorsCountElement = resultPageElement.querySelector('.errors-count') as HTMLSpanElement;
+    const rightsCountElement = resultPageElement.querySelector('.rights-count') as HTMLSpanElement;
 
     const answersObject = this.createAnswersArrayObject(
       rightAnswersArray,
       answersArray
     );
+
+    errorsCountElement.innerText = `  ${answersObject.wrongAnswers.length}`;
+    rightsCountElement.innerText = `  ${ answersObject.rightAnswers.length }`;
+
 
     this.createAnswersList(answersObject.rightAnswers, rightAnswersList);
     this.createAnswersList(answersObject.wrongAnswers, wrongAnswersList);
