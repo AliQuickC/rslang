@@ -31,11 +31,13 @@ export default async function gameAudioCall(root: HTMLElement, props: State) {
       props.userSettings.schoolbookCurrentPosition.page
     ).then(console.log);
   } else {
-    gameInstance.getDataForGame()
-    generateGameWordsForSelectLevel(
-      props.userSettings,
-      props.gameOptions.gameLevel
-    ).then(console.log);
+    gameInstance.getDataForGame(props.gameOptions.gameLevel).then((element)=>{
+      root.append(element)
+    })
+    // generateGameWordsForSelectLevel(
+    //   props.userSettings,
+    //   props.gameOptions.gameLevel
+    // ).then(console.log);
   }
   renderAudioCall(root);
 }

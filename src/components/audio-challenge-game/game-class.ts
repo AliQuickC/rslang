@@ -11,6 +11,7 @@ import {
 } from '../utilites/consts';
 import Button from '../universal-button/button';
 
+const audioButtonLink = 'audio-button';
 
 export default class Game {
   // private state: State;
@@ -73,8 +74,8 @@ export default class Game {
     this.rightAnswersAudio = audio;
   }
 
-  getDataForGame() {
-    GameApi.getWordsByGroup(0)
+  getDataForGame(groupNumber:number) {
+    return GameApi.getWordsByGroup(groupNumber)
       .then((response) => {
         return response.ok ? response.json() : undefined;
       })
@@ -83,8 +84,8 @@ export default class Game {
         this.randomSort(this.wordsForGameArray);
         this.createRightAnswersArray();
         const gameRoundElement = this.getDataForGameRound(this.currentQuestionNumber);
-        (<HTMLElement>document.getElementById('main')).append(gameRoundElement);
         this.rightAnswersAudio?.play();
+        return gameRoundElement;
       });
   }
   //
@@ -146,7 +147,8 @@ export default class Game {
     gameWindowElement.addEventListener('click', this.listener = (event) => {
       const target = event.target as HTMLLIElement;
       let isRightClick = false;
-      if (target === audioButton) {
+      // if (target === audioButton) {
+      if (target.dataset.link === audioButtonLink) {
         this.rightAnswersAudio?.play();
         event.stopPropagation()
       }
