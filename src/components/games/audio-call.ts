@@ -3,6 +3,9 @@ import {
   generateGameWordsForSelectLevel,
   generateGameWordsForSelectPage,
 } from './game-words';
+import Game from "../audio-challenge-game/game-class";
+
+const gameInstance = new Game();
 
 const toHTML = (): string => {
   return `  
@@ -28,10 +31,13 @@ export default async function gameAudioCall(root: HTMLElement, props: State) {
       props.userSettings.schoolbookCurrentPosition.page
     ).then(console.log);
   } else {
-    generateGameWordsForSelectLevel(
-      props.userSettings,
-      props.gameOptions.gameLevel
-    ).then(console.log);
+    gameInstance.getDataForGame(props.gameOptions.gameLevel).then((element)=>{
+      root.append(element)
+    })
+    // generateGameWordsForSelectLevel(
+    //   props.userSettings,
+    //   props.gameOptions.gameLevel
+    // ).then(console.log);
   }
   renderAudioCall(root);
 }
