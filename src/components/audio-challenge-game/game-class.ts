@@ -10,7 +10,9 @@ import {
   urlServer,
 } from '../utilites/consts';
 import Button from '../universal-button/button';
+import ResultPage from "./result-page/result-page";
 
+const resultPageInstance = new ResultPage();
 const audioButtonLink = 'audio-button';
 
 export default class Game {
@@ -137,7 +139,7 @@ export default class Game {
             this.rightAnswersAudio?.play();
             element = this.getDataForGameRound(this.currentQuestionNumber);
           } else {
-            element = button;
+            element = resultPageInstance.getResultPageElement(<Word[]>this.rightAnswersArray, <boolean[]>this.answersResultArray);
           }
           currentTarget.replaceWith(element);
         })
