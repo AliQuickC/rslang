@@ -1,5 +1,5 @@
 import { getWords } from '../../modules/api';
-import { aggregatedUserWords, State, Word } from '../../modules/types';
+import { aggregatedUserWords, State, Word, CurrentPageWord } from '../../modules/types';
 import GameApi from './game-api/game-api';
 import gameScreenElementAsString from './game-screen.html';
 import answerDivElementAsString from './answer-div/answer-div.html';
@@ -11,6 +11,7 @@ import {
 } from '../utilites/consts';
 import Button from '../universal-button/button';
 import ResultPage from "./result-page/result-page";
+import { generateGameWordsForSelectPage } from "../games/game-words";
 
 const resultPageInstance = new ResultPage();
 const audioButtonLink = 'audio-button';
@@ -29,9 +30,9 @@ export default class Game {
   //   '.answers-list__li'
   // ) as NodeListOf<HTMLLIElement>;
 
-  private wordsForGameArray: Word[] | undefined;
-  private rightAnswersArray: Word[] | undefined;
-  private answersArrayForRound: Word[] | undefined;
+  private wordsForGameArray: CurrentPageWord[] | undefined;
+  private rightAnswersArray: CurrentPageWord[] | undefined;
+  private answersArrayForRound: CurrentPageWord[] | undefined;
   currentQuestionNumber = 0;
   private rightAnswersAudio: HTMLAudioElement | undefined;
   private answersResultArray: boolean[] | undefined = [];
@@ -40,7 +41,7 @@ export default class Game {
   private listener:((event:Event)=>void) | undefined;
   // private currentRightAnswer: Word | undefined;
 
-  randomSort(array: Word[] | number[]) {
+  randomSort(array: CurrentPageWord[] | number[]) {
     array.sort(() => Math.random() - 0.5);
   }
 
@@ -48,15 +49,15 @@ export default class Game {
     this.rightAnswersArray = this.wordsForGameArray
       ? this.wordsForGameArray.slice(0, 10)
       : undefined;
-    this.rightAnswersIdArray = (<Word[]>this.rightAnswersArray).map(
+    this.rightAnswersIdArray = (<CurrentPageWord[]>this.rightAnswersArray).map(
       (rightAnswer) => rightAnswer.id
     );
   }
 
   createAnswersArrayForRound() {
-    const rightArray = this.rightAnswersArray as Word[];
-    const currentRightAnswer = rightArray[this.currentQuestionNumber] as Word;
-    const wordsForGameArray = this.wordsForGameArray as Word[];
+    const rightArray = this.rightAnswersArray as CurrentPageWord[];
+    const currentRightAnswer = rightArray[this.currentQuestionNumber] as CurrentPageWord;
+    const wordsForGameArray = this.wordsForGameArray as CurrentPageWord[];
     this.answersArrayForRound = wordsForGameArray.filter(
       (word) => word.id != currentRightAnswer.id
     );
@@ -67,7 +68,7 @@ export default class Game {
   }
 
   createSoundForRound() {
-    const currentRightAnswer = (<Word[]>this.rightAnswersArray)[
+    const currentRightAnswer = (<CurrentPageWord[]>this.rightAnswersArray)[
       this.currentQuestionNumber
     ];
     const audio = new Audio();
@@ -83,14 +84,32 @@ export default class Game {
       .then((response) => {
         return response.ok ? response.json() : undefined;
       })
-      .then((array: Word[]) => {
-        this.wordsForGameArray = array;
-        this.randomSort(this.wordsForGameArray);
-        this.createRightAnswersArray();
-        const gameRoundElement = this.getDataForGameRound(this.currentQuestionNumber);
-        this.rightAnswersAudio?.play();
-        return gameRoundElement;
-      });
+      .then(
+        (array: CurrentPageWord[]) =>
+          this.createGameRoundElement(array)
+      );
+  }
+
+  getDataForGameFromBook(state:State){
+    this.currentQuestionNumber = 0;
+    (<boolean[]>this.answersResultArray).length = 0;
+    return generateGameWordsForSelectPage(
+      state.userSettings,
+      state.userSettings.schoolbookCurrentPosition.chapter,
+      state.userSettings.schoolbookCurrentPosition.page)
+      .then((array) =>
+          this.createGameRoundElement(array)
+      );
+  }
+
+
+  private createGameRoundElement(array: CurrentPageWord[]){
+    this.wordsForGameArray = array;
+    this.randomSort(this.wordsForGameArray);
+    this.createRightAnswersArray();
+    const gameRoundElement = this.getDataForGameRound(this.currentQuestionNumber);
+    this.rightAnswersAudio?.play();
+    return gameRoundElement;
   }
 
   onClickFunction(event: Event){
@@ -108,7 +127,7 @@ export default class Game {
     }
     if (
       target.innerText ===
-      (<Word[]>this.rightAnswersArray)[this.currentQuestionNumber]
+      (<CurrentPageWord[]>this.rightAnswersArray)[this.currentQuestionNumber]
         .wordTranslate
     ) {
       console.log('true');
@@ -134,12 +153,12 @@ export default class Game {
         button.addEventListener('click', (event)=>{
           event.stopPropagation();
           let element: HTMLElement;
-          console.log(this.currentQuestionNumber, (<Word[]>this.rightAnswersArray).length);
-          if(this.currentQuestionNumber < (<Word[]>this.rightAnswersArray).length){
-            this.rightAnswersAudio?.play();
+          console.log(this.currentQuestionNumber, (<CurrentPageWord[]>this.rightAnswersArray), this.rightAnswersAudio);
+          if(this.currentQuestionNumber < (<CurrentPageWord[]>this.rightAnswersArray).length){
             element = this.getDataForGameRound(this.currentQuestionNumber);
+            this.rightAnswersAudio?.play();
           } else {
-            element = resultPageInstance.getResultPageElement(<Word[]>this.rightAnswersArray, <boolean[]>this.answersResultArray);
+            element = resultPageInstance.getResultPageElement(<CurrentPageWord[]>this.rightAnswersArray, <boolean[]>this.answersResultArray);
           }
           currentTarget.replaceWith(element);
         })
@@ -170,7 +189,7 @@ export default class Game {
     );
     answersElements.forEach(
       (element, i) =>
-        (element.innerText = (<Word[]>this.answersArrayForRound)[
+        (element.innerText = (<CurrentPageWord[]>this.answersArrayForRound)[
           i
         ].wordTranslate)
     );
@@ -192,7 +211,7 @@ export default class Game {
     const answerWord = answerElement.querySelector(
       '.word-shell__word'
     ) as HTMLSpanElement;
-    const answer = (<Word[]>this.rightAnswersArray)[this.currentQuestionNumber];
+    const answer = (<CurrentPageWord[]>this.rightAnswersArray)[this.currentQuestionNumber];
     const img = new Image();
     img.src = `${urlServer}/${answer.image}`;
 

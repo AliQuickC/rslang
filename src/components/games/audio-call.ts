@@ -3,7 +3,7 @@ import {
   generateGameWordsForSelectLevel,
   generateGameWordsForSelectPage,
 } from './game-words';
-import Game from "../audio-challenge-game/game-class";
+import Game from '../audio-challenge-game/game-class';
 
 const gameInstance = new Game();
 
@@ -23,17 +23,22 @@ function renderAudioCall(root: HTMLElement): void {
   elem.innerHTML = toHTML();
 }
 
-export default async function gameAudioCall(root: HTMLElement, props: State) {
+export default function gameAudioCall(root: HTMLElement, props: State) {
   if (props.gameOptions.wayToGetWords === wayToGetWords.byPage) {
-    await generateGameWordsForSelectPage(
-      props.userSettings,
-      props.userSettings.schoolbookCurrentPosition.chapter,
-      props.userSettings.schoolbookCurrentPosition.page
-    ).then(console.log);
+    gameInstance.getDataForGameFromBook(props).then((element) => {
+      root.append(element);
+    });
+    // await generateGameWordsForSelectPage(
+    //   props.userSettings,
+    //   props.userSettings.schoolbookCurrentPosition.chapter,
+    //   props.userSettings.schoolbookCurrentPosition.page
+    // ).then(console.log);
   } else {
-    gameInstance.getDataForGame(props.gameOptions.gameLevel - 1).then((element)=>{
-      root.append(element)
-    })
+    gameInstance
+      .getDataForGame(props.gameOptions.gameLevel - 1)
+      .then((element) => {
+        root.append(element);
+      });
     // console.log(props.gameOptions.gameLevel)
     // generateGameWordsForSelectLevel(
     //   props.userSettings,
