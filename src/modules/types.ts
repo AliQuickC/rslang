@@ -159,7 +159,7 @@ export interface UserSettings {
 
 export interface State {
   userSettings: UserSettings;
-  currentChapterPage: boolean[];
+  isExploreCurrentChapterPages: boolean[];
   currentPageWords: CurrentPageWord[];
   currentMenuItem: CurrentPage;
   gameOptions: {
@@ -167,4 +167,15 @@ export interface State {
     wayToGetWords: wayToGetWords;
     gameLevel: number;
   };
+}
+
+export interface GameWords {
+  words: CurrentPageWord[];
+  answerVariants: string[];
+  answerRezults: boolean[];
+}
+export interface sprintGame {
+  totalWords: number;
+  currentQuestion: number;
+  gameWords: GameWords;
 }

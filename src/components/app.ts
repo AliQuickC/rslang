@@ -44,9 +44,6 @@ function addEventsForApp(param: State): void {
       const gameLevel = (<HTMLElement>e.target).dataset.level;
       const currentTarget = e.currentTarget as HTMLElement;
 
-      // generateGameWordsForSelectLevel(props: State, level: number);
-      // generateGameWordsForSelectPage(chapter: number, page: number);
-
       if (gameLevel) {
         props.gameOptions.selectGame = (<HTMLElement>e.target).dataset
           .gameName as GameName;

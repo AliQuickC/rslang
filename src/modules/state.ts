@@ -18,7 +18,7 @@ export const defaultUserSettings: UserSettings = {
 
 const state = {
   userSettings: {} as UserSettings,
-  currentChapterPage: [],
+  isExploreCurrentChapterPages: [],
   currentPageWords: [],
   currentMenuItem: CurrentPage.general,
   gameOptions: {

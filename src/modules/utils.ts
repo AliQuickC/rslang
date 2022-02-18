@@ -37,3 +37,12 @@ export const convertUserWordToString = (obj: UserWord) =>
 
 export const convertToUserWord = (obj: UserWord): UserWord =>
   JSON.parse(JSON.stringify(obj).replace(/"\[/g, '[').replace(/\]"/g, ']'));
+
+export function randomInteger(min: number, max: number): number {
+  const rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
+}
+
+export function getRandomTrueOrFalse(): boolean {
+  return Boolean(randomInteger(0, 1));
+}

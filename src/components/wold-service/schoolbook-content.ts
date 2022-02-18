@@ -62,7 +62,9 @@ const toHTML = (param: State): string => {
     pages += `<div class="schoolbook-content__page page-chapter${
       userSett.schoolbookCurrentPosition.chapter
     } ${
-      userSett.authData && props.currentChapterPage[i] ? 'page-explored' : ''
+      userSett.authData && props.isExploreCurrentChapterPages[i]
+        ? 'page-explored'
+        : ''
     }" data-page-number="${i + 1}">Страница ${i + 1}</div>`;
   }
 
