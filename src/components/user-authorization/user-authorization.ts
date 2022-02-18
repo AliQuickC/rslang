@@ -20,7 +20,7 @@ export default class UserAuthorization {
     this.signupBoxElement = this.signupInstance.returnReadyBoxElement();
   }
 
-  readonly userAuthorizationElement = getHtmlFromString(
+  userAuthorizationElement = getHtmlFromString(
     userAuthorizationElementString
   ).querySelector('.authorization-window') as HTMLDivElement;
 
@@ -53,30 +53,41 @@ export default class UserAuthorization {
       '.login-shell'
     ) as HTMLDivElement;
     if (event.target === this.buttonLogin && !this.isLoginWindow) {
-      this.isLoginWindow = true;
       currentBoxElement.replaceWith(this.loginBoxElement);
-      this.buttonsLogAndSign.forEach((button) =>
-        button.classList.toggle(this.statusActiveButtonClass)
-      );
+      this.switchLoginSignup()
     }
     if (event.target === this.buttonSignUp && this.isLoginWindow) {
       currentBoxElement.replaceWith(this.signupBoxElement);
-      this.buttonsLogAndSign.forEach((button) =>
-        button.classList.toggle(this.statusActiveButtonClass)
-      );
-      this.isLoginWindow = false;
+      this.switchLoginSignup()
     }
   }
 
-  get readyElement() {
+  switchLoginSignup(){
+    this.buttonsLogAndSign.forEach((button) => {
+      button.classList.toggle(this.statusActiveButtonClass);
+    });
+    this.isLoginWindow = !this.isLoginWindow;
+  }
+
+  getReadyElement() {
+    if (!this.isLoginWindow) {
+      this.switchLoginSignup()
+    }
+    (<HTMLElement>(
+      this.userAuthorizationElement.querySelector('.login-box')
+    )).innerHTML = '';
     this.boxWithLogButtons.addEventListener('click', (event) =>
       this.switchLoginSetup(event)
     );
     this.buttonClose.addEventListener('click', () => {
       const parent = this.userAuthorizationElement.parentElement as HTMLElement;
-      parent.removeChild(this.userAuthorizationElement);
+      if (parent) {
+        parent.removeChild(this.userAuthorizationElement);
+      }
     });
-    this.userAuthorizationElement.append(this.loginBoxElement);
+    (<HTMLElement>(
+      this.userAuthorizationElement.querySelector('.login-box')
+    )).append(this.loginBoxElement);
 
     return this.userAuthorizationElement;
   }

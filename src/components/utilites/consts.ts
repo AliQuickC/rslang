@@ -15,4 +15,5 @@ export const errorMessage = {
   wrongName: 'please, enter your name',
   userExist: 'you are currently registered, please log in',
   wrongNameOrPassword: 'wrong name or password entered',
+  registrationSuccess: 'Congratulations!!! Now You are a registered user! Please, log in.'
 };
