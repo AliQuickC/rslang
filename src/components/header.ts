@@ -10,8 +10,8 @@ const toHTML = (param: State): string => {
   <ul class="menu">
       <li class="menu__item active" data-link="general">Главная</li>
       <li class="menu__item" data-link="schoolbook">Учебник</li>
-      <li class="menu__item" data-link="audio-call-game-level">Audio call Game</li>
-      <li class="menu__item" data-link="sprint-game-level">Sprint Game</li>
+      <li class="menu__item" data-link="audio-call-game-level">Игра Аудиовызов</li>
+      <li class="menu__item" data-link="sprint-game-level">Игра Спринт</li>
       ${
         userSett.authorized
           ? '<li class="menu__item" data-link="statistics">Статистика</li>'
