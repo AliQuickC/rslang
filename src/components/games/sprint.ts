@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import {
   CurrentPage,
   CurrentPageWord,
@@ -56,13 +57,24 @@ const zeroWordHTML = (): string => {
   `;
 };
 
-// function renderGameRezult(root: HTMLElement, gameData: sprintGame): void {}
-
 function renderSprint(root: HTMLElement, state: State): void {
   const elem = root;
   const { sprintGame } = state;
 
-  function falseClickHandler(e: Event) {
+  function keyDownHandler(e: KeyboardEvent): void {
+    switch (e.code) {
+      case 'ArrowLeft':
+        falseClickHandler();
+        break;
+      case 'ArrowRight':
+        trueClickHandler();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function falseClickHandler(): void {
     if (
       sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
       sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
@@ -73,13 +85,14 @@ function renderSprint(root: HTMLElement, state: State): void {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
       console.log('true');
     }
-    (<HTMLButtonElement>e.target).onclick = null;
+    (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
     (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
+    window.removeEventListener('keydown', keyDownHandler);
     sprintGame.currentQuestion += 1;
     renderSprint(root, state);
   }
 
-  function trueClickHandler(e: Event) {
+  function trueClickHandler(): void {
     if (
       sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
       sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
@@ -90,18 +103,23 @@ function renderSprint(root: HTMLElement, state: State): void {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
       console.log('false');
     }
-    (<HTMLButtonElement>e.target).onclick = null;
     (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
+    (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
+    window.removeEventListener('keydown', keyDownHandler);
     sprintGame.currentQuestion += 1;
     renderSprint(root, state);
   }
 
   if (sprintGame.totalWords === 0) {
     elem.innerHTML = zeroWordHTML();
-    const okZeroBtn = root.querySelector('#zero-ok-btn');
-    (<HTMLButtonElement>okZeroBtn).addEventListener('click', () => {
-      RenderPage[state.userSettings.currentPage](root, state);
-    });
+    const gameEndBtn = root.querySelector('#zero-ok-btn');
+    (<HTMLButtonElement>gameEndBtn).addEventListener(
+      'click',
+      () => {
+        RenderPage[state.userSettings.currentPage](root, state);
+      },
+      { once: true }
+    );
     return;
   }
 
@@ -115,16 +133,16 @@ function renderSprint(root: HTMLElement, state: State): void {
     const trueBtn = root.querySelector('#true-btn');
     (<HTMLButtonElement>falseBtn).onclick = falseClickHandler;
     (<HTMLButtonElement>trueBtn).onclick = trueClickHandler;
+    window.addEventListener('keydown', keyDownHandler);
   } else {
-    console.log('Игра завершена');
-    console.log('Результат: ', sprintGame.gameWords.answerRezults);
+    console.log('Игра завершена: ', sprintGame.gameWords.answerRezults);
   }
 }
 
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 2,
+    maxTotalWords: 5,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
