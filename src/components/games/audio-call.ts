@@ -5,7 +5,7 @@ import {
 } from './game-words';
 import Game from '../audio-challenge-game/game-class';
 
-const gameInstance = new Game();
+
 
 const toHTML = (): string => {
   return `  
@@ -24,6 +24,7 @@ function renderAudioCall(root: HTMLElement): void {
 }
 
 export default function gameAudioCall(root: HTMLElement, props: State) {
+  const gameInstance = new Game(props);
   if (props.gameOptions.wayToGetWords === wayToGetWords.byPage) {
     gameInstance.getDataForGameFromBook(props).then((element) => {
       root.append(element);

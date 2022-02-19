@@ -55,21 +55,24 @@ export default class User {
   }
 
   static checkAuthorization(state: State) {
+    const authData = state.userSettings.authData as Auth;
     User.getUser(
-      (<Auth>state.userSettings.authData).userId,
-      (<Auth>state.userSettings.authData).token
+      authData.userId,
+      authData.token
     )
       .then((response) => {
         switch (response.status) {
           case 401:
+            console.log(authData)
             User.updateToken(
-              (<Auth>state.userSettings.authData).userId,
-              (<Auth>state.userSettings.authData).refreshToken
+              authData.userId,
+              authData.refreshToken
             ).then((result) => {
-              state.userSettings.authData = result;
+              authData.token = result.token;
+              authData.refreshToken = result.refreshToken;
             });
             break;
-          case 404:
+          case 403:
             delete state.userSettings.authData;
             break;
         }
