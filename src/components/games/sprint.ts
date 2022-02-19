@@ -14,6 +14,7 @@ import {
   generateGameWordsForSelectPage,
   getAllWordsFromChapter,
 } from './game-words';
+import ResultPage from '../audio-challenge-game/result-page/result-page';
 
 const totalWordsInChapter = 600;
 
@@ -135,6 +136,14 @@ function renderSprint(root: HTMLElement, state: State): void {
     (<HTMLButtonElement>trueBtn).onclick = trueClickHandler;
     window.addEventListener('keydown', keyDownHandler);
   } else {
+    const resultPageInstance = new ResultPage(state);
+    const element = resultPageInstance.getResultPageElement(
+      sprintGame.gameWords.words,
+      sprintGame.gameWords.answerRezults
+    );
+    const container = <HTMLElement>root.querySelector('.container');
+    container.innerHTML = '';
+    container.append(element);
     console.log('Игра завершена: ', sprintGame.gameWords.answerRezults);
   }
 }
