@@ -74,13 +74,13 @@ function addEventsForApp(param: State): void {
           case linkType.audioCallGameLevel:
             props.currentMenuItem = CurrentPage.audioCallGameLevel;
             props.gameOptions.selectGame = GameName.AudioCall;
-            renderSelectGameLevel(main, param);
+            renderSelectGameLevel(main, props);
             activateMenuItem(props);
             return;
           case linkType.sprintGameLevel:
             props.currentMenuItem = CurrentPage.sprintGameLevel;
             props.gameOptions.selectGame = GameName.Sprint;
-            renderSelectGameLevel(main, param);
+            renderSelectGameLevel(main, props);
             activateMenuItem(props);
             return;
           case linkType.audioCallGame:

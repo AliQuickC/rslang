@@ -151,7 +151,7 @@ function renderSprint(root: HTMLElement, state: State): void {
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 5,
+    maxTotalWords: 10,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
@@ -199,9 +199,5 @@ export default async function gameSprint(root: HTMLElement, param: State) {
   // eslint-disable-next-line no-param-reassign
   // props.userSettings.currentPage = CurrentPage.sprintGame;
 
-  if (props.sprintGame.totalWords > 0) {
-    renderSprint(root, props);
-  } else {
-    renderSprint(root, props);
-  }
+  renderSprint(root, props);
 }
