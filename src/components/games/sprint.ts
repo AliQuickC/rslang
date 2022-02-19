@@ -2,6 +2,7 @@ import {
   CurrentPage,
   CurrentPageWord,
   GameWords,
+  RenderPage,
   sprintGame,
   State,
   wayToGetWords,
@@ -10,9 +11,12 @@ import { getRandomTrueOrFalse, randomInteger } from '../../modules/utils';
 import {
   generateGameWordsForSelectLevel,
   generateGameWordsForSelectPage,
+  getAllWordsFromChapter,
 } from './game-words';
 
-const toHTML = (gameWords: GameWords, questionNumb: number): string => {
+const totalWordsInChapter = 600;
+
+const questionHTML = (gameWords: GameWords, questionNumb: number): string => {
   return `  
     <section class="section sprint" id="sprint">
       <div class="container sprint-conteiner">        
@@ -33,16 +37,94 @@ const toHTML = (gameWords: GameWords, questionNumb: number): string => {
   `;
 };
 
-function renderSprint(root: HTMLElement, gameData: sprintGame): void {
-  const elem = root;
+const zeroWordHTML = (): string => {
+  return `  
+    <section class="section sprint" id="sprint">
+      <div class="container sprint-conteiner">        
+        <div class="sprint__game sprint-game" id="sprint-game">
+          <div class="sprint-game__card">
+            <p class="sprint-game__word-zero">
+              Все слова раздела изучены
+            </p>
+            <div class="sprint-game__buttons-wrap">              
+              <button class="sprint-game__ok-btn" id="zero-ok-btn">Ок</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+};
 
-  if (gameData.currentQuestion <= gameData.totalWords) {
-    elem.innerHTML = toHTML(gameData.gameWords, gameData.currentQuestion);
+// function renderGameRezult(root: HTMLElement, gameData: sprintGame): void {}
+
+function renderSprint(root: HTMLElement, state: State): void {
+  const elem = root;
+  const { sprintGame } = state;
+
+  function falseClickHandler(e: Event) {
+    if (
+      sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
+      sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
+    ) {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
+      console.log('false');
+    } else {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
+      console.log('true');
+    }
+    (<HTMLButtonElement>e.target).onclick = null;
+    (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
+    sprintGame.currentQuestion += 1;
+    renderSprint(root, state);
+  }
+
+  function trueClickHandler(e: Event) {
+    if (
+      sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
+      sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
+    ) {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
+      console.log('true');
+    } else {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
+      console.log('false');
+    }
+    (<HTMLButtonElement>e.target).onclick = null;
+    (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
+    sprintGame.currentQuestion += 1;
+    renderSprint(root, state);
+  }
+
+  if (sprintGame.totalWords === 0) {
+    elem.innerHTML = zeroWordHTML();
+    const okZeroBtn = root.querySelector('#zero-ok-btn');
+    (<HTMLButtonElement>okZeroBtn).addEventListener('click', () => {
+      RenderPage[state.userSettings.currentPage](root, state);
+    });
+    return;
+  }
+
+  if (sprintGame.totalWords > sprintGame.currentQuestion) {
+    elem.innerHTML = questionHTML(
+      sprintGame.gameWords,
+      sprintGame.currentQuestion
+    );
+
+    const falseBtn = root.querySelector('#false-btn');
+    const trueBtn = root.querySelector('#true-btn');
+    (<HTMLButtonElement>falseBtn).onclick = falseClickHandler;
+    (<HTMLButtonElement>trueBtn).onclick = trueClickHandler;
+  } else {
+    console.log('Игра завершена');
+    console.log('Результат: ', sprintGame.gameWords.answerRezults);
   }
 }
 
-export default async function gameSprint(root: HTMLElement, props: State) {
-  const sprintGame: sprintGame = {
+export default async function gameSprint(root: HTMLElement, param: State) {
+  const props = param;
+  props.sprintGame = {
+    maxTotalWords: 2,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
@@ -53,33 +135,46 @@ export default async function gameSprint(root: HTMLElement, props: State) {
   };
 
   if (props.gameOptions.wayToGetWords === wayToGetWords.byPage) {
-    sprintGame.gameWords.words = await generateGameWordsForSelectPage(
+    props.gameOptions.gameLevel =
+      props.userSettings.schoolbookCurrentPosition.chapter;
+    props.sprintGame.gameWords.words = await generateGameWordsForSelectPage(
       props.userSettings,
       props.userSettings.schoolbookCurrentPosition.chapter,
       props.userSettings.schoolbookCurrentPosition.page,
-      25
+      props.sprintGame.maxTotalWords
     ); // .then(console.log);
   } else {
-    sprintGame.gameWords.words = await generateGameWordsForSelectLevel(
+    props.sprintGame.gameWords.words = await generateGameWordsForSelectLevel(
       props.userSettings,
       props.gameOptions.gameLevel,
-      25
+      props.sprintGame.maxTotalWords
     ); // .then(console.log);
   }
 
-  sprintGame.totalWords = sprintGame.gameWords.words.length;
+  props.sprintGame.totalWords = props.sprintGame.gameWords.words.length;
+  props.sprintGame.gameWords.answerRezults = new Array(
+    props.sprintGame.totalWords
+  );
 
-  sprintGame.gameWords.answerVariants = sprintGame.gameWords.words.map(
-    (item, index, array) =>
+  const totalWordsOfChapter = await getAllWordsFromChapter(
+    props.gameOptions.gameLevel,
+    totalWordsInChapter
+  );
+
+  props.sprintGame.gameWords.answerVariants =
+    props.sprintGame.gameWords.words.map((item) =>
       getRandomTrueOrFalse()
         ? item.wordTranslate
-        : array[randomInteger(0, array.length - 1)].wordTranslate
-  );
+        : totalWordsOfChapter[randomInteger(0, totalWordsOfChapter.length - 1)]
+            .wordTranslate
+    );
 
   // eslint-disable-next-line no-param-reassign
   // props.userSettings.currentPage = CurrentPage.sprintGame;
 
-  if (sprintGame.totalWords > 0) {
-    renderSprint(root, sprintGame);
+  if (props.sprintGame.totalWords > 0) {
+    renderSprint(root, props);
+  } else {
+    renderSprint(root, props);
   }
 }

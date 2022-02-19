@@ -14,6 +14,30 @@ const totalWordsInGroup = 600;
 const totalWordsInPage = 20;
 const totalPageInChapter = 30;
 
+export async function getAllWordsFromChapter(
+  chapter: number,
+  maxNumberOfWords = 10
+): Promise<CurrentPageWord[]> {
+  const createPageArray = new Array(totalPageInChapter)
+    .fill('undefined')
+    .map((_, index) =>
+      getWords(chapter - 1, index).then((x: Word[]) =>
+        x.map((item) => convertObject(item))
+      )
+    );
+
+  const pageArray: CurrentPageWord[][] = await Promise.all(createPageArray);
+
+  const groupWords = pageArray
+    .reduce((summ, item) => {
+      summ.push(...item);
+      return summ;
+    }, [])
+    .slice(0, maxNumberOfWords);
+
+  return groupWords;
+}
+
 export async function generateGameWordsForSelectLevel(
   props: UserSettings,
   level: number,
@@ -47,22 +71,7 @@ export async function generateGameWordsForSelectLevel(
     return groupWords;
   }
 
-  const createPageArray = new Array(totalPageInChapter)
-    .fill('undefined')
-    .map((_, index) =>
-      getWords(level - 1, index).then((x: Word[]) =>
-        x.map((item) => convertObject(item))
-      )
-    );
-
-  const pageArray: CurrentPageWord[][] = await Promise.all(createPageArray);
-
-  const groupWords = pageArray
-    .reduce((summ, item) => {
-      summ.push(...item);
-      return summ;
-    }, [])
-    .slice(0, maxNumberOfWords);
+  const groupWords = await getAllWordsFromChapter(level, maxNumberOfWords);
 
   return groupWords;
 }
