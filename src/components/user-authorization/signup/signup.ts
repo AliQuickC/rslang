@@ -55,9 +55,15 @@ export default class SignUp extends Login {
       User.createUser(this.returnObjectWithInfoFromInput())
         .then((response) => {
           if (response.ok) {
-            this.parentElement.removeChild(loginWindow);
+            // this.parentElement.removeChild(loginWindow);
+
             delete SignUp.state.userSettings.authData;
             SignUp.state.userSettings.authorized = false;
+            const congratulationMessage = getErrorWindow(errorMessage.registrationSuccess, loginWindow);
+            loginWindow.append(
+              congratulationMessage
+            );
+            congratulationMessage.addEventListener('click',()=>this.parentElement.removeChild(loginWindow))
             renderHeader(
               document.querySelector('#header') as HTMLElement,
               SignUp.state

@@ -170,7 +170,7 @@ function renderSprint(root: HTMLElement, state: State): void {
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 20,
+    maxTotalWords: 5,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {

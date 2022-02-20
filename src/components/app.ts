@@ -13,6 +13,7 @@ import UserAuthorization from './user-authorization/user-authorization';
 import renderSelectGameLevel from './games/select-level';
 import gameAudioCall from './games/audio-call';
 import gameSprint from './games/sprint';
+import User from './user-authorization/userApi/userApi';
 
 const toHTML = (): string => {
   return `
@@ -31,7 +32,6 @@ function setPageState(props: State) {
 
 function addEventsForApp(param: State): void {
   const userAuthInstance = new UserAuthorization(param);
-  const userAuthorizationElement = userAuthInstance.readyElement;
 
   const userSett = param.userSettings;
   const props = param;
@@ -109,7 +109,7 @@ function addEventsForApp(param: State): void {
             break;
           case linkType.login:
             if (!userSett.authorized) {
-              currentTarget.append(userAuthorizationElement);
+              currentTarget.append(userAuthInstance.getReadyElement());
             } else {
               userSett.authorized = false;
               delete userSett.authData;
@@ -127,6 +127,9 @@ function addEventsForApp(param: State): void {
 }
 
 export default function renderApp(root: HTMLElement, props: State): void {
+  if (props.userSettings.authorized) {
+    User.checkAuthorization(props);
+  }
   const rootElem = root;
   rootElem.innerHTML = toHTML();
 

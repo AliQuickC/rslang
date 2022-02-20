@@ -39,7 +39,7 @@ export default class User {
     return fetch(`${urlUsers}/${id}`, requestOptions);
   }
 
-  static updateToken(userId: string, tokenReset: string): Promise<Auth> {
+  static updateToken(userId: string, tokenReset: string)/* : Promise<Auth> */ {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${tokenReset}`);
 
@@ -49,30 +49,41 @@ export default class User {
       redirect: 'follow',
     };
 
-    return fetch(`${urlUsers}/${userId}/tokens`, requestOptions).then(
-      (response) => response.json()
-    );
+    return fetch(`${urlUsers}/${userId}/tokens`, requestOptions)
+  }
+
+  static updateTokenOrLogout(state:State){
+    if (state.userSettings.authData) {
+      User.updateToken(state.userSettings.authData.userId, state.userSettings.authData.refreshToken).then((resp) => {
+        if (!resp.ok) {
+          delete state.userSettings.authData;
+        }
+      })
+    }
   }
 
   static checkAuthorization(state: State) {
     const authData = state.userSettings.authData as Auth;
-    User.getUser(
-      authData.userId,
-      authData.token
-    )
+    User.getUser(authData.userId, authData.token)
       .then((response) => {
         switch (response.status) {
-          case 401:
-            console.log(authData)
-            User.updateToken(
-              authData.userId,
-              authData.refreshToken
-            ).then((result) => {
-              authData.token = result.token;
-              authData.refreshToken = result.refreshToken;
-            });
-            break;
+          // case 401:
+          //   console.log(authData, 'authdata');
+          //   User.updateToken(authData.userId, authData.refreshToken)
+          //     .then((result) => {
+          //       authData.token = result.token;
+          //       authData.refreshToken = result.refreshToken;
+          //       console.log(authData, result, 'authdata222');
+          //     })
+          //     .catch((error) => console.log(error));
+          //
+          //   break;
           case 403:
+            delete state.userSettings.authData;
+            break;
+          case 200:
+            break;
+          default:
             delete state.userSettings.authData;
             break;
         }
@@ -80,9 +91,7 @@ export default class User {
       .catch((error) => console.log(error));
   }
 
-  static createUser(
-    value: idNameEmailPasswordType
-  ): Promise<Response> {
+  static createUser(value: idNameEmailPasswordType): Promise<Response> {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
