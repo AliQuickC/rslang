@@ -10,9 +10,7 @@ import {
 } from '../../../modules/types';
 import User from '../../user-authorization/userApi/userApi';
 import { defaultWordStatus } from '../../utilites/consts';
-import { IObjectWithUpdateWordsArrays } from '../../utilites/types';
 import { saveUserWord } from '../../../modules/api';
-import GameApi from '../game-api/game-api';
 
 export default class ResultPage {
   private state: State;
@@ -106,6 +104,7 @@ export default class ResultPage {
         for (let i = 0; i < array.length; i++){
           if (!array[i].userWord) {
             array[i].userWord = defaultWordStatus as UserWord;
+            (<UserWord>array[i].userWord).optional.answerResultArray.length = 0;
             // isNew = true;
           }
           (<UserWord>array[i].userWord).optional.answerResultArray.push(booleanArray[i]);
@@ -136,8 +135,6 @@ export default class ResultPage {
           ) {
             (<UserWord>array[i].userWord).difficulty = Difficulty.easy;
           }
-
-          // console.log(array[i].id, (<UserWord>array[i].userWord), truthCount);
 
           saveUserWord(authData.userId,array[i].id,authData.token,<UserWord>array[i].userWord)
             .then((result)=>console.log(result))
