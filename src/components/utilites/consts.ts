@@ -12,7 +12,7 @@ export const defaultAudioVolume = 0.3;
 export const gameButtonInnerText = 'не знаю';
 export const defaultWordStatus = {
   difficulty: 'basic',
-  optional: {answerResultArray:[]}
+  optional: {answerResultArray:[]=[]}
 }
 export const errorMessage = {
   wrongPasswordRepeat: 'wrong password repeat',

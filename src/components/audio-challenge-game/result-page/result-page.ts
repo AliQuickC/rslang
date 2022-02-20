@@ -101,23 +101,29 @@ export default class ResultPage {
 
         authData.token = auth.token;
         authData.refreshToken = auth.refreshToken;
-        for (let i = 0; i < array.length; i++){
+        for (let i = 0; i < array.length; i++) {
           if (!array[i].userWord) {
-            array[i].userWord = defaultWordStatus as UserWord;
-            (<UserWord>array[i].userWord).optional.answerResultArray.length = 0;
+            array[i].userWord = {
+              difficulty: Difficulty.basic,
+              optional: { answerResultArray: [] },
+            } as UserWord;
+
             // isNew = true;
           }
-          (<UserWord>array[i].userWord).optional.answerResultArray.push(booleanArray[i]);
+          (<UserWord>array[i].userWord).optional.answerResultArray.push(
+            booleanArray[i]
+          );
 
           const truthCount =
-            (<UserWord>array[i].userWord).optional.answerResultArray.lastIndexOf(
-              false
-            ) > 0
-              ? (<UserWord>array[i].userWord).optional.answerResultArray.length -
-              1 -
-              (<UserWord>(
-                array[i].userWord
-              )).optional.answerResultArray.lastIndexOf(false)
+            (<UserWord>(
+              array[i].userWord
+            )).optional.answerResultArray.lastIndexOf(false) >= 0
+              ? (<UserWord>array[i].userWord).optional.answerResultArray
+                  .length -
+                1 -
+                (<UserWord>(
+                  array[i].userWord
+                )).optional.answerResultArray.lastIndexOf(false)
               : (<UserWord>array[i].userWord).optional.answerResultArray.length;
 
           if (
@@ -130,19 +136,25 @@ export default class ResultPage {
           if (
             ((<UserWord>array[i].userWord).difficulty === Difficulty.basic &&
               truthCount >= 3) ||
-            ((<UserWord>array[i].userWord).difficulty === Difficulty.difficult &&
+            ((<UserWord>array[i].userWord).difficulty ===
+              Difficulty.difficult &&
               truthCount >= 5)
           ) {
             (<UserWord>array[i].userWord).difficulty = Difficulty.easy;
           }
+          console.log(truthCount, (<UserWord>(
+            array[i].userWord
+          )).optional.answerResultArray.lastIndexOf(false))
 
-          saveUserWord(authData.userId,array[i].id,authData.token,<UserWord>array[i].userWord)
-            .then((result)=>console.log(result))
-            .catch(error=>console.log(error))
-
+          saveUserWord(
+            authData.userId,
+            array[i].id,
+            authData.token,
+            <UserWord>array[i].userWord
+          )
+            .then((result) => console.log(result))
+            .catch((error) => console.log(error));
         }
-
-
       });
     }
   }
