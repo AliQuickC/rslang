@@ -99,58 +99,53 @@ export default class ResultPage {
     if (this.state.userSettings.authorized) {
       let authData = this.state.userSettings.authData as Auth;
       User.updateToken(authData.userId, authData.refreshToken).then((auth) => {
-        let isNew = false;
-        //   let arrray = [];
+        // let isNew = false;
+
         authData.token = auth.token;
         authData.refreshToken = auth.refreshToken;
-
-        array.forEach((word, i) => {
-          if (!word.userWord) {
-            word.userWord = defaultWordStatus as UserWord;
-            isNew = true;
+        for (let i = 0; i < array.length; i++){
+          if (!array[i].userWord) {
+            array[i].userWord = defaultWordStatus as UserWord;
+            // isNew = true;
           }
-          console.log(word.userWord.optional.answerResultArray.length);
-          // arrray = (<UserWord>word.userWord).optional.answerResultArray;
-
-          (<UserWord>word.userWord).optional.answerResultArray.push(booleanArray[i]);
-          // (<UserWord>word.userWord).optional.answerResultArray.push(true);
-          // (<UserWord>word.userWord).optional.answerResultArray.length = 0;
-          // (<UserWord>word.userWord).optional.answerResultArray = arrray;
+          (<UserWord>array[i].userWord).optional.answerResultArray.push(booleanArray[i]);
 
           const truthCount =
-            (<UserWord>word.userWord).optional.answerResultArray.lastIndexOf(
+            (<UserWord>array[i].userWord).optional.answerResultArray.lastIndexOf(
               false
             ) > 0
-              ? (<UserWord>word.userWord).optional.answerResultArray.length -
-                1 -
-                (<UserWord>(
-                  word.userWord
-                )).optional.answerResultArray.lastIndexOf(false)
-              : (<UserWord>word.userWord).optional.answerResultArray.length;
+              ? (<UserWord>array[i].userWord).optional.answerResultArray.length -
+              1 -
+              (<UserWord>(
+                array[i].userWord
+              )).optional.answerResultArray.lastIndexOf(false)
+              : (<UserWord>array[i].userWord).optional.answerResultArray.length;
 
           if (
             !booleanArray[i] &&
-            (<UserWord>word.userWord).difficulty === Difficulty.easy
+            (<UserWord>array[i].userWord).difficulty === Difficulty.easy
           ) {
-            (<UserWord>word.userWord).difficulty = Difficulty.basic;
+            (<UserWord>array[i].userWord).difficulty = Difficulty.basic;
           }
 
           if (
-            ((<UserWord>word.userWord).difficulty === Difficulty.basic &&
+            ((<UserWord>array[i].userWord).difficulty === Difficulty.basic &&
               truthCount >= 3) ||
-            ((<UserWord>word.userWord).difficulty === Difficulty.difficult &&
+            ((<UserWord>array[i].userWord).difficulty === Difficulty.difficult &&
               truthCount >= 5)
           ) {
-            (<UserWord>word.userWord).difficulty = Difficulty.easy;
+            (<UserWord>array[i].userWord).difficulty = Difficulty.easy;
           }
 
-          console.log(word.id, word.userWord.difficulty, truthCount);
+          // console.log(array[i].id, (<UserWord>array[i].userWord), truthCount);
 
-          saveUserWord(authData.userId,word.id,authData.token,<UserWord>word.userWord)
+          saveUserWord(authData.userId,array[i].id,authData.token,<UserWord>array[i].userWord)
             .then((result)=>console.log(result))
             .catch(error=>console.log(error))
 
-        });
+        }
+
+
       });
     }
   }
