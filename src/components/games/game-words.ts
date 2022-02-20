@@ -14,9 +14,34 @@ const totalWordsInGroup = 600;
 const totalWordsInPage = 20;
 const totalPageInChapter = 30;
 
+export async function getAllWordsFromChapter(
+  chapter: number,
+  maxNumberOfWords = 10
+): Promise<CurrentPageWord[]> {
+  const createPageArray = new Array(totalPageInChapter)
+    .fill('undefined')
+    .map((_, index) =>
+      getWords(chapter - 1, index).then((x: Word[]) =>
+        x.map((item) => convertObject(item))
+      )
+    );
+
+  const pageArray: CurrentPageWord[][] = await Promise.all(createPageArray);
+
+  const groupWords = pageArray
+    .reduce((summ, item) => {
+      summ.push(...item);
+      return summ;
+    }, [])
+    .slice(0, maxNumberOfWords);
+
+  return groupWords;
+}
+
 export async function generateGameWordsForSelectLevel(
   props: UserSettings,
-  level: number
+  level: number,
+  maxNumberOfWords = 10
 ): Promise<CurrentPageWord[]> {
   if (props.authorized) {
     // const props = param;
@@ -40,25 +65,13 @@ export async function generateGameWordsForSelectLevel(
             }
             return true;
           })
+          .slice(0, maxNumberOfWords)
       ))();
 
     return groupWords;
   }
 
-  const createPageArray = new Array(totalPageInChapter)
-    .fill('undefined')
-    .map((_, index) =>
-      getWords(level - 1, index).then((x: Word[]) =>
-        x.map((item) => convertObject(item))
-      )
-    );
-
-  const pageArray: CurrentPageWord[][] = await Promise.all(createPageArray);
-
-  const groupWords = pageArray.reduce((summ, item) => {
-    summ.push(...item);
-    return summ;
-  }, []);
+  const groupWords = await getAllWordsFromChapter(level, maxNumberOfWords);
 
   return groupWords;
 }
@@ -67,8 +80,9 @@ export async function generateGameWordsForSelectLevel(
 export async function generateGameWordsForSelectPage(
   props: UserSettings,
   chapter: number,
-  page: number
-) {
+  page: number,
+  maxNumberOfWords = 10
+): Promise<CurrentPageWord[]> {
   const authData = <Auth>props.authData;
   // const groupWords = await ((): Promise<CurrentPageWord[]> =>
   //   getAggregatedUserWords(
@@ -111,10 +125,12 @@ export async function generateGameWordsForSelectPage(
 
   const pageArray: CurrentPageWord[][] = await Promise.all(createPageArray);
 
-  const groupWords = pageArray.reduce((summ, item) => {
-    summ.push(...item);
-    return summ;
-  }, []);
+  const groupWords = pageArray
+    .reduce((summ, item) => {
+      summ.push(...item);
+      return summ;
+    }, [])
+    .slice(0, maxNumberOfWords);
 
   return groupWords;
 }

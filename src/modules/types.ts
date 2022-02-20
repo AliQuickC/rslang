@@ -157,9 +157,21 @@ export interface UserSettings {
   authData?: Auth;
 }
 
+export interface GameWords {
+  words: CurrentPageWord[];
+  answerVariants: string[];
+  answerRezults: boolean[];
+}
+export interface sprintGame {
+  maxTotalWords: number;
+  totalWords: number;
+  currentQuestion: number;
+  gameWords: GameWords;
+}
+
 export interface State {
   userSettings: UserSettings;
-  currentChapterPage: boolean[];
+  isExploreCurrentChapterPages: boolean[];
   currentPageWords: CurrentPageWord[];
   currentMenuItem: CurrentPage;
   gameOptions: {
@@ -167,4 +179,5 @@ export interface State {
     wayToGetWords: wayToGetWords;
     gameLevel: number;
   };
+  sprintGame: sprintGame;
 }

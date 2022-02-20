@@ -44,9 +44,6 @@ function addEventsForApp(param: State): void {
       const gameLevel = (<HTMLElement>e.target).dataset.level;
       const currentTarget = e.currentTarget as HTMLElement;
 
-      // generateGameWordsForSelectLevel(props: State, level: number);
-      // generateGameWordsForSelectPage(chapter: number, page: number);
-
       if (gameLevel) {
         props.gameOptions.selectGame = (<HTMLElement>e.target).dataset
           .gameName as GameName;
@@ -77,13 +74,13 @@ function addEventsForApp(param: State): void {
           case linkType.audioCallGameLevel:
             props.currentMenuItem = CurrentPage.audioCallGameLevel;
             props.gameOptions.selectGame = GameName.AudioCall;
-            renderSelectGameLevel(main, param);
+            renderSelectGameLevel(main, props);
             activateMenuItem(props);
             return;
           case linkType.sprintGameLevel:
             props.currentMenuItem = CurrentPage.sprintGameLevel;
             props.gameOptions.selectGame = GameName.Sprint;
-            renderSelectGameLevel(main, param);
+            renderSelectGameLevel(main, props);
             activateMenuItem(props);
             return;
           case linkType.audioCallGame:

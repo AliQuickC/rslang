@@ -50,7 +50,6 @@ export default class User {
     };
 
     return fetch(`${urlUsers}/${userId}/tokens`, requestOptions)
-
   }
 
   static updateTokenOrLogout(state:State){

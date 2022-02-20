@@ -2,6 +2,7 @@ import {
   Auth,
   CurrentPage,
   GameName,
+  sprintGame,
   UserSettings,
   wayToGetWords,
 } from './types';
@@ -18,7 +19,7 @@ export const defaultUserSettings: UserSettings = {
 
 const state = {
   userSettings: {} as UserSettings,
-  currentChapterPage: [],
+  isExploreCurrentChapterPages: [],
   currentPageWords: [],
   currentMenuItem: CurrentPage.general,
   gameOptions: {
@@ -26,5 +27,6 @@ const state = {
     wayToGetWords: wayToGetWords.byLevel,
     gameLevel: 1,
   },
+  sprintGame: {} as sprintGame,
 };
 export default state;
