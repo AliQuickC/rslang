@@ -1,3 +1,5 @@
+import { CurrentPageWord } from "../../modules/types";
+
 export type idNameEmailPasswordType = {
   id?: string;
   name?: string;
@@ -29,3 +31,8 @@ export type localStorageCurrentUserObject = {
   token: string;
   userId: string;
 };
+
+export interface IObjectWithUpdateWordsArrays {
+  newWordsArray: CurrentPageWord[],
+  usedWordsArray: CurrentPageWord[]
+}
