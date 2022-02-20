@@ -119,6 +119,7 @@ export default class Game {
     return gameRoundElement;
   }
 
+
   onClickFunction(event: Event) {
     const currentAudio = this.rightAnswersAudio as HTMLAudioElement;
     const target = event.target as HTMLLIElement;
@@ -137,13 +138,11 @@ export default class Game {
       (<CurrentPageWord[]>this.rightAnswersArray)[this.currentQuestionNumber]
         .wordTranslate
     ) {
-      // console.log('true');
       isRightClick = true;
       (<boolean[]>this.answersResultArray).push(true);
     } else if (target.tagName === 'LI' || target.tagName === 'BUTTON') {
-      // console.log('false');
       isRightClick = true;
-      (<boolean[]>this.answersResultArray).push(false);
+        (<boolean[]>this.answersResultArray).push(false);
     }
 
     !isRightClick ||
@@ -154,10 +153,9 @@ export default class Game {
             event.stopPropagation();
           }
         });
+        currentTarget.removeEventListener('click', <() => void>this.listener);
         setTimeout(() => {
           this.currentQuestionNumber++;
-          currentTarget.removeEventListener('click', <() => void>this.listener);
-          // const nextRoundElement = this.getDataForGameRound(this.currentQuestionNumber);
           button.addEventListener('click', (event) => {
             event.stopPropagation();
             let element: HTMLElement;
