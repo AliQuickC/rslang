@@ -61,6 +61,10 @@ const zeroWordHTML = (): string => {
 function renderSprint(root: HTMLElement, state: State): void {
   const elem = root;
   const { sprintGame } = state;
+  const audioTrue = '../../assets/sound/vol-sett.mp3';
+  const audioFalse = '../../assets/sound/wrong-answer.mp3';
+  const audio = new Audio();
+  audio.volume = 0.3;
 
   function keyDownHandler(e: KeyboardEvent): void {
     switch (e.code) {
@@ -76,39 +80,57 @@ function renderSprint(root: HTMLElement, state: State): void {
   }
 
   function falseClickHandler(): void {
+    let audioSrc: string;
     if (
       sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
       sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
     ) {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
+      audioSrc = audioFalse;
       console.log('false');
     } else {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
+      audioSrc = audioTrue;
       console.log('true');
     }
     (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
     (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
     window.removeEventListener('keydown', keyDownHandler);
-    sprintGame.currentQuestion += 1;
-    renderSprint(root, state);
+
+    audio.src = audioSrc;
+    audio.play();
+    audio.onended = () => {
+      audio.onended = null;
+      sprintGame.currentQuestion += 1;
+      renderSprint(root, state);
+    };
   }
 
   function trueClickHandler(): void {
+    let audioSrc: string;
     if (
       sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
       sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
     ) {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
+      audioSrc = audioTrue;
       console.log('true');
     } else {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
+      audioSrc = audioFalse;
       console.log('false');
     }
     (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
     (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
     window.removeEventListener('keydown', keyDownHandler);
-    sprintGame.currentQuestion += 1;
-    renderSprint(root, state);
+
+    audio.src = audioSrc;
+    audio.play();
+    audio.onended = () => {
+      audio.onended = null;
+      sprintGame.currentQuestion += 1;
+      renderSprint(root, state);
+    };
   }
 
   if (sprintGame.totalWords === 0) {
@@ -144,6 +166,10 @@ function renderSprint(root: HTMLElement, state: State): void {
     const container = <HTMLElement>root.querySelector('.container');
     container.innerHTML = '';
     container.append(element);
+    resultPageInstance.updateUserWords(
+      sprintGame.gameWords.words,
+      sprintGame.gameWords.answerRezults
+    );
     console.log('Игра завершена: ', sprintGame.gameWords.answerRezults);
   }
 }
@@ -151,7 +177,7 @@ function renderSprint(root: HTMLElement, state: State): void {
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 10,
+    maxTotalWords: 5,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
