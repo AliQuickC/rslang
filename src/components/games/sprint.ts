@@ -1,10 +1,7 @@
 /* eslint-disable no-use-before-define */
 import {
-  CurrentPage,
-  CurrentPageWord,
   GameWords,
   RenderPage,
-  sprintGame,
   State,
   wayToGetWords,
 } from '../../modules/types';
@@ -87,11 +84,9 @@ function renderSprint(root: HTMLElement, state: State): void {
     ) {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
       audioSrc = audioFalse;
-      console.log('false');
     } else {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
       audioSrc = audioTrue;
-      console.log('true');
     }
     (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
     (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
@@ -114,11 +109,9 @@ function renderSprint(root: HTMLElement, state: State): void {
     ) {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
       audioSrc = audioTrue;
-      console.log('true');
     } else {
       sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
       audioSrc = audioFalse;
-      console.log('false');
     }
     (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
     (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
@@ -177,7 +170,7 @@ function renderSprint(root: HTMLElement, state: State): void {
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 5,
+    maxTotalWords: 20,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
