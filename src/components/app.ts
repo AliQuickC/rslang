@@ -1,12 +1,13 @@
 import {
+  Auth,
   CurrentPage,
   GameName,
   linkType,
   RenderPage,
   State,
   UserSettings,
-  wayToGetWords,
-} from '../modules/types';
+  wayToGetWords
+} from "../modules/types";
 import renderHeader, { activateMenuItem } from './header';
 import renderFooter from './footer';
 import UserAuthorization from './user-authorization/user-authorization';
@@ -14,6 +15,7 @@ import renderSelectGameLevel from './games/select-level';
 import gameAudioCall from './games/audio-call';
 import gameSprint from './games/sprint';
 import User from './user-authorization/userApi/userApi';
+import StatisticsApi from "./statistics/statistics-api/statistics-api";
 
 const toHTML = (): string => {
   return `
@@ -105,6 +107,10 @@ function addEventsForApp(param: State): void {
           case linkType.statistics:
             userSett.currentPage = CurrentPage.statistics;
             props.currentMenuItem = CurrentPage.statistics;
+
+            console.log(props);
+
+            await StatisticsApi.getStatistics((<Auth>props.userSettings.authData).userId, (<Auth>props.userSettings.authData).token);
             break;
           case linkType.developmentTeam:
             userSett.currentPage = CurrentPage.developmentTeam;

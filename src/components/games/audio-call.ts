@@ -46,5 +46,6 @@ export default function gameAudioCall(root: HTMLElement, props: State) {
     //   props.gameOptions.gameLevel
     // ).then(console.log);
   }
+  console.log(props.gameOptions.selectGame)
   renderAudioCall(root);
 }

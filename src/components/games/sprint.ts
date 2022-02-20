@@ -33,5 +33,6 @@ export default async function gameSprint(root: HTMLElement, props: State) {
       props.gameOptions.gameLevel
     ).then(console.log);
   }
+  console.log(props.gameOptions.selectGame)
   renderSprint(root);
 }
