@@ -50,12 +50,7 @@ export default class User {
     };
 
     return fetch(`${urlUsers}/${userId}/tokens`, requestOptions)
-      // .then(
-      // (response) => {
-      //   console.log(response)
-      //   return response.json();
-      // }
-    // );
+
   }
 
   static updateTokenOrLogout(state:State){

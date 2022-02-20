@@ -96,13 +96,7 @@ export default class ResultPage {
   updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]) {
     if (this.state.userSettings.authorized) {
       let authData = this.state.userSettings.authData as Auth;
-      // User.updateToken(authData.userId, authData.refreshToken)
-      //   .then((resp) => resp.json() as unknown as Auth)
-      //   .then((auth) => {
-      //     // let isNew = false;
-      //
-      //     authData.token = auth.token;
-      //     authData.refreshToken = auth.refreshToken;
+
       for (let i = 0; i < array.length; i++) {
         if (!array[i].userWord) {
           array[i].userWord = {
@@ -158,8 +152,7 @@ export default class ResultPage {
           .then((result) => console.log(result))
           .catch((error) => console.log(error));
       }
-      //     })
-      //     .catch((error) => console.log(error));
+
     }
   }
 }
