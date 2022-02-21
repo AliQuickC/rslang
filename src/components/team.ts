@@ -5,7 +5,7 @@ const toHTML = (): string => {
         <h2 class="team__title">Команда разработчиков</h2>
         <div class="team__wrap">
           <div class="team__developer team__developer1 developer">
-            <img class="developer__photo" src="../assets/img/team/programmer.jpg" alt="developer foto">
+            <img class="developer__photo" src="./assets/images/team/programmer.jpg" alt="developer foto">
             <a class="github-link" href="https://github.com/AliQuickC" target="_blank" rel="noopener noreferrer">
               <span class="github-logo"></span>
               <span class="github-name developer__name">Александр</span>
@@ -18,7 +18,7 @@ const toHTML = (): string => {
             </ul>
           </div>
           <div class="team__developer team__developer2 developer">
-            <img class="developer__photo" src="../assets/img/team/programmer.jpg" alt="developer foto">
+            <img class="developer__photo" src="./assets/images/team/programmer.jpg" alt="developer foto">
             <a class="github-link" href="https://github.com/MDz1985" target="_blank" rel="noopener noreferrer">
               <span class="github-logo"></span>
               <span class="github-name developer__name">Дмитрий</span>
