@@ -135,11 +135,11 @@ export async function renewPageListData(
       .map((_, index) => getAggrWoldListData(props, chapter, index + 1));
     const pageArray = await Promise.all(createPageArray);
 
-    props.currentChapterPage = pageArray.map((item) => {
+    props.isExploreCurrentChapterPages = pageArray.map((item) => {
       return isExplorePage(item);
     });
 
-    return props.currentChapterPage;
+    return props.isExploreCurrentChapterPages;
   }
   return [];
 }

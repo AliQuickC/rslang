@@ -1,4 +1,4 @@
-import { CurrentPageWord } from "../../modules/types";
+import { CurrentPageWord } from '../../modules/types';
 
 export type idNameEmailPasswordType = {
   id?: string;

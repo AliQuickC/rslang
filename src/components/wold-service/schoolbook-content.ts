@@ -38,7 +38,7 @@ const toHTML = (param: State): string => {
     }</span></h2>
       ${
         userSett.authorized
-          ? '<div class="schoolbook-content__buttons-wrap"><button class="schoolbook-content__btn button-audiocall" data-link="audio-call-game-page">Изучать с игрой - Audio call</button><button class="schoolbook-content__btn button-sprint" data-link="sprint-game-page">Изучать с игрой - Sprint</button></div>'
+          ? '<div class="schoolbook-content__buttons-wrap"><button class="schoolbook-content__btn button-audiocall" data-link="audio-call-game-page">Изучать с игрой - Аудиовызов</button><button class="schoolbook-content__btn button-sprint" data-link="sprint-game-page">Изучать с игрой - Спринт</button></div>'
           : ''
       }
       <button class="schoolbook-content__btn button-back" data-page-number="0">↵ К списку страниц</button>
@@ -62,7 +62,9 @@ const toHTML = (param: State): string => {
     pages += `<div class="schoolbook-content__page page-chapter${
       userSett.schoolbookCurrentPosition.chapter
     } ${
-      userSett.authData && props.currentChapterPage[i] ? 'page-explored' : ''
+      userSett.authData && props.isExploreCurrentChapterPages[i]
+        ? 'page-explored'
+        : ''
     }" data-page-number="${i + 1}">Страница ${i + 1}</div>`;
   }
 

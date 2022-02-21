@@ -1,11 +1,5 @@
 import { State, wayToGetWords } from '../../modules/types';
-import {
-  generateGameWordsForSelectLevel,
-  generateGameWordsForSelectPage,
-} from './game-words';
 import Game from '../audio-challenge-game/game-class';
-
-
 
 const toHTML = (): string => {
   return `  
@@ -40,11 +34,6 @@ export default function gameAudioCall(root: HTMLElement, props: State) {
       .then((element) => {
         root.append(element);
       });
-    // console.log(props.gameOptions.gameLevel)
-    // generateGameWordsForSelectLevel(
-    //   props.userSettings,
-    //   props.gameOptions.gameLevel
-    // ).then(console.log);
   }
   console.log(props.gameOptions.selectGame)
   renderAudioCall(root);
