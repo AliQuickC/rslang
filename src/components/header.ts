@@ -1,23 +1,43 @@
 import { linkType, State, UserSettings } from '../modules/types';
 
+// function addEventsForHeader() {
+//   const menuBtm = document.getElementById('burger-menubtn');
+
+//   menuBtm
+// }
+
 const toHTML = (param: State): string => {
   const props = param;
   const userSett = param.userSettings;
 
   return `
-  <div class="container header-container">
-  <nav class="nav">
-  <ul class="menu">
-      <li class="menu__item active" data-link="general">Главная</li>
-      <li class="menu__item" data-link="schoolbook">Учебник</li>
-      <li class="menu__item" data-link="audio-call-game-level">Игра Аудиовызов</li>
-      <li class="menu__item" data-link="sprint-game-level">Игра Спринт</li>
+  <nav class="nav-burger-menu " id="nav-burger-menu">
+    <ul class="burger-menu">
+      <li class="burger-menu__item" data-link="general">Главная</li>
+      <li class="burger-menu__item" data-link="schoolbook">Учебник</li>
+      <li class="burger-menu__item" data-link="audio-call-game-level">Игра Аудиовызов</li>
+      <li class="burger-menu__item" data-link="sprint-game-level">Игра Спринт</li>
       ${
         userSett.authorized
-          ? '<li class="menu__item" data-link="statistics">Статистика</li>'
+          ? '<li class="burger-menu__item" data-link="statistics">Статистика</li>'
           : ''
       }
     </ul>
+  </nav>
+  <div class="container header-container">
+    <button class="nav-menubtn " id="burger-menubtn"></button>
+    <nav class="nav-header">
+      <ul class="menu">
+          <li class="menu__item active" data-link="general">Главная</li>
+          <li class="menu__item" data-link="schoolbook">Учебник</li>
+          <li class="menu__item" data-link="audio-call-game-level">Игра Аудиовызов</li>
+          <li class="menu__item" data-link="sprint-game-level">Игра Спринт</li>
+          ${
+            userSett.authorized
+              ? '<li class="menu__item" data-link="statistics">Статистика</li>'
+              : ''
+          }
+      </ul>
     </nav>
     <div class="login">
     <span class="login__name">${
@@ -47,4 +67,6 @@ export function activateMenuItem(props: State): void {
 export default function renderHeader(root: HTMLElement, props: State): void {
   const elem = root;
   elem.innerHTML = toHTML(props);
+
+  // addEventsForHeader();
 }

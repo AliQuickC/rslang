@@ -1,5 +1,5 @@
-/* eslint-disable no-use-before-define */
 import {
+  CurrentPage,
   GameWords,
   RenderPage,
   State,
@@ -14,6 +14,7 @@ import {
 import ResultPage from '../audio-challenge-game/result-page/result-page';
 
 const totalWordsInChapter = 600;
+const audio = new Audio();
 
 const questionHTML = (gameWords: GameWords, questionNumb: number): string => {
   return `  
@@ -25,6 +26,7 @@ const questionHTML = (gameWords: GameWords, questionNumb: number): string => {
               <span class="sprint-game__word-question">${gameWords.words[questionNumb].word}</span>
               <span class="sprint-game__word-answer">${gameWords.answerVariants[questionNumb]}</span>
             </p>
+            <div class="sprint-game__answer-indikator" id="answer-indikator"></div>
             <div class="sprint-game__buttons-wrap">
               <button class="sprint-game__false-btn" id="false-btn">← Неверно</button>
               <button class="sprint-game__true-btn" id="true-btn">Верно →</button>
@@ -60,8 +62,58 @@ function renderSprint(root: HTMLElement, state: State): void {
   const { sprintGame } = state;
   const audioTrue = '../../assets/sound/vol-sett.mp3';
   const audioFalse = '../../assets/sound/wrong-answer.mp3';
-  const audio = new Audio();
   audio.volume = 0.3;
+
+  function answerButtonClickHandler(audioSrc: string) {
+    (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
+    (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
+    // eslint-disable-next-line no-use-before-define
+    window.removeEventListener('keydown', keyDownHandler);
+
+    audio.src = audioSrc;
+    audio.play();
+    audio.onended = () => {
+      audio.onended = null;
+      sprintGame.currentQuestion += 1;
+      renderSprint(root, state);
+    };
+  }
+
+  function falseClickHandler(): void {
+    const answerIndikator = root.querySelector('#answer-indikator');
+    let audioSrc: string;
+    if (
+      sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
+      sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
+    ) {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
+      audioSrc = audioFalse;
+      (<HTMLElement>answerIndikator).classList.add('false_answer');
+    } else {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
+      audioSrc = audioTrue;
+      (<HTMLElement>answerIndikator).classList.add('true_answer');
+    }
+    answerButtonClickHandler(audioSrc);
+  }
+
+  function trueClickHandler(): void {
+    const answerIndikator = root.querySelector('#answer-indikator');
+    let audioSrc: string;
+    if (
+      sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
+      sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
+    ) {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
+      audioSrc = audioTrue;
+      (<HTMLElement>answerIndikator).classList.add('true_answer');
+    } else {
+      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
+      audioSrc = audioFalse;
+      (<HTMLElement>answerIndikator).classList.add('false_answer');
+    }
+    answerButtonClickHandler(audioSrc);
+  }
 
   function keyDownHandler(e: KeyboardEvent): void {
     switch (e.code) {
@@ -74,56 +126,6 @@ function renderSprint(root: HTMLElement, state: State): void {
       default:
         break;
     }
-  }
-
-  function falseClickHandler(): void {
-    let audioSrc: string;
-    if (
-      sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
-      sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
-    ) {
-      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
-      audioSrc = audioFalse;
-    } else {
-      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
-      audioSrc = audioTrue;
-    }
-    (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
-    (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
-    window.removeEventListener('keydown', keyDownHandler);
-
-    audio.src = audioSrc;
-    audio.play();
-    audio.onended = () => {
-      audio.onended = null;
-      sprintGame.currentQuestion += 1;
-      renderSprint(root, state);
-    };
-  }
-
-  function trueClickHandler(): void {
-    let audioSrc: string;
-    if (
-      sprintGame.gameWords.words[sprintGame.currentQuestion].wordTranslate ===
-      sprintGame.gameWords.answerVariants[sprintGame.currentQuestion]
-    ) {
-      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = true;
-      audioSrc = audioTrue;
-    } else {
-      sprintGame.gameWords.answerRezults[sprintGame.currentQuestion] = false;
-      audioSrc = audioFalse;
-    }
-    (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
-    (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
-    window.removeEventListener('keydown', keyDownHandler);
-
-    audio.src = audioSrc;
-    audio.play();
-    audio.onended = () => {
-      audio.onended = null;
-      sprintGame.currentQuestion += 1;
-      renderSprint(root, state);
-    };
   }
 
   if (sprintGame.totalWords === 0) {
@@ -163,14 +165,13 @@ function renderSprint(root: HTMLElement, state: State): void {
       sprintGame.gameWords.words,
       sprintGame.gameWords.answerRezults
     );
-    console.log('Игра завершена: ', sprintGame.gameWords.answerRezults);
   }
 }
 
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 5,
+    maxTotalWords: 10,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
@@ -188,13 +189,13 @@ export default async function gameSprint(root: HTMLElement, param: State) {
       props.userSettings.schoolbookCurrentPosition.chapter,
       props.userSettings.schoolbookCurrentPosition.page,
       props.sprintGame.maxTotalWords
-    ); // .then(console.log);
+    );
   } else {
     props.sprintGame.gameWords.words = await generateGameWordsForSelectLevel(
       props.userSettings,
       props.gameOptions.gameLevel,
       props.sprintGame.maxTotalWords
-    ); // .then(console.log);
+    );
   }
 
   props.sprintGame.totalWords = props.sprintGame.gameWords.words.length;
@@ -214,9 +215,6 @@ export default async function gameSprint(root: HTMLElement, param: State) {
         : totalWordsOfChapter[randomInteger(0, totalWordsOfChapter.length - 1)]
             .wordTranslate
     );
-
-  // eslint-disable-next-line no-param-reassign
-  // props.userSettings.currentPage = CurrentPage.sprintGame;
 
   renderSprint(root, props);
 }

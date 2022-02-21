@@ -1,8 +1,11 @@
 .authorization-window {
   width: 550px;
   position: absolute;
-  left: calc(50vw - 275px);
-  top: calc(50vh - 275px);
+  // left: calc(50vw - 275px);
+  // top: calc(50vh - 275px);
+  left: 50vw;
+  top: 50vh;
+  transform: translate(-50%,-50%);
   border: solid 1px grey;
   background-color: $secondary-project-color;
 
@@ -10,7 +13,13 @@
     position: absolute;
     top: -25px;
     right: -25px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    text-align: center;
     color: $active-button-font-color;
+    font-size: 42px;
     cursor: pointer;
 
     &:hover {
@@ -35,6 +44,7 @@
   border: none;
   background: $secondary-project-color;
   border-bottom: $border-style;
+  font-size: 1.5rem;
 
   &:hover {
     font-size: 2rem;
@@ -54,21 +64,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
   padding-bottom: 10%;
 
 
   .login-labels-shell {
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
   }
+}
 
+.login-labels-shell__label {
+  width: 100%;
 }
 
 .login-input {
   @extend %login-input-size;
+  font-size: 1.2rem;
 }
 
 .user-window {
@@ -98,4 +115,32 @@
   text-align: center;
   padding-top: 40%;
 
+}
+
+
+@media(max-width: 768px) {
+  .authorization-window {
+    width: 360px;
+  }
+  .login-shell {
+    height: 300px;
+  }
+}
+
+@media(max-width: 576px) {
+  
+  .authorization-window {
+    width: 280px;
+    .button-close {
+      top: 0;
+      right: 0;
+      color: black;
+      border-left: 1px solid black;
+      border-bottom: 1px solid black;
+      border-radius: 0 0 0 8px;
+    }
+  }
+  .button {
+    width: 200px;
+  }
 }
