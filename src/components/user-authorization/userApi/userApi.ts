@@ -88,6 +88,7 @@ export default class User {
           default:
             delete state.userSettings.authData;
             state.userSettings.authorized = false;
+            delete  state.userSettings.statistics;
             break;
         }
       })

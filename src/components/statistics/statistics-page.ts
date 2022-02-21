@@ -55,6 +55,10 @@ export default class StatisticsPage {
     ) as HTMLSpanElement;
 
     // const statistics = this.state.userSettings.statistics as IStatistics;
+    const authData = state.userSettings.authData as Auth;
+    // StatisticsApi.getStatistics(authData.userId, authData.token).then((result)=>{
+    //
+    // })
     if (!state.userSettings.statistics) {
       state.userSettings.statistics = this.getDefaultStatisticsObject();
     }
@@ -67,10 +71,10 @@ export default class StatisticsPage {
     let percent =
       (rightCount * 100) /
       state.userSettings.statistics.optional.day.statistics[0].newWords;
-    if (percent === Infinity) {
+    if (percent === Infinity || isNaN(percent)) {
       percent = 0;
     }
-    rightAnswersPercentElement.innerText = ` ${percent}%`;
+    rightAnswersPercentElement.innerText = ` ${Math.round(percent)}%`;
 
     gameStatisticsBox.append(
       this.getGameStatisticsElement(state.userSettings.statistics)
@@ -85,51 +89,12 @@ export default class StatisticsPage {
       gameStatisticsBox.innerHTML = '';
       gameStatisticsBox.append(this.getGameStatisticsElement(<IStatistics>state.userSettings.statistics));
     })
-    // gameStatisticsCheckShell.addEventListener('click', (event) =>
-    //   this.onChangeFunction(
-    //     event,
-    //     <IStatistics>state.userSettings.statistics,
-    //     gameStatisticsBox,
-    //     labelAudioChallenge,
-    //     labelSprint
-    //   )
-    // );
+
 
     return statisticsPageElement;
   }
 
-  // onChangeFunction(
-  //   event: Event,
-  //   statistics: IStatistics,
-  //   element: HTMLElement,
-  //   targetOne: HTMLElement,
-  //   targetTwo: HTMLElement
-  // ) {
-  //   const target = event.target as HTMLElement;
-  //   const link = (<HTMLElement>event.target).dataset.link as link;
-  //   const currentTarget = event.currentTarget as HTMLInputElement;
-  //   let currentGame = gameNameEnum.audioChallenge;
-  //   switch (target) {
-  //     case targetOne:
-  //       currentGame = gameNameEnum.audioChallenge;
-  //       break;
-  //     case targetTwo:
-  //       currentGame = gameNameEnum.sprint;
-  //       break;
-  //   }
-  //
-  //   // if (currentTarget.checked) {
-  //   //   currentGame = gameNameEnum.audioChallenge;
-  //   // } else {
-  //   //   currentGame = gameNameEnum.sprint;
-  //   // }
-  //   console.log(statistics, currentGame);
-  //   if (statistics) {
-  //     statistics.optional.currentGame = currentGame;
-  //     element.innerHTML = '';
-  //     element.append(this.getGameStatisticsElement(statistics));
-  //   }
-  // }
+
 
   getDefaultStatisticsObject(): IStatistics {
     const object = {} as IStatistics;
@@ -168,7 +133,6 @@ export default class StatisticsPage {
     const gameSeriesElement = element.querySelector(
       '.game-series'
     ) as HTMLSpanElement;
-    console.log(object.optional)
     const rightCount = object.optional[currentGame].rightCount;
     let percent = (rightCount * 100) / object.optional[currentGame].newWords;
     if (percent === Infinity || isNaN(percent)) {
@@ -176,7 +140,7 @@ export default class StatisticsPage {
     }
 
     gameNewWordsCountElement.innerText = ` ${object.optional[currentGame].newWords}`;
-    gameRightAnswersPercentElement.innerText = ` ${percent}%`;
+    gameRightAnswersPercentElement.innerText = ` ${Math.round(percent)}%`;
     gameSeriesElement.innerText = ` ${object.optional[currentGame].bestSeries}`;
     return element;
   }

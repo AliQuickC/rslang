@@ -116,6 +116,7 @@ function addEventsForApp(param: State): void {
             } else {
               userSett.authorized = false;
               delete userSett.authData;
+              delete userSett.statistics;
               renderHeader(app.querySelector('#header') as HTMLElement, param);
             }
             break;
