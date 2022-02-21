@@ -1,11 +1,12 @@
 import {
   Auth,
   CurrentPage,
-  GameName, IStatistics,
+  GameName,
+  IStatistics,
   sprintGame,
   UserSettings,
-  wayToGetWords
-} from "./types";
+  wayToGetWords,
+} from './types';
 
 export const defaultUserSettings: UserSettings = {
   authorized: false,

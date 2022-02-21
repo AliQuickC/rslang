@@ -59,11 +59,14 @@ export default class SignUp extends Login {
 
             delete SignUp.state.userSettings.authData;
             SignUp.state.userSettings.authorized = false;
-            const congratulationMessage = getErrorWindow(errorMessage.registrationSuccess, loginWindow);
-            loginWindow.append(
-              congratulationMessage
+            const congratulationMessage = getErrorWindow(
+              errorMessage.registrationSuccess,
+              loginWindow
             );
-            congratulationMessage.addEventListener('click',()=>this.parentElement.removeChild(loginWindow))
+            loginWindow.append(congratulationMessage);
+            congratulationMessage.addEventListener('click', () =>
+              this.parentElement.removeChild(loginWindow)
+            );
             renderHeader(
               document.querySelector('#header') as HTMLElement,
               SignUp.state

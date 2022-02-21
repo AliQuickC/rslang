@@ -6,8 +6,8 @@ import {
   RenderPage,
   State,
   UserSettings,
-  wayToGetWords
-} from "../modules/types";
+  wayToGetWords,
+} from '../modules/types';
 import renderHeader, { activateMenuItem } from './header';
 import renderFooter from './footer';
 import UserAuthorization from './user-authorization/user-authorization';
@@ -15,7 +15,6 @@ import renderSelectGameLevel from './games/select-level';
 import gameAudioCall from './games/audio-call';
 import gameSprint from './games/sprint';
 import User from './user-authorization/userApi/userApi';
-
 
 const toHTML = (): string => {
   return `

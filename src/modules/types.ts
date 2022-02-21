@@ -6,7 +6,7 @@ import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
 import renderSelectGameLevel from '../components/games/select-level';
-import { gameName, gameNameEnum } from "../components/utilites/types";
+import { gameName, gameNameEnum } from '../components/utilites/types';
 
 export enum linkType {
   general = 'general',

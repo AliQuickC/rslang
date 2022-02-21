@@ -38,11 +38,17 @@ export default class Game {
   state: State | undefined;
 
   private wordsForGameArray: CurrentPageWord[] | undefined;
+
   private rightAnswersArray: CurrentPageWord[] | undefined;
+
   private answersArrayForRound: CurrentPageWord[] | undefined;
+
   currentQuestionNumber = 0;
+
   private rightAnswersAudio: HTMLAudioElement | undefined;
+
   private answersResultArray: boolean[] | undefined = [];
+
   private rightAnswersIdArray: string[] | undefined;
 
   private listener: ((event: Event) => void) | undefined;
@@ -119,7 +125,6 @@ export default class Game {
     return gameRoundElement;
   }
 
-
   onClickFunction(event: Event) {
     const currentAudio = this.rightAnswersAudio as HTMLAudioElement;
     const target = event.target as HTMLLIElement;
@@ -142,7 +147,7 @@ export default class Game {
       (<boolean[]>this.answersResultArray).push(true);
     } else if (target.tagName === 'LI' || target.tagName === 'BUTTON') {
       isRightClick = true;
-        (<boolean[]>this.answersResultArray).push(false);
+      (<boolean[]>this.answersResultArray).push(false);
     }
 
     !isRightClick ||

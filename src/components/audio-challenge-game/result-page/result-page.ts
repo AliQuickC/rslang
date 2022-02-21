@@ -11,16 +11,17 @@ import {
 import User from '../../user-authorization/userApi/userApi';
 import { defaultWordStatus } from '../../utilites/consts';
 import { saveUserWord } from '../../../modules/api';
-import StatisticsPage from "../../statistics/statistics-page";
-import { gameNameEnum } from "../../utilites/types";
+import StatisticsPage from '../../statistics/statistics-page';
+import { gameNameEnum } from '../../utilites/types';
 
 export default class ResultPage {
   private state: State;
+
   private statisticsPageInstance: StatisticsPage;
 
   constructor(state: State) {
     this.state = state;
-    this.statisticsPageInstance = new StatisticsPage(state)
+    this.statisticsPageInstance = new StatisticsPage(state);
   }
 
   getResultPageElement(
@@ -90,8 +91,12 @@ export default class ResultPage {
     const liElement = getHtmlFromString(listElement).querySelector(
       '.game-result-list-element'
     ) as HTMLLIElement;
-    const answerWord = liElement.querySelector('.word__name') as HTMLSpanElement;
-    const translate = liElement.querySelector('.word__translate') as HTMLSpanElement;
+    const answerWord = liElement.querySelector(
+      '.word__name'
+    ) as HTMLSpanElement;
+    const translate = liElement.querySelector(
+      '.word__translate'
+    ) as HTMLSpanElement;
     answerWord.innerText = word.word;
     translate.innerText = ` — ${word.wordTranslate}`;
     return liElement;
@@ -100,7 +105,7 @@ export default class ResultPage {
   updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]) {
     if (this.state.userSettings.authorized) {
       let currentlyLearned = 0;
-      let authData = this.state.userSettings.authData as Auth;
+      const authData = this.state.userSettings.authData as Auth;
       // User.updateToken(authData.userId, authData.refreshToken)
       //   .then((resp) => resp.json() as unknown as Auth)
       //   .then((auth) => {
@@ -156,8 +161,6 @@ export default class ResultPage {
         //   )
         // );
 
-
-
         saveUserWord(
           authData.userId,
           array[i].id,
@@ -170,7 +173,12 @@ export default class ResultPage {
       //     })
       //     .catch((error) => console.log(error));
       // delete this.state.userSettings.statistics;
-      this.statisticsPageInstance.updateGameStatistics(this.state, gameNameEnum.audioChallenge, booleanArray, currentlyLearned )
+      this.statisticsPageInstance.updateGameStatistics(
+        this.state,
+        gameNameEnum.audioChallenge,
+        booleanArray,
+        currentlyLearned
+      );
     }
   }
 }

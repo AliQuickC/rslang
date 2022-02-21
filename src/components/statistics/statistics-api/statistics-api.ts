@@ -1,5 +1,5 @@
-import { urlUsers } from "../../utilites/consts";
-import { IStatistics } from "../../../modules/types";
+import { urlUsers } from '../../utilites/consts';
+import { IStatistics } from '../../../modules/types';
 
 export default class StatisticsApi {
   static getStatistics(userId: string, token: string) {
@@ -13,21 +13,25 @@ export default class StatisticsApi {
       redirect: 'follow',
     };
 
-    return fetch(`${urlUsers}/${userId}/statistics`, requestOptions)
-      .then((response) => {
-
-        console.log (new Date().getDate())
-        return response.text();
-      })
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
+    return fetch(`${urlUsers}/${userId}/statistics`, requestOptions);
+    // .then((response) => {
+    //
+    //   console.log (new Date().getDate())
+    //   return response.text();
+    // })
+    // .then((result) => console.log(result))
+    // .catch((error) => console.log('error', error));
   }
 
-  static putStatistics(userId: string, token: string, objStatistics:IStatistics){
+  static putStatistics(
+    userId: string,
+    token: string,
+    objStatistics: IStatistics
+  ) {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append("Accept", "application/json");
-    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${token}`);
 
     const raw = JSON.stringify(objStatistics);
 
@@ -38,10 +42,7 @@ export default class StatisticsApi {
       redirect: 'follow',
     };
 
-    fetch(
-      `${urlUsers}/${userId}/statistics`,
-      requestOptions
-    )
+    fetch(`${urlUsers}/${userId}/statistics`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));

@@ -1,5 +1,5 @@
-import { State } from "../modules/types";
-import StatisticsPage from "./statistics/statistics-page";
+import { State } from '../modules/types';
+import StatisticsPage from './statistics/statistics-page';
 
 const toHTML = (): string => {
   return `  
@@ -11,11 +11,14 @@ const toHTML = (): string => {
   `;
 };
 
-export default function renderStatistics(root: HTMLElement, state: State): void {
+export default function renderStatistics(
+  root: HTMLElement,
+  state: State
+): void {
   const elem = root;
   const statisticsInstance = new StatisticsPage(state);
 
   elem.innerHTML = toHTML();
   const section = elem.querySelector('section') as HTMLElement;
-  section.append(statisticsInstance.getStatisticsPageElement(state))
+  section.append(statisticsInstance.getStatisticsPageElement(state));
 }

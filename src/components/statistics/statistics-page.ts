@@ -56,9 +56,7 @@ export default class StatisticsPage {
 
     // const statistics = this.state.userSettings.statistics as IStatistics;
     const authData = state.userSettings.authData as Auth;
-    // StatisticsApi.getStatistics(authData.userId, authData.token).then((result)=>{
-    //
-    // })
+    // StatisticsApi.getStatistics(authData.userId, authData.token).then((response)=>response.json())
     if (!state.userSettings.statistics) {
       state.userSettings.statistics = this.getDefaultStatisticsObject();
     }
@@ -79,22 +77,29 @@ export default class StatisticsPage {
     gameStatisticsBox.append(
       this.getGameStatisticsElement(state.userSettings.statistics)
     );
-    radioAudioChallenge.addEventListener('change',()=>{
-      (<IStatistics>state.userSettings.statistics).optional.currentGame = gameNameEnum.audioChallenge;
+    radioAudioChallenge.addEventListener('change', () => {
+      (<IStatistics>state.userSettings.statistics).optional.currentGame =
+        gameNameEnum.audioChallenge;
       gameStatisticsBox.innerHTML = '';
-      gameStatisticsBox.append(this.getGameStatisticsElement(<IStatistics>state.userSettings.statistics));
-    })
-    radioSprint.addEventListener('change',()=>{
-      (<IStatistics>state.userSettings.statistics).optional.currentGame = gameNameEnum.sprint;
+      gameStatisticsBox.append(
+        this.getGameStatisticsElement(
+          <IStatistics>state.userSettings.statistics
+        )
+      );
+    });
+    radioSprint.addEventListener('change', () => {
+      (<IStatistics>state.userSettings.statistics).optional.currentGame =
+        gameNameEnum.sprint;
       gameStatisticsBox.innerHTML = '';
-      gameStatisticsBox.append(this.getGameStatisticsElement(<IStatistics>state.userSettings.statistics));
-    })
-
+      gameStatisticsBox.append(
+        this.getGameStatisticsElement(
+          <IStatistics>state.userSettings.statistics
+        )
+      );
+    });
 
     return statisticsPageElement;
   }
-
-
 
   getDefaultStatisticsObject(): IStatistics {
     const object = {} as IStatistics;
@@ -120,7 +125,8 @@ export default class StatisticsPage {
   }
 
   getGameStatisticsElement(object: IStatistics) {
-    const currentGame = object.optional.currentGame || gameNameEnum.audioChallenge;
+    const currentGame =
+      object.optional.currentGame || gameNameEnum.audioChallenge;
     const element = getHtmlFromString(
       gameStatisticsElementAsString
     ).querySelector('.game-statistics') as HTMLUListElement;
@@ -133,7 +139,7 @@ export default class StatisticsPage {
     const gameSeriesElement = element.querySelector(
       '.game-series'
     ) as HTMLSpanElement;
-    const rightCount = object.optional[currentGame].rightCount;
+    const { rightCount } = object.optional[currentGame];
     let percent = (rightCount * 100) / object.optional[currentGame].newWords;
     if (percent === Infinity || isNaN(percent)) {
       percent = 0;

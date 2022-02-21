@@ -54,15 +54,15 @@ export default class UserAuthorization {
     ) as HTMLDivElement;
     if (event.target === this.buttonLogin && !this.isLoginWindow) {
       currentBoxElement.replaceWith(this.loginBoxElement);
-      this.switchLoginSignup()
+      this.switchLoginSignup();
     }
     if (event.target === this.buttonSignUp && this.isLoginWindow) {
       currentBoxElement.replaceWith(this.signupBoxElement);
-      this.switchLoginSignup()
+      this.switchLoginSignup();
     }
   }
 
-  switchLoginSignup(){
+  switchLoginSignup() {
     this.buttonsLogAndSign.forEach((button) => {
       button.classList.toggle(this.statusActiveButtonClass);
     });
@@ -71,7 +71,7 @@ export default class UserAuthorization {
 
   getReadyElement() {
     if (!this.isLoginWindow) {
-      this.switchLoginSignup()
+      this.switchLoginSignup();
     }
     (<HTMLElement>(
       this.userAuthorizationElement.querySelector('.login-box')

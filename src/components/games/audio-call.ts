@@ -17,15 +17,14 @@ function renderAudioCall(root: HTMLElement): void {
 }
 
 export default function gameAudioCall(root: HTMLElement, props: State) {
-  console.log(props)
+  console.log(props);
   const gameInstance = new Game(props);
-  const gameElement = () => root.querySelector('.container') as HTMLElement
+  const gameElement = () => root.querySelector('.container') as HTMLElement;
 
   if (props.gameOptions.wayToGetWords === wayToGetWords.byPage) {
     gameInstance.getDataForGameFromBook(props).then((element) => {
       gameElement().append(element);
     });
-
   } else {
     gameInstance
       .getDataForGame(props.gameOptions.gameLevel - 1)
