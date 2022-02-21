@@ -1,11 +1,11 @@
 import {
   Auth,
   CurrentPage,
-  GameName,
+  GameName, IStatistics,
   sprintGame,
   UserSettings,
-  wayToGetWords,
-} from './types';
+  wayToGetWords
+} from "./types";
 
 export const defaultUserSettings: UserSettings = {
   authorized: false,
@@ -14,6 +14,7 @@ export const defaultUserSettings: UserSettings = {
     chapter: 0,
     page: 0,
   },
+  statistics: {} as IStatistics,
   authData: {} as Auth,
 };
 

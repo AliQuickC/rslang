@@ -49,6 +49,7 @@ export enum WordCardBtn {
   easy = 'easy',
   difficult = 'difficult',
 }
+
 export interface Word {
   id: string;
   group: number;
@@ -85,6 +86,7 @@ export enum wayToGetWords {
 export interface UserWordOptionals {
   answerResultArray: boolean[];
 }
+
 export interface UserWord {
   difficulty: Difficulty;
   optional: UserWordOptionals;
@@ -122,9 +124,27 @@ export type aggregatedUserWords = [
   }
 ];
 
-export interface Statistic {
+export interface IGameStatistics {
+  newWords: number;
+  rightCount: number;
+  bestSeries: number;
+}
+
+export interface IDayStatistics {
+  neWords: number;
+  learned: number;
+}
+
+export interface IStatistics {
   learnedWords: number;
-  optional: object;
+  optional: {
+    audioChallenge: IGameStatistics;
+    sprint: IGameStatistics;
+    day: {
+      currentDay: string;
+      statistics: IDayStatistics[];
+    };
+  };
 }
 
 export interface Setting {
@@ -153,7 +173,7 @@ export interface UserSettings {
     chapter: number;
     page: number;
   };
-
+  statistics?: IStatistics;
   authData?: Auth;
 }
 
