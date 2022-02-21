@@ -12,7 +12,6 @@
   flex-wrap: wrap
   gap: 50px 10%
 
-
 .general__title
   margin: 0
   margin-bottom: 20px
@@ -21,7 +20,6 @@
   font-size: 28px
 
 .general__item
-  // border: 1px solid red
   width: 20%
   display: flex
   flex-direction: column
@@ -32,7 +30,6 @@
 
 .general__item button
   background-color: transparent
-  // border: 1px solid red
   border: none
 
 .general__item h4  
@@ -40,5 +37,12 @@
   margin: 0
   color: #fff
 
+@media(max-width: 960px)
+  .general__item
+    width: 35%
+  .general__item:nth-child(3)
+    order: 1
 
-
+@media(max-width: 768px)    
+  .general__title
+    font-size: 22px

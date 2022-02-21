@@ -7,6 +7,33 @@
   display: flex
   justify-content: space-between
   align-items: center
+  position: relative
+  z-index: 2
+  background-color: #CBBEAE
+
+.nav-burger-menu
+  background-color: #CBBEAE
+  position: absolute
+  border-radius: 0 0 5px 0
+  top: -100vh
+  left: 0
+  z-index: 1
+  display: none
+  transition: top 0.7s
+.nav-burger-menu.active
+  display: none
+  top: 40px
+
+.nav-menubtn
+  width: 25px
+  height: 25px
+  display: none
+  border: none
+  background: url("../assets/svg/header/burger-btn.svg") center no-repeat
+  background-size: 100% 80%
+.nav-menubtn.active
+  background: url("../assets/svg/header/close-btn.svg") center no-repeat
+  background-size: 80%
 
 .menu
   list-style-type: none
@@ -22,12 +49,26 @@
   vertical-align: middle
   font-size: 20px
 
-
 .menu__item.active
   font-weight: bold  
 
 .menu__item:last-child
   margin-right: 0  
+
+.burger-menu
+  list-style-type: none
+  margin: 0
+  padding: 30px 20px 30px 30px
+  // padding-top: 30px
+  // padding-bottom: 30px
+  display: flex
+  flex-direction: column
+.burger-menu__item  
+  width: max-content
+  padding: 5px
+  cursor: pointer
+  margin-bottom: 10px
+  font-weight: bold
 
 .login__name
   font-weight: bold
@@ -39,3 +80,18 @@
   padding-left: 15px
   padding-right: 15px
   font-weight: bold
+  background-color: $primary-project-color
+  color: #fff
+  border: none
+
+@media(max-width: 960px)
+  .header-container
+    height: 40px
+  .nav-menubtn  
+    display: block
+  .nav-burger-menu
+    display: block
+  .nav-burger-menu.active
+    display: block
+  .nav-header
+    display: none

@@ -30,6 +30,14 @@ function setPageState(props: State) {
   activateMenuItem(props);
 }
 
+function closeBurgerMenu() {
+  const menuBtm = document.getElementById('burger-menubtn');
+  const burgerMenu = document.getElementById('nav-burger-menu');
+
+  (<HTMLElement>menuBtm).classList.remove('active');
+  (<HTMLElement>burgerMenu).classList.remove('active');
+}
+
 function addEventsForApp(param: State): void {
   const userAuthInstance = new UserAuthorization(param);
 
@@ -54,6 +62,7 @@ function addEventsForApp(param: State): void {
         } else {
           gameAudioCall(main, props);
         }
+        return;
       }
 
       if (linkName) {
@@ -76,12 +85,14 @@ function addEventsForApp(param: State): void {
             props.gameOptions.selectGame = GameName.AudioCall;
             renderSelectGameLevel(main, props);
             activateMenuItem(props);
+            closeBurgerMenu();
             return;
           case linkType.sprintGameLevel:
             props.currentMenuItem = CurrentPage.sprintGameLevel;
             props.gameOptions.selectGame = GameName.Sprint;
             renderSelectGameLevel(main, props);
             activateMenuItem(props);
+            closeBurgerMenu();
             return;
           case linkType.audioCallGame:
             props.currentMenuItem = CurrentPage.audioCallGameLevel;
@@ -90,6 +101,7 @@ function addEventsForApp(param: State): void {
             gameAudioCall(main, props);
 
             activateMenuItem(props);
+            closeBurgerMenu();
             return;
           case linkType.sprintGame:
             props.currentMenuItem = CurrentPage.sprintGameLevel;
@@ -98,6 +110,7 @@ function addEventsForApp(param: State): void {
             gameSprint(main, props);
 
             activateMenuItem(props);
+            closeBurgerMenu();
             return;
           case linkType.statistics:
             userSett.currentPage = CurrentPage.statistics;
@@ -121,6 +134,16 @@ function addEventsForApp(param: State): void {
         }
         RenderPage[userSett.currentPage](main, param);
         activateMenuItem(props);
+
+        closeBurgerMenu();
+      }
+
+      if ((<HTMLElement>e.target).closest('#burger-menubtn')) {
+        const menuBtm = document.getElementById('burger-menubtn');
+        const burgerMenu = document.getElementById('nav-burger-menu');
+
+        (<HTMLElement>menuBtm).classList.toggle('active');
+        (<HTMLElement>burgerMenu).classList.toggle('active');
       }
     }
   });

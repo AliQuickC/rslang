@@ -165,14 +165,13 @@ function renderSprint(root: HTMLElement, state: State): void {
       sprintGame.gameWords.words,
       sprintGame.gameWords.answerRezults
     );
-    console.log('Игра завершена: ', sprintGame.gameWords.answerRezults);
   }
 }
 
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 5,
+    maxTotalWords: 20,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
