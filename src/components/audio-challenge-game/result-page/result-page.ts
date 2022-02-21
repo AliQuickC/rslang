@@ -1,6 +1,6 @@
 import resultPageAsString from './game-result.html';
 import listElement from './list-element.html';
-import geHtmlFromString from '../../utilites/geHtmlFromString';
+import getHtmlFromString from '../../utilites/getHtmlFromString';
 import {
   Auth,
   CurrentPageWord,
@@ -11,19 +11,24 @@ import {
 import User from '../../user-authorization/userApi/userApi';
 import { defaultWordStatus } from '../../utilites/consts';
 import { saveUserWord } from '../../../modules/api';
+import StatisticsPage from '../../statistics/statistics-page';
+import { gameNameEnum } from '../../utilites/types';
 
 export default class ResultPage {
   private state: State;
 
+  private statisticsPageInstance: StatisticsPage;
+
   constructor(state: State) {
     this.state = state;
+    this.statisticsPageInstance = new StatisticsPage(state);
   }
 
   getResultPageElement(
     rightAnswersArray: CurrentPageWord[],
     answersArray: boolean[]
   ) {
-    const resultPageElement = geHtmlFromString(
+    const resultPageElement = getHtmlFromString(
       resultPageAsString
     ).querySelector('.result-page') as HTMLElement;
     const wrongAnswersList = resultPageElement.querySelector(
@@ -83,11 +88,15 @@ export default class ResultPage {
   }
 
   createLiElement(word: CurrentPageWord): HTMLElement {
-    const liElement = geHtmlFromString(listElement).querySelector(
+    const liElement = getHtmlFromString(listElement).querySelector(
       '.game-result-list-element'
     ) as HTMLLIElement;
-    const answerWord = liElement.querySelector('.word__name') as HTMLSpanElement;
-    const translate = liElement.querySelector('.word__translate') as HTMLSpanElement;
+    const answerWord = liElement.querySelector(
+      '.word__name'
+    ) as HTMLSpanElement;
+    const translate = liElement.querySelector(
+      '.word__translate'
+    ) as HTMLSpanElement;
     answerWord.innerText = word.word;
     translate.innerText = ` — ${word.wordTranslate}`;
     return liElement;
@@ -95,7 +104,8 @@ export default class ResultPage {
 
   updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]) {
     if (this.state.userSettings.authorized) {
-      let authData = this.state.userSettings.authData as Auth;
+      let currentlyLearned = 0;
+      const authData = this.state.userSettings.authData as Auth;
       // User.updateToken(authData.userId, authData.refreshToken)
       //   .then((resp) => resp.json() as unknown as Auth)
       //   .then((auth) => {
@@ -142,13 +152,14 @@ export default class ResultPage {
             truthCount >= 5)
         ) {
           (<UserWord>array[i].userWord).difficulty = Difficulty.easy;
+          currentlyLearned++;
         }
-        console.log(
-          truthCount,
-          (<UserWord>array[i].userWord).optional.answerResultArray.lastIndexOf(
-            false
-          )
-        );
+        // console.log(
+        //   truthCount,
+        //   (<UserWord>array[i].userWord).optional.answerResultArray.lastIndexOf(
+        //     false
+        //   )
+        // );
 
         saveUserWord(
           authData.userId,
@@ -161,6 +172,13 @@ export default class ResultPage {
       }
       //     })
       //     .catch((error) => console.log(error));
+      // delete this.state.userSettings.statistics;
+      this.statisticsPageInstance.updateGameStatistics(
+        this.state,
+        gameNameEnum.audioChallenge,
+        booleanArray,
+        currentlyLearned
+      );
     }
   }
 }

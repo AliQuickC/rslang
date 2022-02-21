@@ -39,7 +39,7 @@ export default class User {
     return fetch(`${urlUsers}/${id}`, requestOptions);
   }
 
-  static updateToken(userId: string, tokenReset: string)/* : Promise<Auth> */ {
+  static updateToken(userId: string, tokenReset: string) /* : Promise<Auth> */ {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${tokenReset}`);
 
@@ -49,16 +49,20 @@ export default class User {
       redirect: 'follow',
     };
 
-    return fetch(`${urlUsers}/${userId}/tokens`, requestOptions)
+    return fetch(`${urlUsers}/${userId}/tokens`, requestOptions);
   }
 
-  static updateTokenOrLogout(state:State){
+  static updateTokenOrLogout(state: State) {
     if (state.userSettings.authData) {
-      User.updateToken(state.userSettings.authData.userId, state.userSettings.authData.refreshToken).then((resp) => {
+      User.updateToken(
+        state.userSettings.authData.userId,
+        state.userSettings.authData.refreshToken
+      ).then((resp) => {
         if (!resp.ok) {
           delete state.userSettings.authData;
+          state.userSettings.authorized = false;
         }
-      })
+      });
     }
   }
 
@@ -80,11 +84,14 @@ export default class User {
           //   break;
           case 403:
             delete state.userSettings.authData;
+            state.userSettings.authorized = false;
             break;
           case 200:
             break;
           default:
             delete state.userSettings.authData;
+            state.userSettings.authorized = false;
+            delete state.userSettings.statistics;
             break;
         }
       })

@@ -1,6 +1,6 @@
 import userWindowElementAsString from './user-window.html';
 import Login from '../login/login';
-import getHtmlFromString from '../../utilites/geHtmlFromString';
+import getHtmlFromString from '../../utilites/getHtmlFromString';
 import {
   brokenAuthorizationMessage,
   localStorageCurrentUserObjectName,
