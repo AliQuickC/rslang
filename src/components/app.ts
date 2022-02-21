@@ -15,7 +15,7 @@ import renderSelectGameLevel from './games/select-level';
 import gameAudioCall from './games/audio-call';
 import gameSprint from './games/sprint';
 import User from './user-authorization/userApi/userApi';
-import StatisticsApi from "./statistics/statistics-api/statistics-api";
+
 
 const toHTML = (): string => {
   return `
@@ -104,10 +104,17 @@ function addEventsForApp(param: State): void {
           case linkType.statistics:
             userSett.currentPage = CurrentPage.statistics;
             props.currentMenuItem = CurrentPage.statistics;
-
-            console.log(props);
-
-            await StatisticsApi.getStatistics((<Auth>props.userSettings.authData).userId, (<Auth>props.userSettings.authData).token);
+            //
+            // console.log(props);
+            // const obj = statisticPageInstance.createStatisticsObject(props);
+            // const page = statisticPageInstance.getStatisticsPageElement()
+            // const section = () => currentTarget.querySelector('.section') as HTMLElement;
+            // section().append(page)
+            // if (props.userSettings.authData){
+            //   StatisticsApi.putStatistics(props.userSettings.authData.userId, props.userSettings.authData.token, obj);
+            // }
+            //
+            // await StatisticsApi.getStatistics((<Auth>props.userSettings.authData).userId, (<Auth>props.userSettings.authData).token);
             break;
           case linkType.developmentTeam:
             userSett.currentPage = CurrentPage.developmentTeam;

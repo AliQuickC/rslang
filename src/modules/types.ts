@@ -6,6 +6,7 @@ import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
 import renderSelectGameLevel from '../components/games/select-level';
+import { gameName, gameNameEnum } from "../components/utilites/types";
 
 export enum linkType {
   general = 'general',
@@ -135,16 +136,21 @@ export interface IDayStatistics {
   learned: number;
 }
 
+export interface IDay {
+  currentDay: string;
+  statistics: IDayStatistics[];
+}
+
+export interface IStatisticsOptional {
+  currentGame: gameName;
+  audioChallenge: IGameStatistics;
+  sprint: IGameStatistics;
+  day: IDay;
+}
+
 export interface IStatistics {
   learnedWords: number;
-  optional: {
-    audioChallenge: IGameStatistics;
-    sprint: IGameStatistics;
-    day: {
-      currentDay: string;
-      statistics: IDayStatistics[];
-    };
-  };
+  optional: IStatisticsOptional;
 }
 
 export interface Setting {
@@ -182,6 +188,7 @@ export interface GameWords {
   answerVariants: string[];
   answerRezults: boolean[];
 }
+
 export interface sprintGame {
   maxTotalWords: number;
   totalWords: number;

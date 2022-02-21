@@ -57,6 +57,7 @@ export default class User {
       User.updateToken(state.userSettings.authData.userId, state.userSettings.authData.refreshToken).then((resp) => {
         if (!resp.ok) {
           delete state.userSettings.authData;
+          state.userSettings.authorized = false;
         }
       })
     }
@@ -80,11 +81,13 @@ export default class User {
           //   break;
           case 403:
             delete state.userSettings.authData;
+            state.userSettings.authorized = false;
             break;
           case 200:
             break;
           default:
             delete state.userSettings.authData;
+            state.userSettings.authorized = false;
             break;
         }
       })

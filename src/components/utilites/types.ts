@@ -33,6 +33,13 @@ export type localStorageCurrentUserObject = {
 };
 
 export interface IObjectWithUpdateWordsArrays {
-  newWordsArray: CurrentPageWord[],
-  usedWordsArray: CurrentPageWord[]
+  newWordsArray: CurrentPageWord[];
+  usedWordsArray: CurrentPageWord[];
+}
+
+export type gameName = 'audioChallenge' | 'sprint';
+
+export enum gameNameEnum {
+  audioChallenge = 'audioChallenge',
+  sprint = 'sprint',
 }

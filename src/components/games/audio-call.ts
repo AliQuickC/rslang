@@ -17,6 +17,7 @@ function renderAudioCall(root: HTMLElement): void {
 }
 
 export default function gameAudioCall(root: HTMLElement, props: State) {
+  console.log(props)
   const gameInstance = new Game(props);
   const gameElement = () => root.querySelector('.container') as HTMLElement
 
