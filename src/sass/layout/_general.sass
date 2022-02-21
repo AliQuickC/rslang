@@ -3,7 +3,7 @@
   padding-top: 20px
   padding-bottom: 20px
 
-.general__link-wrap  
+.general__link-wrap
   margin-left: auto
   margin-right: auto
   width: 80%
@@ -11,7 +11,6 @@
   justify-content: space-around
   flex-wrap: wrap
   gap: 50px 10%
-
 
 .general__title
   margin: 0
@@ -21,24 +20,35 @@
   font-size: 28px
 
 .general__item
-  // border: 1px solid red
   width: 20%
   display: flex
   flex-direction: column
   justify-content: end
 
 .general__login button
-  max-height: 300px
+  max-height: 200px
 
 .general__item button
   background-color: transparent
-  // border: 1px solid red
   border: none
 
-.general__item h4  
+.general__item h4
   text-align: center
   margin: 0
   color: #fff
 
+@media(max-width: 960px)
+  .general__item
+    width: 35%
+  .general__item:nth-child(3)
+    order: 1
 
+@media(max-width: 768px)    
+  .general__title
+    font-size: 22px
+  .general__link-wrap
+    width: 100%
 
+@media(max-width: 576px)        
+  .general__item h4  
+    font-size: 12px
