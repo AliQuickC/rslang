@@ -6,6 +6,7 @@ import renderStatistics from '../components/statistics';
 import renderTeam from '../components/team';
 import renderSchoolbook from '../components/schoolbook';
 import renderSelectGameLevel from '../components/games/select-level';
+import { gameName, gameNameEnum } from '../components/utilites/types';
 
 export enum linkType {
   general = 'general',
@@ -49,6 +50,7 @@ export enum WordCardBtn {
   easy = 'easy',
   difficult = 'difficult',
 }
+
 export interface Word {
   id: string;
   group: number;
@@ -85,6 +87,7 @@ export enum wayToGetWords {
 export interface UserWordOptionals {
   answerResultArray: boolean[];
 }
+
 export interface UserWord {
   difficulty: Difficulty;
   optional: UserWordOptionals;
@@ -122,9 +125,32 @@ export type aggregatedUserWords = [
   }
 ];
 
-export interface Statistic {
+export interface IGameStatistics {
+  newWords: number;
+  rightCount: number;
+  bestSeries: number;
+}
+
+export interface IDayStatistics {
+  newWords: number;
+  learned: number;
+}
+
+export interface IDay {
+  currentDay: string;
+  statistics: IDayStatistics[];
+}
+
+export interface IStatisticsOptional {
+  currentGame: gameName;
+  audioChallenge: IGameStatistics;
+  sprint: IGameStatistics;
+  day: IDay;
+}
+
+export interface IStatistics {
   learnedWords: number;
-  optional: object;
+  optional: IStatisticsOptional;
 }
 
 export interface Setting {
@@ -153,7 +179,7 @@ export interface UserSettings {
     chapter: number;
     page: number;
   };
-
+  statistics?: IStatistics;
   authData?: Auth;
 }
 
@@ -162,6 +188,7 @@ export interface GameWords {
   answerVariants: string[];
   answerRezults: boolean[];
 }
+
 export interface sprintGame {
   maxTotalWords: number;
   totalWords: number;

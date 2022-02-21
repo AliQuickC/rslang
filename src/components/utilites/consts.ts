@@ -1,4 +1,4 @@
-import { Difficulty } from "../../modules/types";
+import { Difficulty } from '../../modules/types';
 
 export const urlServer = 'https://learnwords-app.herokuapp.com';
 export const urlUsers = 'https://learnwords-app.herokuapp.com/users';
@@ -13,7 +13,7 @@ export const gameButtonInnerText = 'не знаю';
 export const defaultWordStatus = {
   difficulty: 'basic',
   optional: { answerResultArray: ([] = []) },
-}
+};
 export const errorMessage = {
   wrongPasswordRepeat: 'wrong password repeat',
   wrongPasswordLength: 'password length must be longer than 8 character',

@@ -1,4 +1,5 @@
 import {
+  Auth,
   CurrentPage,
   GameName,
   linkType,
@@ -114,6 +115,7 @@ function addEventsForApp(param: State): void {
           case linkType.statistics:
             userSett.currentPage = CurrentPage.statistics;
             props.currentMenuItem = CurrentPage.statistics;
+
             break;
           case linkType.developmentTeam:
             userSett.currentPage = CurrentPage.developmentTeam;
@@ -125,6 +127,7 @@ function addEventsForApp(param: State): void {
             } else {
               userSett.authorized = false;
               delete userSett.authData;
+              delete userSett.statistics;
               renderHeader(app.querySelector('#header') as HTMLElement, param);
             }
             break;

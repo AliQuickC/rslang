@@ -1,5 +1,5 @@
 import loginBoxElementAsString from './login.html';
-import getHtmlFromString from '../../utilites/geHtmlFromString';
+import getHtmlFromString from '../../utilites/getHtmlFromString';
 import Button from '../../universal-button/button';
 import { idNameEmailPasswordType } from '../../utilites/types';
 import User from '../userApi/userApi';

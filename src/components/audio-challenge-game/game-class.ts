@@ -8,7 +8,7 @@ import {
 import GameApi from './game-api/game-api';
 import gameScreenElementAsString from './game-screen.html';
 import answerDivElementAsString from './answer-div/answer-div.html';
-import geHtmlFromString from '../utilites/geHtmlFromString';
+import getHtmlFromString from '../utilites/getHtmlFromString';
 import {
   defaultAudioVolume,
   gameButtonInnerText,
@@ -38,11 +38,17 @@ export default class Game {
   state: State | undefined;
 
   private wordsForGameArray: CurrentPageWord[] | undefined;
+
   private rightAnswersArray: CurrentPageWord[] | undefined;
+
   private answersArrayForRound: CurrentPageWord[] | undefined;
+
   currentQuestionNumber = 0;
+
   private rightAnswersAudio: HTMLAudioElement | undefined;
+
   private answersResultArray: boolean[] | undefined = [];
+
   private rightAnswersIdArray: string[] | undefined;
 
   private listener: ((event: Event) => void) | undefined;
@@ -119,7 +125,6 @@ export default class Game {
     return gameRoundElement;
   }
 
-
   onClickFunction(event: Event) {
     const currentAudio = this.rightAnswersAudio as HTMLAudioElement;
     const target = event.target as HTMLLIElement;
@@ -142,7 +147,7 @@ export default class Game {
       (<boolean[]>this.answersResultArray).push(true);
     } else if (target.tagName === 'LI' || target.tagName === 'BUTTON') {
       isRightClick = true;
-        (<boolean[]>this.answersResultArray).push(false);
+      (<boolean[]>this.answersResultArray).push(false);
     }
 
     !isRightClick ||
@@ -187,7 +192,7 @@ export default class Game {
   }
 
   getDataForGameRound(gameRoundNumber: number) {
-    const gameWindowElement = geHtmlFromString(
+    const gameWindowElement = getHtmlFromString(
       gameScreenElementAsString
     ).querySelector('.audio-challenge-game-screen') as HTMLElement;
     const audioButton = gameWindowElement.querySelector(
@@ -216,7 +221,7 @@ export default class Game {
   }
 
   async createAnswerElement() {
-    const answerElement = geHtmlFromString(
+    const answerElement = getHtmlFromString(
       answerDivElementAsString
     ).querySelector('.answer-box') as HTMLElement;
     const image = answerElement.querySelector(

@@ -2,6 +2,7 @@ import {
   Auth,
   CurrentPage,
   GameName,
+  IStatistics,
   sprintGame,
   UserSettings,
   wayToGetWords,
@@ -14,6 +15,7 @@ export const defaultUserSettings: UserSettings = {
     chapter: 0,
     page: 0,
   },
+  statistics: {} as IStatistics,
   authData: {} as Auth,
 };
 

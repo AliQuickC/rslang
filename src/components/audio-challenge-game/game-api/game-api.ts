@@ -4,7 +4,7 @@ import {
   urlWords,
   wordsPerPage,
 } from '../../utilites/consts';
-import { Auth, UserWord } from "../../../modules/types";
+import { Auth, UserWord } from '../../../modules/types';
 
 export default class GameApi {
   static getWordsByGroup(groupNumber: number) {
@@ -42,7 +42,7 @@ export default class GameApi {
 
     fetch(
       `${urlUsers}/${userId}${request}${groupNumber}`,
-      //'https://learnwords-app.herokuapp.com/users/62064453e7b98a0016ae666d/aggregatedWords?group=0&page=0&wordsPerPage=10',
+      // 'https://learnwords-app.herokuapp.com/users/62064453e7b98a0016ae666d/aggregatedWords?group=0&page=0&wordsPerPage=10',
       requestOptions
     )
       .then((response) => response.text())
@@ -73,13 +73,10 @@ export default class GameApi {
       .catch((error) => console.log('error', error));
   }
 
-  static getUserWordById(userId: string, wordId:string, token: string) {
+  static getUserWordById(userId: string, wordId: string, token: string) {
     const myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
-    myHeaders.append(
-      'Authorization',
-      `Bearer ${token}`
-    );
+    myHeaders.append('Authorization', `Bearer ${token}`);
 
     const requestOptions: RequestInit = {
       method: 'GET',
@@ -87,27 +84,26 @@ export default class GameApi {
       redirect: 'follow',
     };
 
-    fetch(
-      `${urlUsers}/${userId}/aggregatedWords/${wordId}`,
-      requestOptions
-    )
+    fetch(`${urlUsers}/${userId}/aggregatedWords/${wordId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
   }
 
-  static createUserWordStatus(userId:string, wordId:string, token: string, wordData: UserWord) {
+  static createUserWordStatus(
+    userId: string,
+    wordId: string,
+    token: string,
+    wordData: UserWord
+  ) {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Accept', 'application/json');
-    myHeaders.append(
-      'Authorization',
-      `Bearer ${token}`
-    );
+    myHeaders.append('Authorization', `Bearer ${token}`);
 
     const raw = JSON.stringify({
-      "difficulty": JSON.stringify(wordData.difficulty),
-      "optional": `${JSON.stringify(wordData.optional)}`
+      difficulty: JSON.stringify(wordData.difficulty),
+      optional: `${JSON.stringify(wordData.optional)}`,
     });
 
     const requestOptions: RequestInit = {
@@ -117,12 +113,9 @@ export default class GameApi {
       redirect: 'follow',
     };
 
-    console.log(requestOptions,'!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    console.log(requestOptions, '!!!!!!!!!!!!!!!!!!!!!!!!!!');
 
-    fetch(
-      `${urlUsers}/${userId}/words/${wordId}`,
-      requestOptions
-    )
+    fetch(`${urlUsers}/${userId}/words/${wordId}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));
@@ -152,15 +145,23 @@ export default class GameApi {
       .catch((error) => console.log('error', error));
   }
 
-  static updateWord(userId: string, wordId: string, token:string, userWord: UserWord){
+  static updateWord(
+    userId: string,
+    wordId: string,
+    token: string,
+    userWord: UserWord
+  ) {
     const myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmJkMDQyMzQ5NjVmMDAxNjE4NDhiYiIsImlhdCI6MTY0NTIwNjE3NCwiZXhwIjoxNjQ1MjIwNTc0fQ.G7txpkbOSDrGfWZ0TAun84mqS7g5O8FS6GsSttKn6sc");
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append(
+      'Authorization',
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmJkMDQyMzQ5NjVmMDAxNjE4NDhiYiIsImlhdCI6MTY0NTIwNjE3NCwiZXhwIjoxNjQ1MjIwNTc0fQ.G7txpkbOSDrGfWZ0TAun84mqS7g5O8FS6GsSttKn6sc'
+    );
 
     const raw = JSON.stringify(JSON.stringify(userWord));
 
-    const requestOptions:RequestInit = {
+    const requestOptions: RequestInit = {
       method: 'PUT',
       headers: myHeaders,
       body: raw,
