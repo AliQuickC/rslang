@@ -1,5 +1,5 @@
 import userAuthorizationElementString from './user-authorization.html';
-import getHtmlFromString from '../utilites/geHtmlFromString';
+import getHtmlFromString from '../utilites/getHtmlFromString';
 import Login from './login/login';
 import SignUp from './signup/signup';
 import { State } from '../../modules/types';

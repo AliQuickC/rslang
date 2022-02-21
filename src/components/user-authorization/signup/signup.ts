@@ -1,7 +1,7 @@
 import signupBoxElementAsString from './signup.html';
 import Login from '../login/login';
 import { idNameEmailPasswordType } from '../../utilites/types';
-import getHtmlFromString from '../../utilites/geHtmlFromString';
+import getHtmlFromString from '../../utilites/getHtmlFromString';
 import User from '../userApi/userApi';
 import renderHeader from '../../header';
 import getErrorWindow from '../error-window/error-window';

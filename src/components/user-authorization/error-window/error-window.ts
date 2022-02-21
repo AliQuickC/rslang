@@ -1,11 +1,11 @@
 import errorWindowAsString from './error-window.html';
-import geHtmlFromString from '../../utilites/geHtmlFromString';
+import getHtmlFromString from '../../utilites/getHtmlFromString';
 
 export default function getErrorWindow(
   innerText: string,
   parentElement: HTMLElement
 ) {
-  const errorWindow = geHtmlFromString(errorWindowAsString).querySelector(
+  const errorWindow = getHtmlFromString(errorWindowAsString).querySelector(
     '.error-message'
   ) as HTMLSpanElement;
   errorWindow.innerText = innerText;

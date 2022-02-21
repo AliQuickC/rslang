@@ -1,6 +1,6 @@
 import resultPageAsString from './game-result.html';
 import listElement from './list-element.html';
-import geHtmlFromString from '../../utilites/geHtmlFromString';
+import getHtmlFromString from '../../utilites/getHtmlFromString';
 import {
   Auth,
   CurrentPageWord,
@@ -23,7 +23,7 @@ export default class ResultPage {
     rightAnswersArray: CurrentPageWord[],
     answersArray: boolean[]
   ) {
-    const resultPageElement = geHtmlFromString(
+    const resultPageElement = getHtmlFromString(
       resultPageAsString
     ).querySelector('.result-page') as HTMLElement;
     const wrongAnswersList = resultPageElement.querySelector(
@@ -83,7 +83,7 @@ export default class ResultPage {
   }
 
   createLiElement(word: CurrentPageWord): HTMLElement {
-    const liElement = geHtmlFromString(listElement).querySelector(
+    const liElement = getHtmlFromString(listElement).querySelector(
       '.game-result-list-element'
     ) as HTMLLIElement;
     const answerWord = liElement.querySelector('.word') as HTMLSpanElement;

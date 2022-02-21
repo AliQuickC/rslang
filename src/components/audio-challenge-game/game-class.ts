@@ -8,7 +8,7 @@ import {
 import GameApi from './game-api/game-api';
 import gameScreenElementAsString from './game-screen.html';
 import answerDivElementAsString from './answer-div/answer-div.html';
-import geHtmlFromString from '../utilites/geHtmlFromString';
+import getHtmlFromString from '../utilites/getHtmlFromString';
 import {
   defaultAudioVolume,
   gameButtonInnerText,
@@ -187,7 +187,7 @@ export default class Game {
   }
 
   getDataForGameRound(gameRoundNumber: number) {
-    const gameWindowElement = geHtmlFromString(
+    const gameWindowElement = getHtmlFromString(
       gameScreenElementAsString
     ).querySelector('.audio-challenge-game-screen') as HTMLElement;
     const audioButton = gameWindowElement.querySelector(
@@ -216,7 +216,7 @@ export default class Game {
   }
 
   async createAnswerElement() {
-    const answerElement = geHtmlFromString(
+    const answerElement = getHtmlFromString(
       answerDivElementAsString
     ).querySelector('.answer-box') as HTMLElement;
     const image = answerElement.querySelector(

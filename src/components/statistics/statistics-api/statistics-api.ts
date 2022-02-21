@@ -23,13 +23,13 @@ export default class StatisticsApi {
       .catch((error) => console.log('error', error));
   }
 
-  static putStatistics(userId: string, token: string, objStatictics:IStatistics){
+  static putStatistics(userId: string, token: string, objStatistics:IStatistics){
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append("Accept", "application/json");
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDY0NDUzZTdiOThhMDAxNmFlNjY2ZCIsImlhdCI6MTY0NTM0NjU4NywiZXhwIjoxNjQ1MzYwOTg3fQ.fnEpxBdydBd3TBZ8cOXZeRRU8w772sCwOEaK9MfHPVw");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-    const raw = JSON.stringify(objStatictics);
+    const raw = JSON.stringify(objStatistics);
 
     const requestOptions: RequestInit = {
       method: 'PUT',
@@ -39,7 +39,7 @@ export default class StatisticsApi {
     };
 
     fetch(
-      'https://learnwords-app.herokuapp.com/users/62064453e7b98a0016ae666d/statistics',
+      `${urlUsers}/${userId}/statistics`,
       requestOptions
     )
       .then((response) => response.text())

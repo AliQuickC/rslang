@@ -13,28 +13,25 @@ const toHTML = (): string => {
 
 function renderAudioCall(root: HTMLElement): void {
   const elem = root;
-
   elem.innerHTML = toHTML();
 }
 
 export default function gameAudioCall(root: HTMLElement, props: State) {
   const gameInstance = new Game(props);
+  const gameElement = () => root.querySelector('.container') as HTMLElement
+
   if (props.gameOptions.wayToGetWords === wayToGetWords.byPage) {
     gameInstance.getDataForGameFromBook(props).then((element) => {
-      root.append(element);
+      gameElement().append(element);
     });
-    // await generateGameWordsForSelectPage(
-    //   props.userSettings,
-    //   props.userSettings.schoolbookCurrentPosition.chapter,
-    //   props.userSettings.schoolbookCurrentPosition.page
-    // ).then(console.log);
+
   } else {
     gameInstance
       .getDataForGame(props.gameOptions.gameLevel - 1)
       .then((element) => {
-        root.append(element);
+        gameElement().append(element);
       });
   }
-  console.log(props.gameOptions.selectGame)
+
   renderAudioCall(root);
 }
