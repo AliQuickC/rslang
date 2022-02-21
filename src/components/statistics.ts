@@ -17,5 +17,5 @@ export default function renderStatistics(root: HTMLElement, state: State): void 
 
   elem.innerHTML = toHTML();
   const section = elem.querySelector('section') as HTMLElement;
-  section.append(statisticsInstance.getStatisticsPageElement())
+  section.append(statisticsInstance.getStatisticsPageElement(state))
 }

@@ -132,7 +132,7 @@ export interface IGameStatistics {
 }
 
 export interface IDayStatistics {
-  neWords: number;
+  newWords: number;
   learned: number;
 }
 

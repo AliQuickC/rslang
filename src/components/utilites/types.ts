@@ -43,3 +43,10 @@ export enum gameNameEnum {
   audioChallenge = 'audioChallenge',
   sprint = 'sprint',
 }
+
+export type link = linkEnum.audioChallenge | linkEnum.sprint;
+
+export enum linkEnum {
+  audioChallenge = 'radio_audio-challenge',
+  sprint = 'radio_sprint',
+}
