@@ -62,7 +62,6 @@ function addEventsForApp(param: State): void {
         } else {
           gameAudioCall(main, props);
         }
-        return;
       }
 
       if (linkName) {
@@ -134,8 +133,6 @@ function addEventsForApp(param: State): void {
         }
         RenderPage[userSett.currentPage](main, param);
         activateMenuItem(props);
-
-        closeBurgerMenu();
       }
 
       if ((<HTMLElement>e.target).closest('#burger-menubtn')) {
@@ -144,7 +141,10 @@ function addEventsForApp(param: State): void {
 
         (<HTMLElement>menuBtm).classList.toggle('active');
         (<HTMLElement>burgerMenu).classList.toggle('active');
+        return;
       }
+
+      closeBurgerMenu();
     }
   });
 }

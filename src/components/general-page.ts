@@ -23,7 +23,7 @@ const toHTML = (props: UserSettings): string => {
               }.png" alt="">
               </button>
               <h4>${
-                props.authorized ? 'Выйти' : 'Войти/Зарегистрироваться'
+                props.authorized ? 'Выйти' : 'Войти - Зарегистрироваться'
               }</h4>
             </div>
             <div class="general__audio-call general__item">            
