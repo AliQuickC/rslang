@@ -69,12 +69,20 @@
 }
 
 .result-page{
-  height: 60vh;
-  padding: 0 10vw;
+  // height: 60vh;
+  padding: 0 20px;
   overflow: scroll;
 }
 
 .game-result-list-element{
+  display: flex;
+  align-items: center;
   list-style: none;
   height: 41px;
+  .word__soundbtn {
+    margin-right: 15px;
+  }
+  .word__name {
+    margin-right: 15px;
+  }
 }

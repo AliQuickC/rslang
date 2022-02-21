@@ -86,8 +86,8 @@ export default class ResultPage {
     const liElement = geHtmlFromString(listElement).querySelector(
       '.game-result-list-element'
     ) as HTMLLIElement;
-    const answerWord = liElement.querySelector('.word') as HTMLSpanElement;
-    const translate = liElement.querySelector('.translate') as HTMLSpanElement;
+    const answerWord = liElement.querySelector('.word__name') as HTMLSpanElement;
+    const translate = liElement.querySelector('.word__translate') as HTMLSpanElement;
     answerWord.innerText = word.word;
     translate.innerText = ` — ${word.wordTranslate}`;
     return liElement;

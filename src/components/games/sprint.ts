@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import {
   CurrentPage,
   GameWords,
@@ -65,22 +64,10 @@ function renderSprint(root: HTMLElement, state: State): void {
   const audioFalse = '../../assets/sound/wrong-answer.mp3';
   audio.volume = 0.3;
 
-  function keyDownHandler(e: KeyboardEvent): void {
-    switch (e.code) {
-      case 'ArrowLeft':
-        falseClickHandler();
-        break;
-      case 'ArrowRight':
-        trueClickHandler();
-        break;
-      default:
-        break;
-    }
-  }
-
   function answerButtonClickHandler(audioSrc: string) {
     (document.querySelector('#false-btn') as HTMLButtonElement).onclick = null;
     (document.querySelector('#true-btn') as HTMLButtonElement).onclick = null;
+    // eslint-disable-next-line no-use-before-define
     window.removeEventListener('keydown', keyDownHandler);
 
     audio.src = audioSrc;
@@ -128,6 +115,19 @@ function renderSprint(root: HTMLElement, state: State): void {
     answerButtonClickHandler(audioSrc);
   }
 
+  function keyDownHandler(e: KeyboardEvent): void {
+    switch (e.code) {
+      case 'ArrowLeft':
+        falseClickHandler();
+        break;
+      case 'ArrowRight':
+        trueClickHandler();
+        break;
+      default:
+        break;
+    }
+  }
+
   if (sprintGame.totalWords === 0) {
     elem.innerHTML = zeroWordHTML();
     const gameEndBtn = root.querySelector('#zero-ok-btn');
@@ -171,7 +171,7 @@ function renderSprint(root: HTMLElement, state: State): void {
 export default async function gameSprint(root: HTMLElement, param: State) {
   const props = param;
   props.sprintGame = {
-    maxTotalWords: 5,
+    maxTotalWords: 10,
     totalWords: 0,
     currentQuestion: 0,
     gameWords: {
