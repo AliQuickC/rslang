@@ -2,7 +2,6 @@ import { GoogleCharts } from 'google-charts';
 import { IDayStatistics, IStatistics, State } from '../../../modules/types';
 
 export default function getChart(state: State) {
-  GoogleCharts.load(drawChart);
   const chartDiv = document.createElement('div') as HTMLElement;
   chartDiv.className = 'chart';
 
@@ -22,7 +21,6 @@ export default function getChart(state: State) {
       if (i > 0) {
         count += obj.learned;
       }
-
       myDataRows.push([i + 1, obj.newWords, count]);
     });
 
@@ -42,6 +40,7 @@ export default function getChart(state: State) {
     const lineChart = new GoogleCharts.api.visualization.LineChart(chartDiv);
     lineChart.draw(data, options);
   }
+  GoogleCharts.load(drawChart);
 
   return chartDiv;
 }
