@@ -1,8 +1,4 @@
-import {
-  pagesCount,
-  urlUsers,
-  urlWords,
-} from '../../utilites/consts';
+import { pagesCount, urlUsers, urlWords } from '../../utilites/consts';
 import { UserWord } from '../../../modules/types';
 
 export default class GameApi {

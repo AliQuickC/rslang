@@ -16,9 +16,8 @@ export default function renderStatistics(
   state: State
 ): void {
   const elem = root;
-  const statisticsInstance = new StatisticsPage(state);
 
   elem.innerHTML = toHTML();
   const section = elem.querySelector('section') as HTMLElement;
-  section.append(statisticsInstance.getStatisticsPageElement(state));
+  section.append(StatisticsPage.getStatisticsPageElement(state));
 }

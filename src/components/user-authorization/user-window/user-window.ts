@@ -30,7 +30,7 @@ export default class UserWindow extends Login {
       : undefined;
   }
 
-  onClickOnEnterButton = () => {
+  static onClickOnEnterButton = () => {
     delete UserWindow.state.userSettings.authData;
     localStorage.clear();
   };

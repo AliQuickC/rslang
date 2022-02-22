@@ -51,7 +51,6 @@ export default class StatisticsApi {
 
   static getStatisticsFromServer(param: State) {
     const state = param;
-    const statisticsPageInstance = new StatisticsPage(state);
     const authData = state.userSettings.authData as Auth;
     StatisticsApi.getStatistics(authData.userId, authData.token)
       .then((response) => {
@@ -59,7 +58,7 @@ export default class StatisticsApi {
           StatisticsApi.putStatistics(
             authData.userId,
             authData.token,
-            statisticsPageInstance.getDefaultStatisticsObject()
+            StatisticsPage.getDefaultStatisticsObject()
           )
             .then((response) => response.json() as unknown as IStatistics)
             .then((prom) => {

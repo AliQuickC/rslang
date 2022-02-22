@@ -24,7 +24,7 @@ export default class ResultPage {
     this.statisticsPageInstance = new StatisticsPage(state);
   }
 
-  getResultPageElement(
+  static getResultPageElement(
     rightAnswersArray: CurrentPageWord[],
     answersArray: boolean[]
   ) {
@@ -44,7 +44,7 @@ export default class ResultPage {
       '.rights-count'
     ) as HTMLSpanElement;
 
-    const answersObject = this.createAnswersArrayObject(
+    const answersObject = ResultPage.createAnswersArrayObject(
       rightAnswersArray,
       answersArray
     );
@@ -52,49 +52,45 @@ export default class ResultPage {
     errorsCountElement.innerText = `  ${answersObject.wrongAnswers.length}`;
     rightsCountElement.innerText = `  ${answersObject.rightAnswers.length}`;
 
-    this.createAnswersList(answersObject.rightAnswers, rightAnswersList);
-    this.createAnswersList(answersObject.wrongAnswers, wrongAnswersList);
+    ResultPage.createAnswersList(answersObject.rightAnswers, rightAnswersList);
+    ResultPage.createAnswersList(answersObject.wrongAnswers, wrongAnswersList);
 
     return resultPageElement;
   }
 
-  createAnswersArrayObject(
+  static createAnswersArrayObject(
     rightAnswersArray: CurrentPageWord[],
     answersArray: boolean[]
   ) {
-    const usersRightAnswersArray = rightAnswersArray.filter((word, i) => {
-      if (answersArray[i]) {
-        return word;
-      }
-    });
-    const usersWrongAnswersArray = rightAnswersArray.filter((word, i) => {
-      if (!answersArray[i]) {
-        return word;
-      }
-    });
+    const usersRightAnswersArray = rightAnswersArray.filter(
+      (word, i) => answersArray[i]
+    );
+    const usersWrongAnswersArray = rightAnswersArray.filter(
+      (word, i) => !answersArray[i]
+    );
     return {
       rightAnswers: usersRightAnswersArray,
       wrongAnswers: usersWrongAnswersArray,
     };
   }
 
-  createAnswersList(
+  static createAnswersList(
     answersArray: CurrentPageWord[],
     ulElement: HTMLUListElement
   ): void {
     answersArray.forEach((word) => {
-      ulElement.append(this.createLiElement(word));
+      ulElement.append(ResultPage.createLiElement(word));
     });
   }
 
-  createSound(word: CurrentPageWord) {
+  static createSound(word: CurrentPageWord) {
     const audio = new Audio();
     audio.src = `${urlServer}/${word.audio}`;
     audio.volume = defaultAudioVolume;
     return audio;
   }
 
-  createLiElement(word: CurrentPageWord): HTMLElement {
+  static createLiElement(word: CurrentPageWord): HTMLElement {
     const liElement = getHtmlFromString(listElement).querySelector(
       '.game-result-list-element'
     ) as HTMLLIElement;
@@ -108,7 +104,7 @@ export default class ResultPage {
       '.word__translate'
     ) as HTMLSpanElement;
     answerAudio.addEventListener('click', () => {
-      const audio = this.createSound(word);
+      const audio = ResultPage.createSound(word);
       audio.play();
     });
     answerWord.innerText = word.word;
@@ -173,9 +169,7 @@ export default class ResultPage {
           array[i].id,
           authData.token,
           <UserWord>array[i].userWord
-        )
-          .then((result) => console.log(result))
-          .catch((error) => console.log(error));
+        ).catch((error) => console.log(error));
       }
 
       let currentGame: gameName;
@@ -184,7 +178,7 @@ export default class ResultPage {
       } else {
         currentGame = gameNameEnum.audioChallenge;
       }
-      this.statisticsPageInstance.updateGameStatistics(
+      StatisticsPage.updateGameStatistics(
         this.state,
         currentGame,
         booleanArray,

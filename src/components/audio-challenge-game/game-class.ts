@@ -49,7 +49,7 @@ export default class Game {
 
   // private currentRightAnswer: Word | undefined;
 
-  randomSort(array: CurrentPageWord[] | number[]) {
+  static randomSort(array: CurrentPageWord[] | number[]) {
     array.sort(() => Math.random() - 0.5);
   }
 
@@ -71,10 +71,10 @@ export default class Game {
     this.answersArrayForRound = wordsForGameArray.filter(
       (word) => word.id !== currentRightAnswer.id
     );
-    this.randomSort(this.answersArrayForRound);
+    Game.randomSort(this.answersArrayForRound);
     this.answersArrayForRound = this.answersArrayForRound.slice(0, 4);
     this.answersArrayForRound.push(currentRightAnswer);
-    this.randomSort(this.answersArrayForRound);
+    Game.randomSort(this.answersArrayForRound);
   }
 
   createSoundForRound() {
@@ -110,7 +110,7 @@ export default class Game {
 
   private createGameRoundElement(array: CurrentPageWord[]) {
     this.wordsForGameArray = array;
-    this.randomSort(this.wordsForGameArray);
+    Game.randomSort(this.wordsForGameArray);
     this.createRightAnswersArray();
     const gameRoundElement = this.getDataForGameRound();
     this.rightAnswersAudio?.play();
@@ -172,7 +172,7 @@ export default class Game {
               element = this.getDataForGameRound();
               this.rightAnswersAudio?.play();
             } else {
-              element = this.resultPageInstance.getResultPageElement(
+              element = ResultPage.getResultPageElement(
                 <CurrentPageWord[]>this.rightAnswersArray,
                 <boolean[]>this.answersResultArray
               );
@@ -187,8 +187,6 @@ export default class Game {
           audioButton.replaceWith(answerElement);
         }, 400);
       });
-
-    console.log(this.answersResultArray);
   }
 
   getDataForGameRound() {

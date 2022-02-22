@@ -21,27 +21,17 @@ export default class StatisticsPage {
     this.state = state;
   }
 
-  getStatisticsPageElement(param: State) {
+  static getStatisticsPageElement(param: State) {
     const state = param;
     const statisticsPageElement = getHtmlFromString(
       statisticsPageAsString
     ).querySelector('.statistics-page') as HTMLElement;
-
-    const gameStatisticsCheckShell = statisticsPageElement.querySelector(
-      '.game-statistics__check-box'
-    ) as HTMLElement;
     const radioAudioChallenge = statisticsPageElement.querySelector(
       '.radio_audio-challenge'
     ) as HTMLInputElement;
     const radioSprint = statisticsPageElement.querySelector(
       '.radio_sprint'
     ) as HTMLInputElement;
-    const labelAudioChallenge = statisticsPageElement.querySelector(
-      '.label_audio-challenge'
-    ) as HTMLElement;
-    const labelSprint = statisticsPageElement.querySelector(
-      '.label_sprint'
-    ) as HTMLElement;
     const gameStatisticsBox = statisticsPageElement.querySelector(
       '.game-statistics__results'
     ) as HTMLElement;
@@ -59,8 +49,6 @@ export default class StatisticsPage {
       '.global-statistics'
     ) as HTMLElement;
 
-    const authData = state.userSettings.authData as Auth;
-
     const statistics = state.userSettings.statistics as IStatistics;
     newWordsCountElement.innerText = ` ${statistics.optional.day.statistics[0].newWords}`;
     learnedCountElement.innerText = ` ${statistics.optional.day.statistics[0].learned}`;
@@ -69,19 +57,21 @@ export default class StatisticsPage {
       statistics.optional.sprint.rightCount;
     let percent =
       (rightCount * 100) / statistics.optional.day.statistics[0].newWords;
-    if (percent === Infinity || isNaN(percent)) {
+    if (percent === Infinity || Number.isNaN(percent)) {
       percent = 0;
     }
     rightAnswersPercentElement.innerText = ` ${Math.round(percent)}%`;
     gameStatisticsBox.innerHTML = '';
-    gameStatisticsBox.append(this.getGameStatisticsElement(statistics));
+    gameStatisticsBox.append(
+      StatisticsPage.getGameStatisticsElement(statistics)
+    );
 
     radioAudioChallenge.addEventListener('change', () => {
       (<IStatistics>state.userSettings.statistics).optional.currentGame =
         gameNameEnum.audioChallenge;
       gameStatisticsBox.innerHTML = '';
       gameStatisticsBox.append(
-        this.getGameStatisticsElement(
+        StatisticsPage.getGameStatisticsElement(
           <IStatistics>state.userSettings.statistics
         )
       );
@@ -92,7 +82,7 @@ export default class StatisticsPage {
         gameNameEnum.sprint;
       gameStatisticsBox.innerHTML = '';
       gameStatisticsBox.append(
-        this.getGameStatisticsElement(
+        StatisticsPage.getGameStatisticsElement(
           <IStatistics>state.userSettings.statistics
         )
       );
@@ -102,7 +92,7 @@ export default class StatisticsPage {
     return statisticsPageElement;
   }
 
-  getDefaultStatisticsObject(): IStatistics {
+  static getDefaultStatisticsObject(): IStatistics {
     const object = {} as IStatistics;
     object.learnedWords = 0;
     object.optional = {} as IStatisticsOptional;
@@ -125,7 +115,7 @@ export default class StatisticsPage {
     return object;
   }
 
-  getGameStatisticsElement(object: IStatistics) {
+  static getGameStatisticsElement(object: IStatistics) {
     const currentGame =
       object.optional.currentGame || gameNameEnum.audioChallenge;
     const element = getHtmlFromString(
@@ -142,7 +132,7 @@ export default class StatisticsPage {
     ) as HTMLSpanElement;
     const { rightCount } = object.optional[currentGame];
     let percent = (rightCount * 100) / object.optional[currentGame].newWords;
-    if (percent === Infinity || isNaN(percent)) {
+    if (percent === Infinity || Number.isNaN(percent)) {
       percent = 0;
     }
 
@@ -152,7 +142,7 @@ export default class StatisticsPage {
     return element;
   }
 
-  updateGameStatistics(
+  static updateGameStatistics(
     param: State,
     game: gameName,
     array: boolean[],
@@ -161,11 +151,7 @@ export default class StatisticsPage {
   ): void {
     const state = param;
     // const newWordsCount = array.length;
-    const rightsArray = array.filter((word, i) => {
-      if (array[i]) {
-        return word;
-      }
-    });
+    const rightsArray = array.filter((word) => word);
 
     const rightCount = rightsArray.length;
     let currentSeries = 0;
@@ -180,9 +166,13 @@ export default class StatisticsPage {
         currentSeries = 0;
       }
     }
+    if (bestSeries < currentSeries) {
+      bestSeries = currentSeries;
+    }
 
     if (!state.userSettings.statistics) {
-      state.userSettings.statistics = this.getDefaultStatisticsObject();
+      state.userSettings.statistics =
+        StatisticsPage.getDefaultStatisticsObject();
     } else {
       state.userSettings.statistics.optional[game].newWords += newWordsCount;
       state.userSettings.statistics.optional[game].rightCount += rightCount;
@@ -192,7 +182,7 @@ export default class StatisticsPage {
           ? bestSeries
           : state.userSettings.statistics.optional[game].bestSeries;
     }
-    this.updateDayStatistics(
+    StatisticsPage.updateDayStatistics(
       state.userSettings.statistics,
       newWordsCount,
       learnedCount
@@ -205,7 +195,7 @@ export default class StatisticsPage {
     );
   }
 
-  updateDayStatistics(
+  static updateDayStatistics(
     statisticsParam: IStatistics,
     newWordsCount: number,
     learnedCount: number

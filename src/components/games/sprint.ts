@@ -153,7 +153,7 @@ function renderSprint(root: HTMLElement, state: State): void {
     window.addEventListener('keydown', keyDownHandler);
   } else {
     const resultPageInstance = new ResultPage(state);
-    const element = resultPageInstance.getResultPageElement(
+    const element = ResultPage.getResultPageElement(
       sprintGame.gameWords.words,
       sprintGame.gameWords.answerRezults
     );
