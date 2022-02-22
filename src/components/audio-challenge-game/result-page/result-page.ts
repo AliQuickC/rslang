@@ -9,7 +9,7 @@ import {
   UserWord,
 } from '../../../modules/types';
 import User from '../../user-authorization/userApi/userApi';
-import { defaultWordStatus } from '../../utilites/consts';
+import { defaultAudioVolume, defaultWordStatus, urlServer } from "../../utilites/consts";
 import { saveUserWord } from '../../../modules/api';
 import StatisticsPage from '../../statistics/statistics-page';
 import { gameNameEnum } from '../../utilites/types';
@@ -87,16 +87,29 @@ export default class ResultPage {
     });
   }
 
+  createSound(word: CurrentPageWord){
+    const audio = new Audio();
+    audio.src = `${urlServer}/${word.audio}`;
+    audio.volume = defaultAudioVolume;
+    return audio;
+  }
+
   createLiElement(word: CurrentPageWord): HTMLElement {
     const liElement = getHtmlFromString(listElement).querySelector(
       '.game-result-list-element'
     ) as HTMLLIElement;
+    const answerAudio = liElement.querySelector('.word__soundbtn') as HTMLElement;
     const answerWord = liElement.querySelector(
       '.word__name'
     ) as HTMLSpanElement;
     const translate = liElement.querySelector(
       '.word__translate'
     ) as HTMLSpanElement;
+    answerAudio.addEventListener('click', () => {
+      let audio = this.createSound(word);
+      audio.play()
+      console.log(word.audio);
+    });
     answerWord.innerText = word.word;
     translate.innerText = ` — ${word.wordTranslate}`;
     return liElement;

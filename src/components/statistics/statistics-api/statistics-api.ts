@@ -42,9 +42,9 @@ export default class StatisticsApi {
       redirect: 'follow',
     };
 
-    fetch(`${urlUsers}/${userId}/statistics`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
+    return fetch(`${urlUsers}/${userId}/statistics`, requestOptions)
+      // .then((response) => response.text())
+      // .then((result) => console.log(result))
+      // .catch((error) => console.log('error', error));
   }
 }

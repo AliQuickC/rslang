@@ -56,49 +56,74 @@ export default class StatisticsPage {
 
     // const statistics = this.state.userSettings.statistics as IStatistics;
     const authData = state.userSettings.authData as Auth;
-    // StatisticsApi.getStatistics(authData.userId, authData.token).then((response)=>response.json())
-    if (!state.userSettings.statistics) {
-      state.userSettings.statistics = this.getDefaultStatisticsObject();
+    if (authData) {
+      StatisticsApi.getStatistics(authData.userId, authData.token)
+        .then((response) => {
+          if (!response.ok) {
+            StatisticsApi.putStatistics(
+              authData.userId,
+              authData.token,
+              this.getDefaultStatisticsObject()
+            )
+              .then((response) => {
+                return writeCounts();
+              })
+              .catch((error) => console.log(error));
+          } else {
+            return writeCounts();
+          }
+        })
+        .then((element) => element)
+        .catch((error) => console.log(error));
     }
-    // state.userSettings.statistics = this.createStatisticsObject(state)
-    newWordsCountElement.innerText = ` ${state.userSettings.statistics.optional.day.statistics[0].newWords}`;
-    learnedCountElement.innerText = ` ${state.userSettings.statistics.optional.day.statistics[0].learned}`;
-    const rightCount =
-      state.userSettings.statistics.optional.audioChallenge.rightCount +
-      state.userSettings.statistics.optional.sprint.rightCount;
-    let percent =
-      (rightCount * 100) /
-      state.userSettings.statistics.optional.day.statistics[0].newWords;
-    if (percent === Infinity || isNaN(percent)) {
-      percent = 0;
-    }
-    rightAnswersPercentElement.innerText = ` ${Math.round(percent)}%`;
 
-    gameStatisticsBox.append(
-      this.getGameStatisticsElement(state.userSettings.statistics)
-    );
-    radioAudioChallenge.addEventListener('change', () => {
-      (<IStatistics>state.userSettings.statistics).optional.currentGame =
-        gameNameEnum.audioChallenge;
+    const writeCounts = () => {
+      if (!state.userSettings.statistics) {
+        state.userSettings.statistics = this.getDefaultStatisticsObject();
+      }
+      // state.userSettings.statistics = this.createStatisticsObject(state)
+      newWordsCountElement.innerText = ` ${state.userSettings.statistics.optional.day.statistics[0].newWords}`;
+      learnedCountElement.innerText = ` ${state.userSettings.statistics.optional.day.statistics[0].learned}`;
+      const rightCount =
+        state.userSettings.statistics.optional.audioChallenge.rightCount +
+        state.userSettings.statistics.optional.sprint.rightCount;
+      let percent =
+        (rightCount * 100) /
+        state.userSettings.statistics.optional.day.statistics[0].newWords;
+      if (percent === Infinity || isNaN(percent)) {
+        percent = 0;
+      }
+      rightAnswersPercentElement.innerText = ` ${Math.round(percent)}%`;
       gameStatisticsBox.innerHTML = '';
       gameStatisticsBox.append(
-        this.getGameStatisticsElement(
-          <IStatistics>state.userSettings.statistics
-        )
+        this.getGameStatisticsElement(state.userSettings.statistics)
       );
-    });
-    radioSprint.addEventListener('change', () => {
-      (<IStatistics>state.userSettings.statistics).optional.currentGame =
-        gameNameEnum.sprint;
-      gameStatisticsBox.innerHTML = '';
-      gameStatisticsBox.append(
-        this.getGameStatisticsElement(
-          <IStatistics>state.userSettings.statistics
-        )
-      );
-    });
 
-    return statisticsPageElement;
+      radioAudioChallenge.addEventListener('change', () => {
+        (<IStatistics>state.userSettings.statistics).optional.currentGame =
+          gameNameEnum.audioChallenge;
+        gameStatisticsBox.innerHTML = '';
+        gameStatisticsBox.append(
+          this.getGameStatisticsElement(
+            <IStatistics>state.userSettings.statistics
+          )
+        );
+      });
+
+      radioSprint.addEventListener('change', () => {
+        (<IStatistics>state.userSettings.statistics).optional.currentGame =
+          gameNameEnum.sprint;
+        gameStatisticsBox.innerHTML = '';
+        gameStatisticsBox.append(
+          this.getGameStatisticsElement(
+            <IStatistics>state.userSettings.statistics
+          )
+        );
+      });
+
+      return statisticsPageElement;
+    };
+    return writeCounts();
   }
 
   getDefaultStatisticsObject(): IStatistics {

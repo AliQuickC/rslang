@@ -16,6 +16,8 @@ import gameAudioCall from './games/audio-call';
 import gameSprint from './games/sprint';
 import User from './user-authorization/userApi/userApi';
 
+
+
 const toHTML = (): string => {
   return `
   <header class="header" id="header">
@@ -128,6 +130,8 @@ function addEventsForApp(param: State): void {
               userSett.authorized = false;
               delete userSett.authData;
               delete userSett.statistics;
+              userSett.currentPage = CurrentPage.general;
+              props.currentMenuItem = CurrentPage.general;
               renderHeader(app.querySelector('#header') as HTMLElement, param);
             }
             break;

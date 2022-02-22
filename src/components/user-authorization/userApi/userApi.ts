@@ -6,7 +6,7 @@ import {
   urlType,
 } from '../../utilites/types';
 import { urlSignIn, urlUsers } from '../../utilites/consts';
-import { Auth, State } from '../../../modules/types';
+import { Auth, CurrentPage, State } from "../../../modules/types";
 
 export default class User {
   static getRequest(
