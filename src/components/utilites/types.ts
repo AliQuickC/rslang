@@ -50,3 +50,9 @@ export enum linkEnum {
   audioChallenge = 'radio_audio-challenge',
   sprint = 'radio_sprint',
 }
+
+export enum classNameEnum {
+  rightAnswer = 'right_answer',
+  wrongAnswer = 'wrong_answer',
+  otherAnswers = 'other_answers',
+}

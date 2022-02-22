@@ -18,6 +18,7 @@ import Button from '../universal-button/button';
 import ResultPage from './result-page/result-page';
 import { generateGameWordsForSelectPage } from '../games/game-words';
 import state from '../../modules/state';
+import { classNameEnum } from "../utilites/types";
 
 // const resultPageInstance = new ResultPage();
 const audioButtonLink = 'audio-button';
@@ -129,6 +130,7 @@ export default class Game {
     const currentAudio = this.rightAnswersAudio as HTMLAudioElement;
     const target = event.target as HTMLLIElement;
     const currentTarget = event.currentTarget as HTMLElement;
+    const liElements = currentTarget.querySelectorAll('.answers-list__li') as NodeListOf<HTMLElement>;
     const audioButton = currentTarget.querySelector(
       '.current-word-audio-button'
     ) as HTMLElement;
@@ -143,15 +145,18 @@ export default class Game {
       (<CurrentPageWord[]>this.rightAnswersArray)[this.currentQuestionNumber]
         .wordTranslate
     ) {
+      target.classList.add(classNameEnum.rightAnswer);
       isRightClick = true;
       (<boolean[]>this.answersResultArray).push(true);
     } else if (target.tagName === 'LI' || target.tagName === 'BUTTON') {
+      target.classList.add(classNameEnum.wrongAnswer);
       isRightClick = true;
       (<boolean[]>this.answersResultArray).push(false);
     }
 
     !isRightClick ||
       this.createAnswerElement().then((answerElement) => {
+        liElements.forEach((element)=>element.classList.add(classNameEnum.otherAnswers))
         answerElement.addEventListener('click', (event) => {
           if ((<HTMLElement>event.target).dataset.link === audioButtonLink) {
             currentAudio?.play();
@@ -195,6 +200,7 @@ export default class Game {
     const gameWindowElement = getHtmlFromString(
       gameScreenElementAsString
     ).querySelector('.audio-challenge-game-screen') as HTMLElement;
+    const gameBox = gameWindowElement.querySelector('.audio-challenge-game-screen__box') as HTMLElement;
     const audioButton = gameWindowElement.querySelector(
       '.current-word-audio-button'
     ) as HTMLElement;
@@ -202,7 +208,7 @@ export default class Game {
       '.answers-list__li'
     ) as NodeListOf<HTMLLIElement>;
     const button = Button.createReadyButtonElement(gameButtonInnerText);
-    gameWindowElement.append(button);
+    gameBox.append(button);
     this.createAnswersArrayForRound();
     this.createSoundForRound();
 
