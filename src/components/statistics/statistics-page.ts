@@ -110,7 +110,7 @@ export default class StatisticsPage {
     object.optional.audioChallenge.rightCount = 0;
     object.optional.audioChallenge.newWords = 0;
     object.optional.day = {} as IDay;
-    object.optional.day.statistics = {} as IDayStatistics[];
+    object.optional.day.statistics = [] as IDayStatistics[];
     object.optional.day.currentDay = this.getCurrentDate();
     const dayObject = {} as IDayStatistics;
     dayObject.newWords = 0;
