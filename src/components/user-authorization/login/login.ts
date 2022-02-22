@@ -7,6 +7,7 @@ import { RenderPage, State } from '../../../modules/types';
 import renderHeader, { activateMenuItem } from '../../header';
 import getErrorWindow from '../error-window/error-window';
 import { errorMessage } from '../../utilites/consts';
+import StatisticsApi from '../../statistics/statistics-api/statistics-api';
 
 const body = document.querySelector('body') as HTMLElement;
 
@@ -71,6 +72,7 @@ export default class Login {
         if (text) {
           Login.state.userSettings.authData = JSON.parse(text);
           Login.state.userSettings.authorized = true;
+          StatisticsApi.getStatisticsFromServer(Login.state);
           renderHeader(
             document.querySelector('#header') as HTMLElement,
             Login.state

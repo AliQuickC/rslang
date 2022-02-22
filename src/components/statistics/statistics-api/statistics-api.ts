@@ -1,5 +1,6 @@
 import { urlUsers } from '../../utilites/consts';
-import { IStatistics } from '../../../modules/types';
+import { Auth, IStatistics, State } from '../../../modules/types';
+import StatisticsPage from '../statistics-page';
 
 export default class StatisticsApi {
   static getStatistics(userId: string, token: string) {
@@ -42,9 +43,41 @@ export default class StatisticsApi {
       redirect: 'follow',
     };
 
-    return fetch(`${urlUsers}/${userId}/statistics`, requestOptions)
-      // .then((response) => response.text())
-      // .then((result) => console.log(result))
-      // .catch((error) => console.log('error', error));
+    return fetch(`${urlUsers}/${userId}/statistics`, requestOptions);
+    // .then((response) => response.text())
+    // .then((result) => console.log(result))
+    // .catch((error) => console.log('error', error));
+  }
+
+  static getStatisticsFromServer(state: State) {
+    const statisticsPageInstance = new StatisticsPage(state);
+    const authData = state.userSettings.authData as Auth;
+    StatisticsApi.getStatistics(authData.userId, authData.token)
+      .then((response) => {
+        if (!response.ok) {
+          StatisticsApi.putStatistics(
+            authData.userId,
+            authData.token,
+            statisticsPageInstance.getDefaultStatisticsObject()
+          )
+            .then((response) => response.json() as unknown as IStatistics)
+            .then((prom) => {
+              if (prom) {
+                state.userSettings.statistics = prom;
+              }
+            })
+            .catch((error) => console.log(error));
+        }
+        return response;
+      })
+      .then((res) => {
+        return res.ok ? (res.json() as unknown as IStatistics) : undefined;
+      })
+      .then((promise) => {
+        if (promise) {
+          state.userSettings.statistics = promise;
+        }
+      })
+      .catch((error) => console.log(error));
   }
 }
