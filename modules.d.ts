@@ -9,3 +9,4 @@ declare module '*.wav';
 declare module '*.ogg';
 declare module '*.mp4';
 declare module '*.html';
+declare module 'google-charts';

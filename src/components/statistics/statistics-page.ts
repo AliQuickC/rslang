@@ -12,6 +12,8 @@ import {
 } from '../../modules/types';
 import { gameName, gameNameEnum } from '../utilites/types';
 import StatisticsApi from './statistics-api/statistics-api';
+import chartDiv from "./chart/chart";
+import getChart from "./chart/chart";
 
 export default class StatisticsPage {
   private state: State;
@@ -53,6 +55,7 @@ export default class StatisticsPage {
     const rightAnswersPercentElement = statisticsPageElement.querySelector(
       '.rights'
     ) as HTMLSpanElement;
+    const globalStatistics = statisticsPageElement.querySelector('.global-statistics') as HTMLElement;
 
     const authData = state.userSettings.authData as Auth;
 
@@ -92,6 +95,7 @@ export default class StatisticsPage {
         )
       );
     });
+    globalStatistics.append(getChart(state))
 
     return statisticsPageElement;
   }
