@@ -60,8 +60,8 @@ const zeroWordHTML = (): string => {
 function renderSprint(root: HTMLElement, state: State): void {
   const elem = root;
   const { sprintGame } = state;
-  const audioTrue = '../../assets/sound/vol-sett.mp3';
-  const audioFalse = '../../assets/sound/wrong-answer.mp3';
+  const audioTrue = './assets/sound/vol-sett.mp3';
+  const audioFalse = './assets/sound/wrong-answer.mp3';
   audio.volume = 0.3;
 
   function answerButtonClickHandler(audioSrc: string) {
