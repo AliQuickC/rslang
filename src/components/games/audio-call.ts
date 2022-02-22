@@ -1,4 +1,4 @@
-import { State, wayToGetWords } from '../../modules/types';
+import { CurrentPage, State, wayToGetWords } from "../../modules/types";
 import Game from '../audio-challenge-game/game-class';
 
 const toHTML = (): string => {
@@ -17,7 +17,6 @@ function renderAudioCall(root: HTMLElement): void {
 }
 
 export default function gameAudioCall(root: HTMLElement, props: State) {
-  console.log(props);
   const gameInstance = new Game(props);
   const gameElement = () => root.querySelector('.container') as HTMLElement;
 

@@ -2,14 +2,14 @@ import statisticsPageAsString from './statistics-page.html';
 import gameStatisticsElementAsString from './game-statistics/game-statistics.html';
 import getHtmlFromString from '../utilites/getHtmlFromString';
 import {
-  Auth,
+  Auth, CurrentPage,
   IDay,
   IDayStatistics,
   IGameStatistics,
   IStatistics,
   IStatisticsOptional,
-  State,
-} from '../../modules/types';
+  State
+} from "../../modules/types";
 import { gameName, gameNameEnum } from '../utilites/types';
 import StatisticsApi from './statistics-api/statistics-api';
 import chartDiv from "./chart/chart";

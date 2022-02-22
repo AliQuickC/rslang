@@ -34,6 +34,13 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
+  @media (max-width: 780px) {
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .answers-list__li {
@@ -45,6 +52,11 @@
 
   &:hover {
     background-color: $error-message-background;
+  }
+  @media (max-width: 780px){
+    width: 200px;
+    position: relative;
+    margin: auto;
   }
 }
 
