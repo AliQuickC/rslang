@@ -2,18 +2,17 @@ import statisticsPageAsString from './statistics-page.html';
 import gameStatisticsElementAsString from './game-statistics/game-statistics.html';
 import getHtmlFromString from '../utilites/getHtmlFromString';
 import {
-  Auth, CurrentPage,
+  Auth,
   IDay,
   IDayStatistics,
   IGameStatistics,
   IStatistics,
   IStatisticsOptional,
-  State
-} from "../../modules/types";
+  State,
+} from '../../modules/types';
 import { gameName, gameNameEnum } from '../utilites/types';
 import StatisticsApi from './statistics-api/statistics-api';
-import chartDiv from "./chart/chart";
-import getChart from "./chart/chart";
+import getChart from './chart/chart';
 
 export default class StatisticsPage {
   private state: State;
@@ -55,7 +54,9 @@ export default class StatisticsPage {
     const rightAnswersPercentElement = statisticsPageElement.querySelector(
       '.rights'
     ) as HTMLSpanElement;
-    const globalStatistics = statisticsPageElement.querySelector('.global-statistics') as HTMLElement;
+    const globalStatistics = statisticsPageElement.querySelector(
+      '.global-statistics'
+    ) as HTMLElement;
 
     const authData = state.userSettings.authData as Auth;
 
@@ -95,7 +96,7 @@ export default class StatisticsPage {
         )
       );
     });
-    globalStatistics.append(getChart(state))
+    globalStatistics.append(getChart(state));
 
     return statisticsPageElement;
   }
@@ -115,7 +116,7 @@ export default class StatisticsPage {
     object.optional.audioChallenge.newWords = 0;
     object.optional.day = {} as IDay;
     object.optional.day.statistics = [] as IDayStatistics[];
-    object.optional.day.currentDay = this.getCurrentDate();
+    object.optional.day.currentDay = StatisticsPage.getCurrentDate();
     const dayObject = {} as IDayStatistics;
     dayObject.newWords = 0;
     dayObject.learned = 0;
@@ -208,19 +209,21 @@ export default class StatisticsPage {
     learnedCount: number
   ) {
     const resultObject = {} as IDayStatistics;
-    if (statistics.optional.day.currentDay === this.getCurrentDate()) {
+    if (
+      statistics.optional.day.currentDay === StatisticsPage.getCurrentDate()
+    ) {
       statistics.optional.day.statistics[0].newWords += newWordsCount;
       statistics.optional.day.statistics[0].learned += learnedCount;
     } else {
       resultObject.newWords = newWordsCount;
       resultObject.learned = learnedCount;
       statistics.optional.day.statistics.unshift(resultObject);
-      statistics.optional.day.currentDay = this.getCurrentDate();
+      statistics.optional.day.currentDay = StatisticsPage.getCurrentDate();
     }
     statistics.learnedWords += statistics.optional.day.statistics[0].learned;
   }
 
-  getCurrentDate(): string {
+  static getCurrentDate(): string {
     const currentDate = new Date();
     const date = String(currentDate.getDate()).padStart(2, '0');
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');

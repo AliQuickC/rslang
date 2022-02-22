@@ -1,4 +1,4 @@
-import { CurrentPage, State, wayToGetWords } from "../../modules/types";
+import { State, wayToGetWords } from '../../modules/types';
 import Game from '../audio-challenge-game/game-class';
 
 const toHTML = (): string => {

@@ -1,10 +1,4 @@
-import { getWords } from '../../modules/api';
-import {
-  aggregatedUserWords,
-  State,
-  Word,
-  CurrentPageWord,
-} from '../../modules/types';
+import { State, CurrentPageWord } from '../../modules/types';
 import GameApi from './game-api/game-api';
 import gameScreenElementAsString from './game-screen.html';
 import answerDivElementAsString from './answer-div/answer-div.html';
@@ -17,8 +11,7 @@ import {
 import Button from '../universal-button/button';
 import ResultPage from './result-page/result-page';
 import { generateGameWordsForSelectPage } from '../games/game-words';
-import state from '../../modules/state';
-import { classNameEnum } from "../utilites/types";
+import { classNameEnum } from '../utilites/types';
 
 // const resultPageInstance = new ResultPage();
 const audioButtonLink = 'audio-button';
@@ -76,7 +69,7 @@ export default class Game {
     ] as CurrentPageWord;
     const wordsForGameArray = this.wordsForGameArray as CurrentPageWord[];
     this.answersArrayForRound = wordsForGameArray.filter(
-      (word) => word.id != currentRightAnswer.id
+      (word) => word.id !== currentRightAnswer.id
     );
     this.randomSort(this.answersArrayForRound);
     this.answersArrayForRound = this.answersArrayForRound.slice(0, 4);
@@ -119,9 +112,7 @@ export default class Game {
     this.wordsForGameArray = array;
     this.randomSort(this.wordsForGameArray);
     this.createRightAnswersArray();
-    const gameRoundElement = this.getDataForGameRound(
-      this.currentQuestionNumber
-    );
+    const gameRoundElement = this.getDataForGameRound();
     this.rightAnswersAudio?.play();
     return gameRoundElement;
   }
@@ -130,7 +121,9 @@ export default class Game {
     const currentAudio = this.rightAnswersAudio as HTMLAudioElement;
     const target = event.target as HTMLLIElement;
     const currentTarget = event.currentTarget as HTMLElement;
-    const liElements = currentTarget.querySelectorAll('.answers-list__li') as NodeListOf<HTMLElement>;
+    const liElements = currentTarget.querySelectorAll(
+      '.answers-list__li'
+    ) as NodeListOf<HTMLElement>;
     const audioButton = currentTarget.querySelector(
       '.current-word-audio-button'
     ) as HTMLElement;
@@ -156,7 +149,9 @@ export default class Game {
 
     !isRightClick ||
       this.createAnswerElement().then((answerElement) => {
-        liElements.forEach((element)=>element.classList.add(classNameEnum.otherAnswers))
+        liElements.forEach((element) =>
+          element.classList.add(classNameEnum.otherAnswers)
+        );
         answerElement.addEventListener('click', (event) => {
           if ((<HTMLElement>event.target).dataset.link === audioButtonLink) {
             currentAudio?.play();
@@ -174,7 +169,7 @@ export default class Game {
               this.currentQuestionNumber <
               (<CurrentPageWord[]>this.rightAnswersArray).length
             ) {
-              element = this.getDataForGameRound(this.currentQuestionNumber);
+              element = this.getDataForGameRound();
               this.rightAnswersAudio?.play();
             } else {
               element = this.resultPageInstance.getResultPageElement(
@@ -196,13 +191,12 @@ export default class Game {
     console.log(this.answersResultArray);
   }
 
-  getDataForGameRound(gameRoundNumber: number) {
+  getDataForGameRound() {
     const gameWindowElement = getHtmlFromString(
       gameScreenElementAsString
     ).querySelector('.audio-challenge-game-screen') as HTMLElement;
-    const gameBox = gameWindowElement.querySelector('.audio-challenge-game-screen__box') as HTMLElement;
-    const audioButton = gameWindowElement.querySelector(
-      '.current-word-audio-button'
+    const gameBox = gameWindowElement.querySelector(
+      '.audio-challenge-game-screen__box'
     ) as HTMLElement;
     const answersElements = gameWindowElement.querySelectorAll(
       '.answers-list__li'
@@ -232,9 +226,6 @@ export default class Game {
     ).querySelector('.answer-box') as HTMLElement;
     const image = answerElement.querySelector(
       '.answer-box__image'
-    ) as HTMLElement;
-    const soundButton = answerElement.querySelector(
-      '.word-shell__sound-button'
     ) as HTMLElement;
     const answerWord = answerElement.querySelector(
       '.word-shell__word'

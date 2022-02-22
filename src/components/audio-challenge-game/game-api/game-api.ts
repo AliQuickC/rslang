@@ -2,9 +2,8 @@ import {
   pagesCount,
   urlUsers,
   urlWords,
-  wordsPerPage,
 } from '../../utilites/consts';
-import { Auth, UserWord } from '../../../modules/types';
+import { UserWord } from '../../../modules/types';
 
 export default class GameApi {
   static getWordsByGroup(groupNumber: number) {
@@ -25,29 +24,6 @@ export default class GameApi {
       `${urlWords}${groupRequest}${groupNumber}${pageRequest}${pageNumber}`,
       requestOptions
     );
-  }
-
-  static getUsersWords(userId: string, groupNumber: number, token: string) {
-    const myHeaders = new Headers();
-    myHeaders.append('accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
-
-    const requestOptions: RequestInit = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow',
-    };
-
-    const request = '/aggregatedWords?group=';
-
-    fetch(
-      `${urlUsers}/${userId}${request}${groupNumber}`,
-      // 'https://learnwords-app.herokuapp.com/users/62064453e7b98a0016ae666d/aggregatedWords?group=0&page=0&wordsPerPage=10',
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
   }
 
   static getUserWordStatusById() {
@@ -85,61 +61,6 @@ export default class GameApi {
     };
 
     fetch(`${urlUsers}/${userId}/aggregatedWords/${wordId}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
-  }
-
-  static createUserWordStatus(
-    userId: string,
-    wordId: string,
-    token: string,
-    wordData: UserWord
-  ) {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
-
-    const raw = JSON.stringify({
-      difficulty: JSON.stringify(wordData.difficulty),
-      optional: `${JSON.stringify(wordData.optional)}`,
-    });
-
-    const requestOptions: RequestInit = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-
-    console.log(requestOptions, '!!!!!!!!!!!!!!!!!!!!!!!!!!');
-
-    fetch(`${urlUsers}/${userId}/words/${wordId}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log('error', error));
-  }
-
-  static getUserAggregatedWordsGroup(
-    group: number,
-    page: number,
-    userID: string,
-    token: string
-  ) {
-    const myHeaders = new Headers();
-    myHeaders.append('accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${token}`);
-
-    const requestOptions: RequestInit = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow',
-    };
-
-    const request = `aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordsPerPage}`;
-
-    fetch(`${urlUsers}/${userID}/${request}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log('error', error));

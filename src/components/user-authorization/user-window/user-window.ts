@@ -31,7 +31,6 @@ export default class UserWindow extends Login {
   }
 
   onClickOnEnterButton = () => {
-    const text = this.buttonInnerText;
     delete UserWindow.state.userSettings.authData;
     localStorage.clear();
   };

@@ -4,7 +4,6 @@ import {
   Auth,
   CurrentPageWord,
   Difficulty,
-  State,
   UserSettings,
   Word,
 } from '../../modules/types';

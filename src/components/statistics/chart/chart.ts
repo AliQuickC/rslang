@@ -1,26 +1,29 @@
-import {GoogleCharts} from 'google-charts';
-import { IDayStatistics, IStatistics, State } from "../../../modules/types";
+import { GoogleCharts } from 'google-charts';
+import { IDayStatistics, IStatistics, State } from '../../../modules/types';
 
-
-export default function getChart (state:State){
+export default function getChart(state: State) {
   GoogleCharts.load(drawChart);
   const chartDiv = document.createElement('div') as HTMLElement;
   chartDiv.className = 'chart';
-  function drawChart() {
 
-    let data = new GoogleCharts.api.visualization.DataTable();
+  function drawChart() {
+    const data = new GoogleCharts.api.visualization.DataTable();
     data.addColumn('number', 'X');
     data.addColumn('number', 'Новых слов');
     data.addColumn('number', 'Всего изучено');
 
-    const mydata = (<IStatistics>state.userSettings.statistics).optional.day.statistics as IDayStatistics[];
+    const mydata = (<IStatistics>state.userSettings.statistics).optional.day
+      .statistics as IDayStatistics[];
 
-    const myDataRows = [[0,0,0]]
-    let count =0;
-    mydata.forEach((obj,i) => {
-      if(i>0){count+=obj.learned}
+    const myDataRows = [[0, 0, 0]];
+    let count = 0;
 
-      myDataRows.push([i+1,obj.newWords,count])
+    mydata.forEach((obj, i) => {
+      if (i > 0) {
+        count += obj.learned;
+      }
+
+      myDataRows.push([i + 1, obj.newWords, count]);
     });
 
     data.addRows(myDataRows);
@@ -39,10 +42,6 @@ export default function getChart (state:State){
     const lineChart = new GoogleCharts.api.visualization.LineChart(chartDiv);
     lineChart.draw(data, options);
   }
+
   return chartDiv;
-
 }
-
-
-
-
