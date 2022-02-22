@@ -49,7 +49,8 @@ export default class StatisticsApi {
     // .catch((error) => console.log('error', error));
   }
 
-  static getStatisticsFromServer(state: State) {
+  static getStatisticsFromServer(param: State) {
+    const state = param;
     const statisticsPageInstance = new StatisticsPage(state);
     const authData = state.userSettings.authData as Auth;
     StatisticsApi.getStatistics(authData.userId, authData.token)

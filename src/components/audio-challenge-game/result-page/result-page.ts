@@ -116,20 +116,24 @@ export default class ResultPage {
     return liElement;
   }
 
-  updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]): void {
+  updateUserWords(
+    arrayParam: CurrentPageWord[],
+    booleanArray: boolean[]
+  ): void {
+    const array = arrayParam;
     if (this.state.userSettings.authorized) {
       let currentlyLearned = 0;
       let newWords = 0;
       const authData = this.state.userSettings.authData as Auth;
 
-      for (let i = 0; i < array.length; i++) {
+      for (let i = 0; i < array.length; i += 1) {
         if (!array[i].userWord) {
           array[i].userWord = {
             difficulty: Difficulty.basic,
             optional: { answerResultArray: [] },
           } as UserWord;
 
-          newWords++;
+          newWords += 1;
           // isNew = true;
         }
         (<UserWord>array[i].userWord).optional.answerResultArray.push(
@@ -161,7 +165,7 @@ export default class ResultPage {
             truthCount >= 5)
         ) {
           (<UserWord>array[i].userWord).difficulty = Difficulty.easy;
-          currentlyLearned++;
+          currentlyLearned += 1;
         }
 
         saveUserWord(

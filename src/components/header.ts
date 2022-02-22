@@ -1,8 +1,7 @@
 import { linkType, State } from '../modules/types';
 
-const toHTML = (param: State): string => {
-  const props = param;
-  const userSett = param.userSettings;
+const toHTML = (props: State): string => {
+  const userSett = props.userSettings;
 
   return `
   <nav class="nav-burger-menu " id="nav-burger-menu">

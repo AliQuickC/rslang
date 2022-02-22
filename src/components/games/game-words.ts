@@ -10,7 +10,6 @@ import {
 import { convertObject } from '../../modules/utils';
 
 const totalWordsInGroup = 600;
-const totalWordsInPage = 20;
 const totalPageInChapter = 30;
 
 export async function getAllWordsFromChapter(

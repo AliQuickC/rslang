@@ -52,7 +52,8 @@ export default class User {
     return fetch(`${urlUsers}/${userId}/tokens`, requestOptions);
   }
 
-  static updateTokenOrLogout(state: State) {
+  static updateTokenOrLogout(param: State) {
+    const state = param;
     if (state.userSettings.authData) {
       User.updateToken(
         state.userSettings.authData.userId,
@@ -66,7 +67,8 @@ export default class User {
     }
   }
 
-  static checkAuthorization(state: State) {
+  static checkAuthorization(param: State) {
+    const state = param;
     const authData = state.userSettings.authData as Auth;
     User.getUser(authData.userId, authData.token)
       .then((response) => {

@@ -1,5 +1,4 @@
 import {
-  CurrentPage,
   GameWords,
   RenderPage,
   State,

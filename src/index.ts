@@ -5,7 +5,7 @@ import renderApp from './components/app';
 state.userSettings = defaultUserSettings;
 const storeKEY = 'rslangSettings';
 
-(async function () {
+(async function start() {
   function getLocalStorage(): void {
     if (
       !localStorage.getItem(storeKEY) ||
