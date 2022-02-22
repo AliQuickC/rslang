@@ -1,5 +1,3 @@
-import { Difficulty } from '../../modules/types';
-
 export const urlServer = 'https://learnwords-app.herokuapp.com';
 export const urlUsers = 'https://learnwords-app.herokuapp.com/users';
 export const urlSignIn = 'https://learnwords-app.herokuapp.com/signin';

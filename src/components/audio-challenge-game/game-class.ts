@@ -160,7 +160,7 @@ export default class Game {
         });
         currentTarget.removeEventListener('click', <() => void>this.listener);
         setTimeout(() => {
-          this.currentQuestionNumber++;
+          this.currentQuestionNumber += 1;
           button.addEventListener('click', (event) => {
             event.stopPropagation();
             let element: HTMLElement;

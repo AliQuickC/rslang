@@ -21,7 +21,8 @@ export default class StatisticsPage {
     this.state = state;
   }
 
-  getStatisticsPageElement(state: State) {
+  getStatisticsPageElement(param: State) {
+    const state = param;
     const statisticsPageElement = getHtmlFromString(
       statisticsPageAsString
     ).querySelector('.statistics-page') as HTMLElement;
@@ -152,12 +153,13 @@ export default class StatisticsPage {
   }
 
   updateGameStatistics(
-    state: State,
+    param: State,
     game: gameName,
     array: boolean[],
     learnedCount: number,
     newWordsCount: number
   ): void {
+    const state = param;
     // const newWordsCount = array.length;
     const rightsArray = array.filter((word, i) => {
       if (array[i]) {
@@ -168,9 +170,9 @@ export default class StatisticsPage {
     const rightCount = rightsArray.length;
     let currentSeries = 0;
     let bestSeries = 0;
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i += 1) {
       if (array[i]) {
-        currentSeries++;
+        currentSeries += 1;
       } else if (currentSeries > bestSeries) {
         bestSeries = currentSeries;
         currentSeries = 0;
@@ -204,10 +206,11 @@ export default class StatisticsPage {
   }
 
   updateDayStatistics(
-    statistics: IStatistics,
+    statisticsParam: IStatistics,
     newWordsCount: number,
     learnedCount: number
   ) {
+    const statistics = statisticsParam;
     const resultObject = {} as IDayStatistics;
     if (
       statistics.optional.day.currentDay === StatisticsPage.getCurrentDate()
