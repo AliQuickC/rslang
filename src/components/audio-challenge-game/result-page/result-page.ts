@@ -12,7 +12,7 @@ import {
 import { defaultAudioVolume, urlServer } from '../../utilites/consts';
 import { saveUserWord } from '../../../modules/api';
 import StatisticsPage from '../../statistics/statistics-page';
-import { gameName, gameNameEnum } from "../../utilites/types";
+import { gameName, gameNameEnum } from '../../utilites/types';
 
 export default class ResultPage {
   private state: State;
@@ -110,25 +110,17 @@ export default class ResultPage {
     answerAudio.addEventListener('click', () => {
       const audio = this.createSound(word);
       audio.play();
-      console.log(word.audio);
     });
     answerWord.innerText = word.word;
     translate.innerText = ` — ${word.wordTranslate}`;
     return liElement;
   }
 
-  updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]) {
+  updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]): void {
     if (this.state.userSettings.authorized) {
       let currentlyLearned = 0;
       let newWords = 0;
       const authData = this.state.userSettings.authData as Auth;
-      // User.updateToken(authData.userId, authData.refreshToken)
-      //   .then((resp) => resp.json() as unknown as Auth)
-      //   .then((auth) => {
-      //     // let isNew = false;
-      //
-      //     authData.token = auth.token;
-      //     authData.refreshToken = auth.refreshToken;
 
       for (let i = 0; i < array.length; i++) {
         if (!array[i].userWord) {
@@ -137,7 +129,7 @@ export default class ResultPage {
             optional: { answerResultArray: [] },
           } as UserWord;
 
-          newWords++
+          newWords++;
           // isNew = true;
         }
         (<UserWord>array[i].userWord).optional.answerResultArray.push(
@@ -172,7 +164,6 @@ export default class ResultPage {
           currentlyLearned++;
         }
 
-
         saveUserWord(
           authData.userId,
           array[i].id,
@@ -184,18 +175,18 @@ export default class ResultPage {
       }
 
       let currentGame: gameName;
-      if (this.state.gameOptions.selectGame === GameName.Sprint){
-        currentGame = gameNameEnum.sprint
+      if (this.state.gameOptions.selectGame === GameName.Sprint) {
+        currentGame = gameNameEnum.sprint;
       } else {
-        currentGame = gameNameEnum.audioChallenge
+        currentGame = gameNameEnum.audioChallenge;
       }
-        this.statisticsPageInstance.updateGameStatistics(
-          this.state,
-          currentGame,
-          booleanArray,
-          currentlyLearned,
-          newWords
-        );
+      this.statisticsPageInstance.updateGameStatistics(
+        this.state,
+        currentGame,
+        booleanArray,
+        currentlyLearned,
+        newWords
+      );
     }
   }
 }

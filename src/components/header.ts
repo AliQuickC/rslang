@@ -1,10 +1,4 @@
-import { linkType, State, UserSettings } from '../modules/types';
-
-// function addEventsForHeader() {
-//   const menuBtm = document.getElementById('burger-menubtn');
-
-//   menuBtm
-// }
+import { linkType, State } from '../modules/types';
 
 const toHTML = (param: State): string => {
   const props = param;

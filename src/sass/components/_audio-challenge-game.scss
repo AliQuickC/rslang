@@ -1,25 +1,42 @@
 .audio-challenge-game-screen {
-  height: 50vh;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.audio-challenge-game-screen__box {
+  height: 350px;
   width: 100%;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 780px){
+    height: 60vh;
+  }
 
   .answers-list {
     .right_answer {
-      list-style: inherit;
-      list-style-position: inside;
+      background: green;
+      opacity: 100%;
+    }
+
+    .wrong_answer {
+      background: red;
       opacity: 100%;
     }
   }
 
-  .wrong_answer {
+  .other_answers {
     opacity: 50%;
   }
 }
 
-.current-word-audio-button{
+.current-word-audio-button {
   height: 110px;
   width: 110px;
 }
@@ -34,6 +51,13 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
+  @media (max-width: 780px) {
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .answers-list__li {
@@ -46,6 +70,12 @@
   &:hover {
     background-color: $error-message-background;
   }
+
+  @media (max-width: 780px) {
+    width: 200px;
+    position: relative;
+    margin: auto;
+  }
 }
 
 .answer-box {
@@ -57,31 +87,36 @@
     border-radius: 50%;
     margin: auto;
   }
-  .word-shell{
+
+  .word-shell {
+    margin-top: 10px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
   }
+
   .word-shell__sound-button {
     height: 20px;
     width: 20px;
   }
 }
 
-.result-page{
+.result-page {
   // height: 60vh;
   padding: 0 20px;
   overflow: scroll;
 }
 
-.game-result-list-element{
+.game-result-list-element {
   display: flex;
   align-items: center;
   list-style: none;
   height: 41px;
+
   .word__soundbtn {
     margin-right: 15px;
   }
+
   .word__name {
     margin-right: 15px;
   }

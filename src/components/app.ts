@@ -1,5 +1,4 @@
 import {
-  Auth,
   CurrentPage,
   GameName,
   linkType,
@@ -15,8 +14,6 @@ import renderSelectGameLevel from './games/select-level';
 import gameAudioCall from './games/audio-call';
 import gameSprint from './games/sprint';
 import User from './user-authorization/userApi/userApi';
-import StatisticsPage from './statistics/statistics-page';
-import StatisticsApi from './statistics/statistics-api/statistics-api';
 
 const toHTML = (): string => {
   return `

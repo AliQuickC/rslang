@@ -71,27 +71,14 @@ export default class User {
     User.getUser(authData.userId, authData.token)
       .then((response) => {
         switch (response.status) {
-          // case 401:
-          //   console.log(authData, 'authdata');
-          //   User.updateToken(authData.userId, authData.refreshToken)
-          //     .then((result) => {
-          //       authData.token = result.token;
-          //       authData.refreshToken = result.refreshToken;
-          //       console.log(authData, result, 'authdata222');
-          //     })
-          //     .catch((error) => console.log(error));
-          //
-          //   break;
-          case 403:
-            delete state.userSettings.authData;
-            state.userSettings.authorized = false;
-            break;
           case 200:
             break;
           default:
             delete state.userSettings.authData;
             state.userSettings.authorized = false;
             delete state.userSettings.statistics;
+            state.userSettings.currentPage = CurrentPage.general;
+            state.currentMenuItem = CurrentPage.general;
             break;
         }
       })

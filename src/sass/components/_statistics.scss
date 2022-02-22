@@ -1,6 +1,9 @@
 .statistics-page{
+  position: relative;
+  margin: auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  max-width: 600px;
 }
 .game-statistics__box{
   display: flex;
@@ -21,4 +24,9 @@
   padding: 0 10px;
   background: $primary-project-color-light;
   border-radius: $border-radius;
+}
+
+.chart{
+  width: 100%;
+  overflow: auto;
 }

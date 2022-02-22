@@ -1,5 +1,5 @@
 .authorization-window {
-  width: 550px;
+  width: 450px;
   position: absolute;
   // left: calc(50vw - 275px);
   // top: calc(50vh - 275px);
@@ -8,6 +8,7 @@
   transform: translate(-50%,-50%);
   border: solid 1px grey;
   background-color: $secondary-project-color;
+
 
   .button-close {
     position: absolute;
@@ -28,7 +29,7 @@
   }
 
   .log-buttons-shell {
-    height: 110px;
+    height: 90px;
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
@@ -60,7 +61,7 @@
 }
 
 .login-shell {
-  height: 550px - 110px;
+  height: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,7 +129,7 @@
 }
 
 @media(max-width: 576px) {
-  
+
   .authorization-window {
     width: 280px;
     .button-close {

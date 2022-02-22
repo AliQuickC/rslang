@@ -49,19 +49,19 @@ module.exports = {
         test: /\.(ico|cur|gif|png|jpg|jpeg|webp|svg)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/images/[hash][ext][query]'
-        }
-      },    
+          filename: 'assets/images/[hash][ext][query]',
+        },
+      },
       {
         test: /\.(woff(2)?|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'assets/fonts/[hash][ext][query]'
-        }
-      },        
+          filename: 'assets/fonts/[hash][ext][query]',
+        },
+      },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        loader: 'html-loader',
       },
       {
         test: /\.css$/i,
@@ -69,19 +69,16 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
     ],
   },
 
+
   plugins: [
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
-      template: "./index.html"
+      template: './index.html',
     }),
     new MiniCssExtractPlugin({
       filename: filename('css'),
