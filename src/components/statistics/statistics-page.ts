@@ -150,9 +150,10 @@ export default class StatisticsPage {
     state: State,
     game: gameName,
     array: boolean[],
-    learnedCount: number
+    learnedCount: number,
+    newWordsCount: number
   ): void {
-    const newWordsCount = array.length;
+    // const newWordsCount = array.length;
     const rightsArray = array.filter((word, i) => {
       if (array[i]) {
         return word;

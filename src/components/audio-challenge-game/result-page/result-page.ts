@@ -120,6 +120,7 @@ export default class ResultPage {
   updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]) {
     if (this.state.userSettings.authorized) {
       let currentlyLearned = 0;
+      let newWords = 0;
       const authData = this.state.userSettings.authData as Auth;
       // User.updateToken(authData.userId, authData.refreshToken)
       //   .then((resp) => resp.json() as unknown as Auth)
@@ -136,6 +137,7 @@ export default class ResultPage {
             optional: { answerResultArray: [] },
           } as UserWord;
 
+          newWords++
           // isNew = true;
         }
         (<UserWord>array[i].userWord).optional.answerResultArray.push(
@@ -169,12 +171,7 @@ export default class ResultPage {
           (<UserWord>array[i].userWord).difficulty = Difficulty.easy;
           currentlyLearned++;
         }
-        // console.log(
-        //   truthCount,
-        //   (<UserWord>array[i].userWord).optional.answerResultArray.lastIndexOf(
-        //     false
-        //   )
-        // );
+
 
         saveUserWord(
           authData.userId,
@@ -196,7 +193,8 @@ export default class ResultPage {
           this.state,
           currentGame,
           booleanArray,
-          currentlyLearned
+          currentlyLearned,
+          newWords
         );
     }
   }
