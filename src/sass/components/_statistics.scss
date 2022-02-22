@@ -1,0 +1,24 @@
+.statistics-page{
+  display: flex;
+  justify-content: center;
+}
+.game-statistics__box{
+  display: flex;
+  justify-content: space-between;
+}
+.day-statistics__box{
+  border-bottom: $primary-project-color 1px solid;
+  border-top: $primary-project-color 1px solid;
+}
+.game-statistics__check-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-width: 120px;
+}
+
+.day-statistics{
+  padding: 0 10px;
+  background: $primary-project-color-light;
+  border-radius: $border-radius;
+}

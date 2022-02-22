@@ -15,6 +15,8 @@ import renderSelectGameLevel from './games/select-level';
 import gameAudioCall from './games/audio-call';
 import gameSprint from './games/sprint';
 import User from './user-authorization/userApi/userApi';
+import StatisticsPage from './statistics/statistics-page';
+import StatisticsApi from './statistics/statistics-api/statistics-api';
 
 const toHTML = (): string => {
   return `
@@ -128,6 +130,8 @@ function addEventsForApp(param: State): void {
               userSett.authorized = false;
               delete userSett.authData;
               delete userSett.statistics;
+              userSett.currentPage = CurrentPage.general;
+              props.currentMenuItem = CurrentPage.general;
               renderHeader(app.querySelector('#header') as HTMLElement, param);
             }
             break;

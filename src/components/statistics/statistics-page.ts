@@ -10,7 +10,7 @@ import {
   IStatisticsOptional,
   State,
 } from '../../modules/types';
-import { gameName, gameNameEnum, link, linkEnum } from '../utilites/types';
+import { gameName, gameNameEnum } from '../utilites/types';
 import StatisticsApi from './statistics-api/statistics-api';
 
 export default class StatisticsPage {
@@ -54,29 +54,23 @@ export default class StatisticsPage {
       '.rights'
     ) as HTMLSpanElement;
 
-    // const statistics = this.state.userSettings.statistics as IStatistics;
     const authData = state.userSettings.authData as Auth;
-    // StatisticsApi.getStatistics(authData.userId, authData.token).then((response)=>response.json())
-    if (!state.userSettings.statistics) {
-      state.userSettings.statistics = this.getDefaultStatisticsObject();
-    }
-    // state.userSettings.statistics = this.createStatisticsObject(state)
-    newWordsCountElement.innerText = ` ${state.userSettings.statistics.optional.day.statistics[0].newWords}`;
-    learnedCountElement.innerText = ` ${state.userSettings.statistics.optional.day.statistics[0].learned}`;
+
+    const statistics = state.userSettings.statistics as IStatistics;
+    newWordsCountElement.innerText = ` ${statistics.optional.day.statistics[0].newWords}`;
+    learnedCountElement.innerText = ` ${statistics.optional.day.statistics[0].learned}`;
     const rightCount =
-      state.userSettings.statistics.optional.audioChallenge.rightCount +
-      state.userSettings.statistics.optional.sprint.rightCount;
+      statistics.optional.audioChallenge.rightCount +
+      statistics.optional.sprint.rightCount;
     let percent =
-      (rightCount * 100) /
-      state.userSettings.statistics.optional.day.statistics[0].newWords;
+      (rightCount * 100) / statistics.optional.day.statistics[0].newWords;
     if (percent === Infinity || isNaN(percent)) {
       percent = 0;
     }
     rightAnswersPercentElement.innerText = ` ${Math.round(percent)}%`;
+    gameStatisticsBox.innerHTML = '';
+    gameStatisticsBox.append(this.getGameStatisticsElement(statistics));
 
-    gameStatisticsBox.append(
-      this.getGameStatisticsElement(state.userSettings.statistics)
-    );
     radioAudioChallenge.addEventListener('change', () => {
       (<IStatistics>state.userSettings.statistics).optional.currentGame =
         gameNameEnum.audioChallenge;
@@ -87,6 +81,7 @@ export default class StatisticsPage {
         )
       );
     });
+
     radioSprint.addEventListener('change', () => {
       (<IStatistics>state.userSettings.statistics).optional.currentGame =
         gameNameEnum.sprint;
@@ -155,9 +150,10 @@ export default class StatisticsPage {
     state: State,
     game: gameName,
     array: boolean[],
-    learnedCount: number
+    learnedCount: number,
+    newWordsCount: number
   ): void {
-    const newWordsCount = array.length;
+    // const newWordsCount = array.length;
     const rightsArray = array.filter((word, i) => {
       if (array[i]) {
         return word;

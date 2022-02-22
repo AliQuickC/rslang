@@ -5,14 +5,14 @@ import {
   Auth,
   CurrentPageWord,
   Difficulty,
+  GameName,
   State,
   UserWord,
 } from '../../../modules/types';
-import User from '../../user-authorization/userApi/userApi';
-import { defaultWordStatus } from '../../utilites/consts';
+import { defaultAudioVolume, urlServer } from '../../utilites/consts';
 import { saveUserWord } from '../../../modules/api';
 import StatisticsPage from '../../statistics/statistics-page';
-import { gameNameEnum } from '../../utilites/types';
+import { gameName, gameNameEnum } from "../../utilites/types";
 
 export default class ResultPage {
   private state: State;
@@ -87,16 +87,31 @@ export default class ResultPage {
     });
   }
 
+  createSound(word: CurrentPageWord) {
+    const audio = new Audio();
+    audio.src = `${urlServer}/${word.audio}`;
+    audio.volume = defaultAudioVolume;
+    return audio;
+  }
+
   createLiElement(word: CurrentPageWord): HTMLElement {
     const liElement = getHtmlFromString(listElement).querySelector(
       '.game-result-list-element'
     ) as HTMLLIElement;
+    const answerAudio = liElement.querySelector(
+      '.word__soundbtn'
+    ) as HTMLElement;
     const answerWord = liElement.querySelector(
       '.word__name'
     ) as HTMLSpanElement;
     const translate = liElement.querySelector(
       '.word__translate'
     ) as HTMLSpanElement;
+    answerAudio.addEventListener('click', () => {
+      const audio = this.createSound(word);
+      audio.play();
+      console.log(word.audio);
+    });
     answerWord.innerText = word.word;
     translate.innerText = ` — ${word.wordTranslate}`;
     return liElement;
@@ -105,6 +120,7 @@ export default class ResultPage {
   updateUserWords(array: CurrentPageWord[], booleanArray: boolean[]) {
     if (this.state.userSettings.authorized) {
       let currentlyLearned = 0;
+      let newWords = 0;
       const authData = this.state.userSettings.authData as Auth;
       // User.updateToken(authData.userId, authData.refreshToken)
       //   .then((resp) => resp.json() as unknown as Auth)
@@ -121,6 +137,7 @@ export default class ResultPage {
             optional: { answerResultArray: [] },
           } as UserWord;
 
+          newWords++
           // isNew = true;
         }
         (<UserWord>array[i].userWord).optional.answerResultArray.push(
@@ -154,12 +171,7 @@ export default class ResultPage {
           (<UserWord>array[i].userWord).difficulty = Difficulty.easy;
           currentlyLearned++;
         }
-        // console.log(
-        //   truthCount,
-        //   (<UserWord>array[i].userWord).optional.answerResultArray.lastIndexOf(
-        //     false
-        //   )
-        // );
+
 
         saveUserWord(
           authData.userId,
@@ -170,15 +182,20 @@ export default class ResultPage {
           .then((result) => console.log(result))
           .catch((error) => console.log(error));
       }
-      //     })
-      //     .catch((error) => console.log(error));
-      // delete this.state.userSettings.statistics;
-      this.statisticsPageInstance.updateGameStatistics(
-        this.state,
-        gameNameEnum.audioChallenge,
-        booleanArray,
-        currentlyLearned
-      );
+
+      let currentGame: gameName;
+      if (this.state.gameOptions.selectGame === GameName.Sprint){
+        currentGame = gameNameEnum.sprint
+      } else {
+        currentGame = gameNameEnum.audioChallenge
+      }
+        this.statisticsPageInstance.updateGameStatistics(
+          this.state,
+          currentGame,
+          booleanArray,
+          currentlyLearned,
+          newWords
+        );
     }
   }
 }
