@@ -82,8 +82,8 @@ export default class StatisticsApi {
             dayObject.newWords = 0;
             dayObject.learned = 0;
             state.userSettings.statistics.optional.day.statistic.push(dayObject);
-            state.userSettings.statistics.optional.audioChallenge.totalCount = 0;
-            state.userSettings.statistics.optional.sprint.totalCount = 0;
+            state.userSettings.statistics.optional.audioChallenge.totalCount = state.userSettings.statistics.optional.audioChallenge.rightCount;
+            state.userSettings.statistics.optional.sprint.totalCount = state.userSettings.statistics.optional.sprint.rightCount;
           }
         }
       })
