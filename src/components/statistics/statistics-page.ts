@@ -187,10 +187,15 @@ export default class StatisticsPage {
       state.userSettings.statistics =
         StatisticsPage.getDefaultStatisticsObject();
     } else {
+
       if (!state.userSettings.statistics.optional.day.statistic) {
         state.userSettings.statistics.optional.day.statistic =
           [] as IDayStatistic[];
       }
+      if (state.userSettings.statistics.optional[game].totalCount < state.userSettings.statistics.optional[game].rightCount) {
+        state.userSettings.statistics.optional[game].totalCount = state.userSettings.statistics.optional[game].rightCount;
+      }
+
       state.userSettings.statistics.optional[game].newWords += newWordsCount;
       state.userSettings.statistics.optional[game].rightCount += rightCount;
       state.userSettings.statistics.optional[game].totalCount += array.length;
