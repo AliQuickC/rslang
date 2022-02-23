@@ -48,26 +48,34 @@ export default class StatisticsPage {
     const globalStatistics = statisticsPageElement.querySelector(
       '.global-statistics'
     ) as HTMLElement;
-
     const statistics = state.userSettings.statistics as IStatistics;
-    newWordsCountElement.innerText = ` ${statistics.optional.day.statistics[0].newWords}`;
-    learnedCountElement.innerText = ` ${statistics.optional.day.statistics[0].learned}`;
+    if (!statistics.optional.day.statistic) {
+      statistics.optional.day.statistic = [] as IDayStatistic[];
+      const dayObject = {} as IDayStatistic;
+      dayObject.newWords = 0;
+      dayObject.learned = 0;
+      statistics.optional.day.statistic.push(dayObject);
+    }
+    newWordsCountElement.innerText = ` ${statistics.optional.day.statistic[0].newWords}`;
+    learnedCountElement.innerText = ` ${statistics.optional.day.statistic[0].learned}`;
     const rightCount =
       statistics.optional.audioChallenge.rightCount +
       statistics.optional.sprint.rightCount;
     const totalcount =
       statistics.optional.audioChallenge.totalCount +
       statistics.optional.sprint.totalCount;
-    let percent =
-      (rightCount * 100) / totalcount;
+    let percent = (rightCount * 100) / totalcount;
     if (percent === Infinity || Number.isNaN(percent)) {
       percent = 0;
     }
     rightAnswersPercentElement.innerText = ` ${Math.round(percent)}%`;
     gameStatisticsBox.innerHTML = '';
+    (<IStatistics>state.userSettings.statistics).optional.currentGame =
+      gameNameEnum.audioChallenge;
     gameStatisticsBox.append(
       StatisticsPage.getGameStatisticsElement(statistics)
     );
+
 
     radioAudioChallenge.addEventListener('change', () => {
       (<IStatistics>state.userSettings.statistics).optional.currentGame =
@@ -111,12 +119,12 @@ export default class StatisticsPage {
     object.optional.audioChallenge.totalCount = 0;
     object.optional.audioChallenge.newWords = 0;
     object.optional.day = {} as IDay;
-    object.optional.day.statistics = [] as IDayStatistic[];
+    object.optional.day.statistic = [] as IDayStatistic[];
     object.optional.day.currentDay = StatisticsPage.getCurrentDate();
     const dayObject = {} as IDayStatistic;
     dayObject.newWords = 0;
     dayObject.learned = 0;
-    object.optional.day.statistics[0] = dayObject;
+    object.optional.day.statistic[0] = dayObject;
     return object;
   }
 
@@ -179,6 +187,10 @@ export default class StatisticsPage {
       state.userSettings.statistics =
         StatisticsPage.getDefaultStatisticsObject();
     } else {
+      if (!state.userSettings.statistics.optional.day.statistic) {
+        state.userSettings.statistics.optional.day.statistic =
+          [] as IDayStatistic[];
+      }
       state.userSettings.statistics.optional[game].newWords += newWordsCount;
       state.userSettings.statistics.optional[game].rightCount += rightCount;
       state.userSettings.statistics.optional[game].totalCount += array.length;
@@ -211,15 +223,15 @@ export default class StatisticsPage {
     if (
       statistics.optional.day.currentDay === StatisticsPage.getCurrentDate()
     ) {
-      statistics.optional.day.statistics[0].newWords += newWordsCount;
-      statistics.optional.day.statistics[0].learned += learnedCount;
+      statistics.optional.day.statistic[0].newWords += newWordsCount;
+      statistics.optional.day.statistic[0].learned += learnedCount;
     } else {
       resultObject.newWords = newWordsCount;
       resultObject.learned = learnedCount;
-      statistics.optional.day.statistics.unshift(resultObject);
+      statistics.optional.day.statistic.unshift(resultObject);
       statistics.optional.day.currentDay = StatisticsPage.getCurrentDate();
     }
-    statistics.learnedWords += statistics.optional.day.statistics[0].learned;
+    statistics.learnedWords += statistics.optional.day.statistic[0].learned;
   }
 
   static getCurrentDate(): string {

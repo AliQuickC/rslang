@@ -1,5 +1,5 @@
 import { urlUsers } from '../../utilites/consts';
-import { Auth, IStatistics, State } from '../../../modules/types';
+import { Auth, IDayStatistic, IStatistics, State } from "../../../modules/types";
 import StatisticsPage from '../statistics-page';
 
 export default class StatisticsApi {
@@ -76,6 +76,15 @@ export default class StatisticsApi {
       .then((promise) => {
         if (promise) {
           state.userSettings.statistics = promise;
+          if (!promise.optional.day.statistic){
+            state.userSettings.statistics.optional.day.statistic = [] as IDayStatistic[];
+            const dayObject = {} as IDayStatistic;
+            dayObject.newWords = 0;
+            dayObject.learned = 0;
+            state.userSettings.statistics.optional.day.statistic.push(dayObject);
+            state.userSettings.statistics.optional.audioChallenge.totalCount = 0;
+            state.userSettings.statistics.optional.sprint.totalCount = 0;
+          }
         }
       })
       .catch((error) => console.log(error));

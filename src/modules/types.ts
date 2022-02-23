@@ -139,7 +139,7 @@ export interface IDayStatistic {
 
 export interface IDay {
   currentDay: string;
-  statistics: IDayStatistic[];
+  statistic: IDayStatistic[];
 }
 
 export interface IStatisticsOptional {
