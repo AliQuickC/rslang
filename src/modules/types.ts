@@ -128,17 +128,18 @@ export type aggregatedUserWords = [
 export interface IGameStatistics {
   newWords: number;
   rightCount: number;
+  totalCount: number;
   bestSeries: number;
 }
 
-export interface IDayStatistics {
+export interface IDayStatistic {
   newWords: number;
   learned: number;
 }
 
 export interface IDay {
   currentDay: string;
-  statistics: IDayStatistics[];
+  statistics: IDayStatistic[];
 }
 
 export interface IStatisticsOptional {
