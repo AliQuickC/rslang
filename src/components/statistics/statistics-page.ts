@@ -4,7 +4,7 @@ import getHtmlFromString from '../utilites/getHtmlFromString';
 import {
   Auth,
   IDay,
-  IDayStatistics,
+  IDayStatistic,
   IGameStatistics,
   IStatistics,
   IStatisticsOptional,
@@ -55,8 +55,11 @@ export default class StatisticsPage {
     const rightCount =
       statistics.optional.audioChallenge.rightCount +
       statistics.optional.sprint.rightCount;
+    const totalcount =
+      statistics.optional.audioChallenge.totalCount +
+      statistics.optional.sprint.totalCount;
     let percent =
-      (rightCount * 100) / statistics.optional.day.statistics[0].newWords;
+      (rightCount * 100) / totalcount;
     if (percent === Infinity || Number.isNaN(percent)) {
       percent = 0;
     }
@@ -100,15 +103,17 @@ export default class StatisticsPage {
     object.optional.sprint = {} as IGameStatistics;
     object.optional.sprint.bestSeries = 0;
     object.optional.sprint.rightCount = 0;
+    object.optional.sprint.totalCount = 0;
     object.optional.sprint.newWords = 0;
     object.optional.audioChallenge = {} as IGameStatistics;
     object.optional.audioChallenge.bestSeries = 0;
     object.optional.audioChallenge.rightCount = 0;
+    object.optional.audioChallenge.totalCount = 0;
     object.optional.audioChallenge.newWords = 0;
     object.optional.day = {} as IDay;
-    object.optional.day.statistics = [] as IDayStatistics[];
+    object.optional.day.statistics = [] as IDayStatistic[];
     object.optional.day.currentDay = StatisticsPage.getCurrentDate();
-    const dayObject = {} as IDayStatistics;
+    const dayObject = {} as IDayStatistic;
     dayObject.newWords = 0;
     dayObject.learned = 0;
     object.optional.day.statistics[0] = dayObject;
@@ -131,7 +136,7 @@ export default class StatisticsPage {
       '.game-series'
     ) as HTMLSpanElement;
     const { rightCount } = object.optional[currentGame];
-    let percent = (rightCount * 100) / object.optional[currentGame].newWords;
+    let percent = (rightCount * 100) / object.optional[currentGame].totalCount;
     if (percent === Infinity || Number.isNaN(percent)) {
       percent = 0;
     }
@@ -176,6 +181,7 @@ export default class StatisticsPage {
     } else {
       state.userSettings.statistics.optional[game].newWords += newWordsCount;
       state.userSettings.statistics.optional[game].rightCount += rightCount;
+      state.userSettings.statistics.optional[game].totalCount += array.length;
 
       state.userSettings.statistics.optional[game].bestSeries =
         bestSeries > state.userSettings.statistics.optional[game].bestSeries
@@ -201,7 +207,7 @@ export default class StatisticsPage {
     learnedCount: number
   ) {
     const statistics = statisticsParam;
-    const resultObject = {} as IDayStatistics;
+    const resultObject = {} as IDayStatistic;
     if (
       statistics.optional.day.currentDay === StatisticsPage.getCurrentDate()
     ) {

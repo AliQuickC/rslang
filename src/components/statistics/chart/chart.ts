@@ -1,5 +1,5 @@
 import { GoogleCharts } from 'google-charts';
-import { IDayStatistics, IStatistics, State } from '../../../modules/types';
+import { IDayStatistic, IStatistics, State } from '../../../modules/types';
 
 export default function getChart(state: State) {
   const chartDiv = document.createElement('div') as HTMLElement;
@@ -12,7 +12,7 @@ export default function getChart(state: State) {
     data.addColumn('number', 'Всего изучено');
 
     const mydata = (<IStatistics>state.userSettings.statistics).optional.day
-      .statistics as IDayStatistics[];
+      .statistics as IDayStatistic[];
 
     const myDataRows = [[0, 0, 0]];
     let count = 0;

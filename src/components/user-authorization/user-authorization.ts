@@ -81,6 +81,10 @@ export default class UserAuthorization {
     );
     this.buttonClose.addEventListener('click', () => {
       const parent = this.userAuthorizationElement.parentElement as HTMLElement;
+      const errorWindow = this.userAuthorizationElement.querySelector('.error-message')
+      if (errorWindow){
+        this.userAuthorizationElement.removeChild(errorWindow);
+      }
       if (parent) {
         parent.removeChild(this.userAuthorizationElement);
       }
