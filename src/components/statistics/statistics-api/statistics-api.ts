@@ -79,11 +79,13 @@ export default class StatisticsApi {
           if (!promise.optional.day.statistic){
             state.userSettings.statistics.optional.day.statistic = [] as IDayStatistic[];
             const dayObject = {} as IDayStatistic;
-            dayObject.newWords = 0;
+            dayObject.newWords = promise.optional.audioChallenge.newWords + promise.optional.sprint.newWords;
             dayObject.learned = 0;
             state.userSettings.statistics.optional.day.statistic.push(dayObject);
             state.userSettings.statistics.optional.audioChallenge.totalCount = state.userSettings.statistics.optional.audioChallenge.rightCount;
             state.userSettings.statistics.optional.sprint.totalCount = state.userSettings.statistics.optional.sprint.rightCount;
+          } else if(state.userSettings.statistics.optional.day.statistic[0].newWords < promise.optional.audioChallenge.newWords + promise.optional.sprint.newWords){
+            state.userSettings.statistics.optional.day.statistic[0].newWords = promise.optional.audioChallenge.newWords + promise.optional.sprint.newWords;
           }
         }
       })
