@@ -1,3 +1,6 @@
+import prog1 from '../assets/images/team/prog1.jpg';
+import prog2 from '../assets/images/team/prog.jpg';
+
 const toHTML = (): string => {
   return `  
     <section class="section section-team" id="team">
@@ -5,7 +8,7 @@ const toHTML = (): string => {
         <h2 class="team__title">Команда разработчиков</h2>
         <div class="team__wrap">
           <div class="team__developer team__developer1 developer">
-            <img class="developer__photo" src="./assets/images/team/prog1.jpg" alt="developer foto">
+            <img class="developer__photo" src="${prog1}" alt="developer foto">
             <a class="github-link" href="https://github.com/AliQuickC" target="_blank" rel="noopener noreferrer">
               <span class="github-logo"></span>
               <span class="github-name developer__name">Александр</span>
@@ -18,7 +21,7 @@ const toHTML = (): string => {
             </ul>
           </div>
           <div class="team__developer team__developer2 developer">
-            <img class="developer__photo" src="./assets/images/team/prog.jpg" alt="developer foto">
+            <img class="developer__photo" src="${prog2}" alt="developer foto">
             <a class="github-link" href="https://github.com/MDz1985" target="_blank" rel="noopener noreferrer">
               <span class="github-logo"></span>
               <span class="github-name developer__name">Дмитрий</span>
