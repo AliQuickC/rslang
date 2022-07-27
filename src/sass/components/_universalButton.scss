@@ -1,0 +1,10 @@
+.button{
+  width: 225px;
+  height: 58px;
+  border-radius: $border-radius;
+  font-size: 1.6rem;
+  &:hover{
+    color: $active-button-font-color;
+    background: $selections-color;
+  }
+}
